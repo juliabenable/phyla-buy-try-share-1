@@ -856,23 +856,22 @@ html, body { background: #fff; color: #1a1a1a; margin: 0; }
 .nf .bts-sub { margin: -4px 0 0; font-size: 14px; line-height: 20px; color: #717171; max-width: 640px; }
 .nf .bts-pane { background: #f9fafb; border-top: 1px solid #eeeeee; min-height: calc(100vh - 150px); }
 .nf .bts-body { padding: 24px 20px 96px; display: grid; gap: 20px; }
-.nf .bts-stat--plan { background: #fcfcfd; }
 
-.nf .bts-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(220px, 1.2fr); border: 1px solid #e3e3e3; border-radius: 16px; background: #fff; box-shadow: 0 4px 8px rgba(0,0,0,.03); overflow: hidden; }
-.nf .bts-stat { padding: 16px 20px; display: grid; gap: 4px; align-content: start; }
-.nf .bts-stat + .bts-stat { border-left: 1px solid #eeeeee; }
+.nf .bts-stats { display: grid; grid-template-columns: minmax(200px, 2.2fr) minmax(140px, 1.3fr) minmax(170px, 1.5fr) minmax(84px, .7fr) minmax(84px, .7fr) 132px; gap: 14px; padding: 0 20px; border: 1px solid #e3e3e3; border-radius: 16px; background: #fff; box-shadow: 0 4px 8px rgba(0,0,0,.03); overflow: hidden; }
+.nf .bts-stat { padding: 18px 0 18px; display: grid; gap: 4px; align-content: start; min-width: 0; }
+.nf .bts-stat .bts-meter { max-width: 220px; }
 .nf .bts-stat .k { font-size: 13px; font-weight: 500; color: #717171; }
 .nf .bts-stat .v { font-size: 24px; line-height: 30px; font-weight: 600; color: #1a1a1a; font-variant-numeric: tabular-nums; }
 .nf .bts-stat .v small { font-size: 14px; font-weight: 500; color: #9a9a9a; margin-left: 4px; }
 .nf .bts-stat .f { font-size: 12px; color: #9a9a9a; }
 .nf .bts-meter { height: 6px; border-radius: 999px; background: #f1f1f1; overflow: hidden; display: flex; margin-top: 6px; }
 .nf .bts-meter i { display: block; height: 100%; }
-.nf .bts-stat--plan { background: #fafafa; }
+.nf .bts-stat--plan { grid-column: 4 / -1; justify-items: end; text-align: right; }
 .nf .bts-stat--plan .v { font-size: 16px; line-height: 22px; }
-.nf .bts-stat--plan button { justify-self: start; margin-top: 6px; }
-@media (max-width: 1100px) { .nf .bts-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); } .nf .bts-stat--plan { grid-column: 1 / -1; border-left: 0 !important; border-top: 1px solid #eeeeee; } }
+.nf .bts-stat--plan button { margin-top: 6px; }
+@media (max-width: 1100px) { .nf .bts-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); } .nf .bts-stat--plan { grid-column: 1 / -1; justify-items: start; text-align: left; border-top: 1px solid #eeeeee; } }
 
-.nf .bts-cols, .nf .bts-row { display: grid; grid-template-columns: minmax(220px, 1.6fr) minmax(150px, 1.2fr) minmax(180px, 240px) 80px minmax(90px, .5fr) minmax(96px, .5fr); gap: 14px; align-items: center; padding: 0 20px; }
+.nf .bts-cols, .nf .bts-row { display: grid; grid-template-columns: minmax(200px, 2.2fr) minmax(140px, 1.3fr) minmax(170px, 1.5fr) minmax(84px, .7fr) minmax(84px, .7fr) 132px; gap: 14px; align-items: center; padding: 0 20px; }
 .nf .bts-cols { height: 40px; background: #f8f9fa; border-bottom: 1px solid #e3e3e3; font-size: 12px; font-weight: 600; color: #717171; }
 .nf .bts-row { min-height: 68px; border-bottom: 1px solid #eeeeee; }
 .nf .bts-row:last-child { border-bottom: 0; }
@@ -901,6 +900,9 @@ html, body { background: #fff; color: #1a1a1a; margin: 0; }
 .nf .bts-tile::after { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent 55%, rgba(0,0,0,.35)); }
 .nf .bts-tile svg { position: absolute; left: 50%; top: 50%; width: 14px; height: 14px; transform: translate(-50%, -50%); z-index: 1; filter: drop-shadow(0 1px 2px rgba(0,0,0,.4)); }
 .nf .bts-tile:hover { outline: 2px solid #7a5cfa; outline-offset: 1px; }
+.nf .bts-view { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px 0 10px; border-radius: 8px; border: 1px solid #e3e3e3; background: #fff; color: #1a1a1a; font: 500 13px/1 Inter, sans-serif; cursor: pointer; white-space: nowrap; }
+.nf .bts-view:hover { background: #f7f7f8; border-color: #c6c6c6; }
+.nf .bts-view svg { width: 12px; height: 12px; }
 .nf .bts-empty { padding: 40px 20px; text-align: center; color: #717171; font-size: 14px; }
 .nf .bts-foot { font-size: 13px; color: #717171; }
 .nf .bts-foot a { color: #5b3fd6; text-decoration: none; font-weight: 500; cursor: pointer; }
@@ -1039,7 +1041,7 @@ function table() {
       ${r.has ? `<span class="bts-num">${dec(r.bought)}</span>` : '<span class="bts-muted">—</span>'}
       ${r.has ? `<span class="bts-num bts-r">${money(r.total)}</span>` : '<span class="bts-muted bts-r">—</span>'}
       <span class="bts-post">${r.st === 'posted'
-        ? `<button class="bts-tile" data-open="${r.i}" aria-label="Watch ${r.name}'s reel"><img src="${r.poster}" alt="">${I.play}</button><button class="cs-iconbtn" data-live="${r.i}" title="Open the reel on Instagram" aria-label="Open the reel on Instagram">${I.out}</button>`
+        ? `<button class="bts-view" data-open="${r.i}" aria-label="View ${r.name}'s post">${I.playDark}View post</button>`
         : `<span class="bts-muted">${r.st === 'bought' ? 'Due ' + dec(r.bought + 10) : ''}</span>`}</span>
     </div>`;
   return `<div class="cs-toolbar" style="margin-bottom:0"><div class="cs-filters">${pills}</div></div>
