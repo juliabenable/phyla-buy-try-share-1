@@ -75,21 +75,20 @@ footer ul { gap: 4px; }
     <h1>Phyla said yes to Buy, Try, Share. The risk is returns.</h1>
     <p class="lede">Gianna wants to start with 20 to 25 creators, then move to the 100 minimum. Phyla just watched 80 to 90% of its Aisle purchases go back to Target, so the pilot has one job: show that Benable creators buy, post and keep the product.</p>
     <p class="small muted">Every item is tagged: <span class="tag agreed">agreed</span> said or accepted by Phyla and Benable, with where · <span class="tag decided">decided</span> decided by Julia and Katie (internal sync, Nov 24) · <span class="tag open">open</span> raised but not settled · <span class="tag proposed">proposed</span> my suggestion, not discussed with anyone yet · <span class="tag research">research</span> found online or in the code, not from a call.</p>
-    <div class="cta"><a class="btnlink" href="prototype.html">Open the prototype</a><span class="muted small">Creator app flow + the brand view where Gianna sees every receipt</span></div>
+    <div class="cta"><a class="btnlink" href="prototype.html">Open the prototype</a><span class="muted small">Creator app flow + the Buy, Try, Share tab in the Brand Portal</span></div>
   </header>
 
   <section>
     <h2>The pilot plan</h2>
     <p>Updated after the Julia + Katie sync. Each step is tagged with where it comes from.</p>
     <div class="steps">
-      <div class="step"><div class="when">Today</div><div><b>25 creators</b>, not 20 <span class="tag decided">decided</span>. Tony sends Gianna the contract addendum, which he offered in Slack today. Gianna asked for 20 to 25 on the call; Tony said yes pending the team <span class="tag agreed">agreed</span>.</div></div>
-      <div class="step"><div class="when">Today</div><div><b>Invite 25 much smaller creators to the portal</b>, the kind who normally would not get a collab (could be about 500 followers) <span class="tag decided">decided</span>. Phyla does not approve creators <span class="tag agreed">agreed</span>, so they can be new. Katie flagged that some may not want to make another post this time of year, so the fill may be slower <span class="tag decided">noted</span>.</div></div>
-      <div class="step"><div class="when">Wed Nov 25</div><div>Send Gianna the questions below: product, tax, and her Sunday returns sheet <span class="tag proposed">proposed</span>.</div></div>
+      <div class="step"><div class="when">Today</div><div><b>25 creators</b>, not 20 <span class="tag decided">decided</span>. Gianna asked for 20 to 25 on the call; Tony said yes pending the team <span class="tag agreed">agreed</span>.</div></div>
+      <div class="step"><div class="when">Today</div><div><b>Logan pulls rising creators</b>: 200 to 999 followers who actively post skincare. Katie writes a portal invite that says they were selected as rising creators for new opportunities. They go through regular onboarding, and Logan makes sure they stay out of regular collabs <span class="tag decided">decided</span>. Katie flagged some may not want another post this time of year, so the fill may be slower.</div></div>
+      <div class="step"><div class="when">This week</div><div><b>Billing and contract</b>: Katie drafts it for Tony's approval <span class="tag decided">decided</span>. Phyla prepays a flat $2,000: $475 fee + $1,500 for reimbursements = $1,975, rounded up, with no settling up after. Details in the cost table.</div></div>
+      <div class="step"><div class="when">This week</div><div><b>Brief</b>: Katie sends the in-store brief Phyla already gave us; it becomes a PDF for creators and Gianna. Gianna can give it a final pass but doesn't write or approve it; it stays the same each month <span class="tag decided">decided</span>.</div></div>
       <div class="step"><div class="when">Next week</div><div>Launch <span class="tag decided">decided</span>. Tony suggested Tue Dec 1 in Slack <span class="tag open">open</span>.</div></div>
-      <div class="step"><div class="when">Creator flow</div><div>Buy at Target, in store or online → upload receipt and video, after ticking a checklist (pronunciation, no medical claims, mention Target, lighting and product visible) → "you're approved" → post and add the live link → paid back in full <span class="tag decided">decided</span>. No Benable review before posting; Benable can take a creator out if the first videos are bad <span class="tag decided">decided</span>.</div></div>
-      <div class="step"><div class="when">Payment</div><div>All of it after the content is in and the post is live, not 50% up front <span class="tag decided">decided</span>. Matches the Nov 10 email: no post, no payment <span class="tag agreed">agreed</span>. Receipt total or $55 <span class="tag open">open</span> (tax).</div></div>
-      <div class="step"><div class="when">Brand side</div><div>Next on the sync agenda, not discussed yet <span class="tag open">open</span>. Gianna sees every receipt <span class="tag agreed">agreed</span>. The Brand Portal view in the prototype is <span class="tag proposed">proposed</span>.</div></div>
-      <div class="step"><div class="when">Each Sunday</div><div>Gianna checks a Target returns sheet every Sunday <span class="tag agreed">said on the call</span>. Asking her to share it so we can match store + date against receipts <span class="tag proposed">proposed</span>, not asked yet.</div></div>
+      <div class="step"><div class="when">Creator flow</div><div>Opportunity → confirm before joining (buy at Target, paid after post, keep it, returning ends collab access) → receipt + video after a checklist → "you're approved" with what to tag and an affiliate link to copy → one feed post and one story, add both links → paid the receipt total <span class="tag decided">decided</span>. No Benable review before posting; AI follows up if someone hasn't posted <span class="tag decided">decided</span>.</div></div>
+      <div class="step"><div class="when">Brand side</div><div>Its own Buy, Try, Share tab with a table like the Rights tab: creator, status, store or online, date bought, total, post. Top line: joined, bought, posted. No receipt photos, returns checks, money owed, or reimbursed status (admin only). "See brief" opens a PDF; changes go through email or Slack <span class="tag decided">decided</span>.</div></div>
     </div>
     <p class="small muted"><span class="tag research">research</span> What already exists in the backend (read Nov 24 from beneble_app): the in-store confirm path that skips shipping (in_person/confirm_service.rb), review_process = benable_review, the 10-days-after-receipt content deadline, PayPal and Venmo payouts (creator_payments/), and an AI reader for creators' Target review screenshots (retailer_reviews/screenshot_reader.rb). Nothing yet handles a purchase receipt.</p>
   </section>
@@ -101,7 +100,7 @@ footer ul { gap: 4px; }
       <li><span class="tag agreed">agreed</span><div>Phyla moves forward with Buy, Try, Share as proposed in Tony's email.<span class="src">Gianna, today's call; Tony's Slack after: "They are onboard with the proposal we sent"</span></div></li>
       <li><span class="tag agreed">agreed</span><div>$19 per creator plus the product reimbursement, paid only per completed post, content file and verified purchase. Nothing upfront. Creators buy at Target, in store or online.<span class="src">Tony email to Gianna, Nov 10; Tony restated "nothing upfront, paid once proof of purchase and post are up" on the call</span></div></li>
       <li><span class="tag agreed">agreed</span><div>No brand approval of creators and no edits. Benable checks brand safety and flags standouts for the monthly campaigns.<span class="src">Nov 10 email</span></div></li>
-      <li><span class="tag agreed">agreed</span><div>Benable collects every receipt in one place Gianna can see.<span class="src">Gianna asked, Tony confirmed, today</span></div></li>
+      <li><span class="tag agreed">agreed</span><div>Benable collects every receipt in one place Gianna can see. Julia and Katie decided she sees what's read from each receipt (store or online, date, total), not the photo.<span class="src">Gianna asked, Tony confirmed, today; display decided in the Julia + Katie sync</span></div></li>
       <li><span class="tag open">open</span><div>Pilot of 20 to 25 creators, then the 100 minimum. Gianna asked; Tony said he didn't see why not but would double-check with the team.<span class="src">Today's call; Tony leans 25 in Slack</span></div></li>
       <li><span class="tag agreed">agreed</span><div>Returning the product makes a creator ineligible for future Benable campaigns. Tony described this as what Benable already tells creators; Gianna agreed a creator platform is different from a deal-hunter platform.<span class="src">Today's call</span></div></li>
       <li><span class="tag open">open</span><div>Start date. Gianna: not a rush. Tony suggests next Tuesday (Dec 1).<span class="src">Tony, Slack today</span></div></li>
@@ -116,6 +115,14 @@ footer ul { gap: 4px; }
       <li><span class="tag decided">decided</span><div>Open-bottle photo dropped: Target takes opened products back, and the video already shows the product in use.<span class="src">Julia + Katie sync, Nov 24</span></div></li>
       <li><span class="tag decided">decided</span><div>Return rule shown as the last line of "How it works" ("If you return the product, you lose access to brand collabs on Benable"), worded as "keep it", not "use it". No reason given; Julia was not comfortable saying Phyla needs to stay on the shelf.<span class="src">Julia + Katie sync, Nov 24</span></div></li>
       <li><span class="tag decided">decided</span><div>Pay in full after content is in and the post is live, not 50% up front.<span class="src">Julia + Katie sync, Nov 24</span></div></li>
+      <li><span class="tag decided">decided</span><div>Before joining, the creator ticks what they commit to: buy it at Target, be paid back after the video and post, keep it, lose collab access if they return it.<span class="src">Julia + Katie sync, Nov 24</span></div></li>
+      <li><span class="tag decided">decided</span><div>One in-feed post and one story per creator. Katie: Phyla will want the permanence of a feed post for 100% reimbursement. Julia: stories are what move sales.<span class="src">Julia + Katie sync, Nov 24</span></div></li>
+      <li><span class="tag decided">decided</span><div>Every creator gets an affiliate link to copy on the "you're approved" screen. Benable's involvement stays as small as possible; AI follows up on anyone who hasn't posted.<span class="src">Julia + Katie sync, Nov 24</span></div></li>
+      <li><span class="tag decided">decided</span><div>Brand side is "set it and forget it": its own tab, a table, a PDF brief Gianna can't edit. It must not look like the regular campaigns, so Phyla doesn't see it as a cheaper replacement. Gianna's only decisions: how many creators per week or month, and payment.<span class="src">Julia + Katie sync, Nov 24</span></div></li>
+      <li><span class="tag decided">decided</span><div>No returns checks in the pilot, and none shown to Phyla.<span class="src">Julia + Katie sync, Nov 24</span></div></li>
+      <li><span class="tag decided">decided</span><div>Phyla prepays a flat $2,000 for the pilot (Katie, for Tony's approval). Reimbursing the receipt total, tax included, is built into the $60 per creator. PayPal's $0.25 per payment ($6.25 total, confirmed by Nisarg) sits inside the rounding.<span class="src">Julia + Katie sync, Nov 24</span></div></li>
+      <li><span class="tag open">open</span><div>Is Phyla set up as an affiliate partner? Neither was sure.<span class="src">Julia + Katie sync, Nov 24</span></div></li>
+      <li><span class="tag open">open</span><div>Paid Partnership label: Julia said "I don't think we tell you" this, while reviewing the prototype. Benable's rule requires the label even on gifted collabs, and an affiliate link raises the stakes. Kept in the prototype; decide.<span class="src">Julia + Katie sync, Nov 24</span></div></li>
       <li><span class="tag open">open</span><div>Katie's idea: a $5 bonus once the 90-day return window closes. No way yet to prove they kept it.<span class="src">Julia + Katie sync, Nov 24</span></div></li>
       <li><span class="tag open">open</span><div>Product: serum ($55) likely; Phyla also has the anti-blemish moisturizer ($40) and cleanser ($30) at Target. Confirm with Gianna.<span class="src">Julia + Katie sync, Nov 24</span></div></li>
     </ul>
@@ -125,6 +132,7 @@ footer ul { gap: 4px; }
 
   <section>
     <h2>Why returns are a bigger risk here than on Aisle</h2>
+    <p class="small muted"><span class="tag decided">decided</span> Julia and Katie chose not to run returns checks in the pilot. The analysis below stays for the 100-creator run.</p>
     <p><span class="tag proposed">my analysis</span> Not raised on the call. Full reimbursement doubles the payoff of a return compared with Aisle's 50% cashback. A creator who returns the bottle after being paid back keeps the full price.</p>
     <div class="tablewrap">
       <table>
@@ -174,7 +182,7 @@ footer ul { gap: 4px; }
       </table>
     </div>
     <div class="box key">
-      <h3>What this means for paying creators</h3>
+      <h3>What this means for paying creators (if returns checks come back later)</h3>
       <p>Payment already waits for the post, and the post is due within 10 days of buying. So by the time most creators get paid, the next Sunday returns sheet may already cover their purchase day. <span class="tag proposed">proposed</span> Pay on post as agreed, but if no returns sheet has covered the purchase date yet, wait for the next one. That adds at most 7 days and catches the same-day and next-day returns Aisle saw.</p>
     </div>
   </section>
@@ -182,8 +190,8 @@ footer ul { gap: 4px; }
   <section>
     <h2>Ways to keep returns down, strongest first</h2>
     <div class="ladder">
-      <div class="rung"><span class="k">1</span><div><p><b>Match receipts to Phyla's Sunday returns sheet</b> <span class="tag open">open</span></p><p class="eff">Gianna said Aisle matches returns to receipts. Doing the same with her sheet is my proposal, not yet asked. Only lever that actually detects a return.</p></div></div>
-      <div class="rung"><span class="k">2</span><div><p><b>Pay on post, and wait for one returns sheet to cover the purchase date</b> <span class="tag proposed">proposed</span></p><p class="eff">Turns the agreed post-gating into a natural hold, with no extra step for the creator.</p></div></div>
+      <div class="rung"><span class="k">1</span><div><p><b>Match receipts to Phyla's Sunday returns sheet</b> <span class="tag decided">not in pilot</span></p><p class="eff">Gianna said Aisle matches returns to receipts. Doing the same with her sheet is my proposal, not yet asked. Only lever that actually detects a return.</p></div></div>
+      <div class="rung"><span class="k">2</span><div><p><b>Pay on post, and wait for one returns sheet to cover the purchase date</b> <span class="tag decided">not in pilot</span></p><p class="eff">Turns the agreed post-gating into a natural hold, with no extra step for the creator.</p></div></div>
       <div class="rung"><span class="k">3</span><div><p><b>Pick creators with a track record for part of the pilot</b> <span class="tag decided">dropped</span></p><p class="eff">My 15 / 10 split. Julia and Katie chose all smaller creators instead, the real audience for this.</p></div></div>
       <div class="rung"><span class="k">4</span><div><p><b>Return rule as the last line of "How it works"</b> <span class="tag decided">decided</span></p><p class="eff">"If you return the product, you lose access to brand collabs on Benable." The rule Tony described on the call. No separate pledge screen and no reason given.</p></div></div>
       <div class="rung"><span class="k">5</span><div><p><b>Open-bottle photo with the receipt</b> <span class="tag decided">dropped</span></p><p class="eff">Julia and Katie: Target takes opened products back, and the video already shows it in use.</p><p class="eff">It had been discussed on the Nov 9 call with Gianna, never agreed.</p></div></div>
@@ -195,30 +203,31 @@ footer ul { gap: 4px; }
 
   <section>
     <h2>What the pilot costs and what it proves</h2>
-    <p class="small muted">Prices are agreed (Nov 10 email). 25 creators decided by Julia + Katie. The math is mine.</p>
+    <p class="small muted">$19 is agreed (Nov 10 email). The 25 creators, the $60 per creator and the $2,000 flat were decided by Julia and Katie; Katie's own serum order shipped came to $60.64 with tax. Tony still approves the contract.</p>
     <div class="tablewrap">
       <table>
         <thead><tr><th>Figure</th><th>Value</th><th>How it's computed</th><th>Inputs from</th></tr></thead>
         <tbody>
-          <tr><td>Benable fee, all 25 post</td><td class="num">$475</td><td class="calc">25 × $19</td><td>Nov 10 email price; 25 decided by Julia + Katie</td></tr>
-          <tr><td>Reimbursements, before tax</td><td class="num">$1,375</td><td class="calc">25 × $55</td><td>Target price, Oct 21 study</td></tr>
-          <tr><td>Reimbursements, with tax (example)</td><td class="num">$1,488.50</td><td class="calc">25 × $59.54 ($55 + 8.25%)</td><td>8.25% is an example rate (Austin). Real tax varies by store.</td></tr>
-          <tr><td>Most Phyla pays for the pilot</td><td class="num">$1,850 to $1,963.50</td><td class="calc">$475 + $1,375 … $475 + $1,488.50</td><td>Depends on the tax question. Payout fees not included (passed at cost, Nov 5).</td></tr>
-          <tr><td>Same run at 100 creators</td><td class="num">$1,900 fee</td><td class="calc">100 × $19</td><td>Nov 10 email, which also compares it to ~$8K for managed campaigns</td></tr>
+          <tr><td>Benable fee</td><td class="num">$475</td><td class="calc">25 × $19</td><td>Nov 10 email price</td></tr>
+          <tr><td>Reimbursement budget</td><td class="num">$1,500</td><td class="calc">25 × $60</td><td>$55 serum + tax, rounded (Katie)</td></tr>
+          <tr><td>Subtotal</td><td class="num">$1,975</td><td class="calc">$475 + $1,500</td><td></td></tr>
+          <tr><td>Phyla prepays, flat</td><td class="num">$2,000</td><td class="calc">$1,975 rounded up</td><td>No settling up after (Katie)</td></tr>
+          <tr><td>PayPal fees, paid by Benable</td><td class="num">$6.25</td><td class="calc">25 × $0.25</td><td>PayPal Payouts API rate; Nisarg confirmed</td></tr>
+          <tr><td>Same fee at 100 creators</td><td class="num">$1,900</td><td class="calc">100 × $19</td><td>Nov 10 email, which compares it to ~$8K for managed campaigns</td></tr>
           <tr><td>Pilot units vs Gianna's weekly bar</td><td class="num">~8%</td><td class="calc">25 ÷ 300</td><td>~300 units a week to stay attractive to Target (Nov 5 call)</td></tr>
         </tbody>
       </table>
     </div>
-    <p><span class="tag proposed">proposed</span> Success bar for the pilot, to agree with Gianna before it starts: <b>at most 2 of 25 returned</b> (8%, against Aisle's 80 to 90%), at least 20 of 25 posted, all purchases within 7 days of joining.</p>
+    <p><span class="tag proposed">proposed</span> Success bar for the pilot: at least 20 of 25 posted, all purchases within 7 days of joining. Returns aren't being checked in the pilot, so a returns bar would rest on whatever Gianna sees in her own numbers.</p>
   </section>
 
   <section>
     <h2>The app version, for the 100-creator run <span class="tag proposed">proposed</span></h2>
     <p>Tony asked in Slack what lightweight version goes into the Brand Portal and the app. Everything below and in the prototype is my proposal, except what the prototype notes tag otherwise. Build only after the pilot readout.</p>
     <div class="steps">
-      <div class="step"><div class="when">Creator app</div><div>Opportunity card (how it works, with the return rule as line 4) → submit receipt + video after a 4-item checklist → approved automatically → post and add the link → paid <span class="tag decided">decided</span>. AI reading the receipt (item, store, date, total, receipt number) reuses the screenshot-reader pattern <span class="tag proposed">proposed</span>.</div></div>
-      <div class="step"><div class="when">Brand Portal</div><div>One pilot page: joined, bought, posted, paid; what Phyla owes so far with the formula; purchases by day (Gianna's real goal is weekly Target units); every receipt; and a returns column fed by the Sunday sheet.</div></div>
-      <div class="step"><div class="when">Admin</div><div>Auto-accept for this campaign type, auto-approve on upload, a receipt review queue for anything the checks reject, and the returns match <span class="tag proposed">proposed</span>.</div></div>
+      <div class="step"><div class="when">Creator app</div><div>Opportunity card (how it works, return rule as line 4, PDF brief) → confirm before joining → receipt + video after a 5-item checklist → approved automatically, with affiliate link → feed post + story links → paid <span class="tag decided">decided</span>. AI reading the receipt (item, store, date, total, receipt number) reuses the screenshot-reader pattern <span class="tag proposed">proposed</span>.</div></div>
+      <div class="step"><div class="when">Brand Portal</div><div>Its own tab. Table like the Rights tab: creator, status, store or online, date bought, total, clickable post tile. Top line: joined, bought, posted. "See brief" PDF <span class="tag decided">decided</span>.</div></div>
+      <div class="step"><div class="when">Admin</div><div>Reimbursed status lives here, like Nisarg's Target reviews view <span class="tag decided">decided</span>. Auto-accept, auto-approve on upload, and a queue for receipts the reader can't parse <span class="tag proposed">proposed</span>.</div></div>
     </div>
     <div class="cta"><a class="btnlink" href="prototype.html">Open the prototype</a><a href="prototype.html#portal">Jump to the Brand Portal view</a></div>
   </section>
@@ -226,21 +235,22 @@ footer ul { gap: 4px; }
   <section>
     <h2>Questions for Gianna <span class="tag proposed">proposed</span></h2>
     <ol>
-      <li><b>Returns sheet.</b> Does the Sunday sheet show returns by store, and by day or by week? Is it from Greenfield or something Target or Aisle sends? Can she share it weekly during the pilot?</li>
-      <li><b>Tax.</b> Do we reimburse the receipt total or $55?</li>
+      <li><b>Billing.</b> A flat $2,000 prepaid for the pilot (Katie is drafting this for Tony).</li>
       <li><b>Product.</b> We assume the Acne Phage Serum ($55). Or would she rather move the anti-blemish moisturizer ($40) or the cleanser ($30)?</li>
       <li><b>Online orders.</b> The Nov 10 email says online counts. Would she keep the pilot in-store only? Online returns can't be traced to one creator, since every online order shares one store number.</li>
-      <li><b>Success bar and timing.</b> Is "2 or fewer of 25 returned" the bar she'd use to go to 100? Is Tue Dec 1 a good start?</li>
+      <li><b>Timing.</b> Is Tue Dec 1 a good start?</li>
+      <li><b>Later, for the 100-creator run:</b> what her Sunday returns sheet shows (store, day or week), if returns checks come back.</li>
     </ol>
   </section>
 
   <section>
     <h2>Still to decide</h2>
     <ul>
-      <li>Brand side: what Gianna sees and when. Next on the Julia + Katie agenda.</li>
-      <li>What Benable checks once the live link is in (live, tagged, labeled), and when Benable takes a creator out.</li>
+      <li>Is Phyla an affiliate partner, so creators can get links?</li>
+      <li>Paid Partnership label: show it on the "you're approved" screen or not.</li>
+      <li>What Benable checks once links are in (live, tagged), and when Benable takes a creator out.</li>
       <li>Katie's $5 bonus after 90 days: yes or no.</li>
-      <li>Whether to hold payment for one Sunday returns sheet <span class="tag proposed">proposed</span>.</li>
+      <li>Product: serum, or another SKU (Gianna).</li>
     </ul>
   </section>
 
