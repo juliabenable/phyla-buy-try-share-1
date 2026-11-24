@@ -853,7 +853,7 @@ body.embed .cs-demo { display: none; }
 /* ---------- Buy, Try, Share additions (same tokens as the Rights tab) ---------- */
 html, body { background: #fff; color: #1a1a1a; margin: 0; }
 .nf { font-family: Inter, -apple-system, "Segoe UI", Roboto, sans-serif; }
-.nf .bts-sub { margin: 6px 0 0; font-size: 14px; line-height: 20px; color: #717171; max-width: 640px; }
+.nf .bts-sub { margin: -4px 0 0; font-size: 14px; line-height: 20px; color: #717171; max-width: 640px; }
 .nf .bts-pane { background: #f9fafb; border-top: 1px solid #eeeeee; min-height: calc(100vh - 150px); }
 .nf .main-column > .workflow-header, .nf .bts-body { max-width: 1320px; box-sizing: border-box; }
 .nf .bts-body { padding: 24px 20px 96px; display: grid; gap: 20px; }
@@ -885,6 +885,11 @@ html, body { background: #fff; color: #1a1a1a; margin: 0; }
 .nf .bts-two span, .bts-modal .bts-two span { font-size: 12px; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .nf .bts-num { font-size: 14px; color: #1a1a1a; font-variant-numeric: tabular-nums; }
 .nf .bts-muted { font-size: 13px; color: #b3b3b3; }
+.nf .bts-r { text-align: right; justify-self: end; }
+.nf .bts-row { transition: background-color .12s; }
+.nf .bts-cols span { white-space: nowrap; }
+.nf .bts-stat .k { letter-spacing: 0; }
+.nf .bts-foot { margin: 0; }
 .nf .cs-rt-status.is-posted i { background: #2baf87; }
 .nf .cs-rt-status.is-posted { color: #1f7a5c; }
 .nf .cs-rt-status.is-bought i { background: #7a5cfa; }
@@ -1015,7 +1020,7 @@ function stats() {
   const bought = ROWS.filter(r => r.has).length, posted = n('posted');
   const pct = (x) => (x / 25 * 100).toFixed(1) + '%';
   return `<section class="bts-stats" aria-label="Pilot progress">
-    <div class="bts-stat"><span class="k">Joined</span><span class="v">${ROWS.length}<small>of 25</small></span><div class="bts-meter"><i style="width:${pct(ROWS.length)};background:#c9c9cf"></i></div></div>
+    <div class="bts-stat"><span class="k">Joined</span><span class="v">${ROWS.length}<small>of 25</small></span><div class="bts-meter"><i style="width:${pct(ROWS.length)};background:#a1a1aa"></i></div></div>
     <div class="bts-stat"><span class="k">Bought at Target</span><span class="v">${bought}<small>of 25</small></span><div class="bts-meter"><i style="width:${pct(bought)};background:#7a5cfa"></i></div></div>
     <div class="bts-stat"><span class="k">Posted</span><span class="v">${posted}<small>of 25</small></span><div class="bts-meter"><i style="width:${pct(posted)};background:#2baf87"></i></div></div>
     <div class="bts-stat bts-stat--plan"><span class="k">Your plan</span><span class="v">25 creators · pilot</span><button type="button" class="cs-ghost" data-act="more">${I.mail}Ask for more creators</button></div>
@@ -1029,18 +1034,18 @@ function table() {
   const pills = F.map(([k, l, c]) => `<button class="cs-filter${S.f === k ? ' is-on' : ''}" data-f="${k}" aria-pressed="${S.f === k}">${l}<span class="cs-count">${c}</span></button>`).join('');
   const rows = ROWS.filter(r => S.f === 'all' || r.st === S.f);
   const row = (r) => `<div class="bts-row">
-      <span class="cs-rt-video"><span class="bts-av"><img src="${r.av}" alt=""></span><span class="bts-two"><b>${r.name}</b><span>@${r.handle} · ${r.fol} followers</span></span></span>
+      <span class="cs-rt-video"><span class="bts-av"><img src="${r.av}" alt=""></span><span class="bts-two"><b>${r.name}</b><span>@${r.handle}</span></span></span>
       <span class="cs-rt-status is-${r.st}"><i></i><span class="cs-rt-st"><span>${LABEL[r.st]}</span><em>${NOTE[r.st]}</em></span></span>
       ${r.has ? `<span class="bts-two"><b>${r.store}</b><span>${r.city}</span></span>` : '<span class="bts-muted">Not yet</span>'}
       ${r.has ? `<span class="bts-num">${dec(r.bought)}</span>` : '<span class="bts-muted">—</span>'}
-      ${r.has ? `<span class="bts-num">${money(r.total)}</span>` : '<span class="bts-muted">—</span>'}
+      ${r.has ? `<span class="bts-num bts-r">${money(r.total)}</span>` : '<span class="bts-muted bts-r">—</span>'}
       <span class="bts-post">${r.st === 'posted'
         ? `<button class="bts-tile" data-open="${r.i}" aria-label="Watch ${r.name}'s reel"><img src="${r.poster}" alt="">${I.play}</button><button class="cs-iconbtn" data-live="${r.i}" title="Open the reel on Instagram" aria-label="Open the reel on Instagram">${I.out}</button>`
         : `<span class="bts-muted">${r.st === 'bought' ? 'Due ' + dec(r.bought + 10) : ''}</span>`}</span>
     </div>`;
   return `<div class="cs-toolbar" style="margin-bottom:0"><div class="cs-filters">${pills}</div></div>
     <div class="bts-tablewrap"><div class="cs-rt-card">
-      <div class="bts-cols"><span>Creator</span><span>Status</span><span>Bought at</span><span>Date</span><span>Total paid</span><span style="text-align:right">Post</span></div>
+      <div class="bts-cols"><span>Creator</span><span>Status</span><span>Bought at</span><span>Bought on</span><span class="bts-r">Total paid</span><span class="bts-r">Post</span></div>
       ${rows.length ? rows.map(row).join('') : '<div class="bts-empty">No creators here yet.</div>'}
     </div></div>
     <p class="bts-foot">Store, date and total come from each creator's receipt. Totals include sales tax, so they differ by state. Want a change to the brief or more creators? <a data-act="more">Message Katie's team</a>.</p>`;
@@ -1070,7 +1075,7 @@ function postModal(r) {
 }
 function briefModal() {
   return `<div class="bts-scrim" data-close><div class="bts-modal bts-modal--brief" role="dialog" aria-modal="true" aria-labelledby="m-t" style="gap:16px;padding:0 0 22px">
-    <div class="bts-mhead" style="padding:20px 24px 0"><span class="bts-two"><b id="m-t" style="font-size:16px;font-weight:600">Buy, Try, Share brief</b><span>PDF · 2 pages · shared with every creator</span></span><button class="bts-x" data-close aria-label="Close">×</button></div>
+    <div class="bts-mhead" style="padding:20px 24px 0"><span class="bts-two"><b id="m-t" style="font-size:16px;font-weight:600">Buy, Try, Share brief</b><span>PDF · 1 page · the same brief every creator sees</span></span><button class="bts-x" data-close aria-label="Close">×</button></div>
     <div class="bts-pdf"><div class="bts-page">
       <div class="ph"><i>ph</i><b style="font-size:12px">Phyla × Benable · Buy, Try, Share</b></div>
       <h4>Acne Phage Serum, found at Target</h4>
