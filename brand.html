@@ -857,7 +857,7 @@ html, body { background: #fff; color: #1a1a1a; margin: 0; }
 .nf .bts-pane { background: #f9fafb; border-top: 1px solid #eeeeee; min-height: calc(100vh - 150px); }
 .nf .bts-body { padding: 24px 20px 96px; display: grid; gap: 20px; }
 
-.nf .bts-stats { display: grid; grid-template-columns: minmax(200px, 2.2fr) minmax(140px, 1.3fr) minmax(170px, 1.5fr) minmax(84px, .7fr) minmax(84px, .7fr) 164px; gap: 14px; padding: 0 20px; border: 1px solid #e3e3e3; border-radius: 16px; background: #fff; box-shadow: 0 4px 8px rgba(0,0,0,.03); overflow: hidden; }
+.nf .bts-stats { display: grid; grid-template-columns: minmax(200px, 2fr) minmax(84px, .6fr) minmax(170px, 1.4fr) minmax(90px, .7fr) minmax(150px, 1.3fr) 184px; gap: 14px; padding: 0 20px; border: 1px solid #e3e3e3; border-radius: 16px; background: #fff; box-shadow: 0 4px 8px rgba(0,0,0,.03); overflow: hidden; }
 .nf .bts-stat { padding: 18px 0 18px; display: grid; gap: 4px; align-content: start; min-width: 0; }
 .nf .bts-stat .bts-meter { max-width: 220px; }
 .nf .bts-stat .k { font-size: 13px; font-weight: 500; color: #717171; }
@@ -871,9 +871,9 @@ html, body { background: #fff; color: #1a1a1a; margin: 0; }
 .nf .bts-stat--plan button { margin-top: 6px; }
 @media (max-width: 1100px) { .nf .bts-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); } .nf .bts-stat--plan { grid-column: 1 / -1; justify-items: start; text-align: left; border-top: 1px solid #eeeeee; } }
 
-.nf .bts-cols, .nf .bts-row { display: grid; grid-template-columns: minmax(200px, 2.2fr) minmax(140px, 1.3fr) minmax(170px, 1.5fr) minmax(84px, .7fr) minmax(84px, .7fr) 164px; gap: 14px; align-items: center; padding: 0 20px; }
+.nf .bts-cols, .nf .bts-row { display: grid; grid-template-columns: minmax(200px, 2fr) minmax(84px, .6fr) minmax(170px, 1.4fr) minmax(90px, .7fr) minmax(150px, 1.3fr) 184px; gap: 14px; align-items: center; padding: 0 20px; }
 .nf .bts-cols { height: 40px; background: #f8f9fa; border-bottom: 1px solid #e3e3e3; font-size: 12px; font-weight: 600; color: #717171; }
-.nf .bts-row { min-height: 68px; border-bottom: 1px solid #eeeeee; }
+.nf .bts-row { min-height: 76px; border-bottom: 1px solid #eeeeee; }
 .nf .bts-row:last-child { border-bottom: 0; }
 .nf .bts-row:hover { background: #fcfcfc; }
 .nf .bts-av, .bts-modal .bts-av { width: 36px; height: 36px; border-radius: 999px; overflow: hidden; flex: none; background: #eee; }
@@ -895,10 +895,10 @@ html, body { background: #fff; color: #1a1a1a; margin: 0; }
 .nf .cs-rt-status.is-joined i { background: transparent; border: 1.5px solid #b3b3b3; width: 7px; height: 7px; }
 .nf .cs-rt-status.is-joined { color: #767676; }
 .nf .bts-post { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
-.nf .bts-tile { width: 30px; height: 40px; border-radius: 6px; overflow: hidden; border: 0; padding: 0; cursor: pointer; position: relative; background: #eee; flex: none; }
+.nf .bts-tile { width: 42px; height: 56px; border-radius: 6px; overflow: hidden; border: 0; padding: 0; cursor: pointer; position: relative; background: #eee; flex: none; }
 .nf .bts-tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .nf .bts-tile::after { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent 55%, rgba(0,0,0,.35)); }
-.nf .bts-tile svg { position: absolute; left: 50%; top: 50%; width: 14px; height: 14px; transform: translate(-50%, -50%); z-index: 1; filter: drop-shadow(0 1px 2px rgba(0,0,0,.4)); }
+.nf .bts-tile svg { position: absolute; left: 50%; top: 50%; width: 16px; height: 16px; transform: translate(-50%, -50%); z-index: 1; filter: drop-shadow(0 1px 2px rgba(0,0,0,.4)); }
 .nf .bts-tile:hover { outline: 2px solid #7a5cfa; outline-offset: 1px; }
 .nf .bts-view { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 8px; border: 1px solid #e3e3e3; background: #fff; color: #1a1a1a; font: 500 13px/1 Inter, sans-serif; cursor: pointer; white-space: nowrap; }
 .nf .bts-view:hover { background: #f7f7f8; border-color: #c6c6c6; }
@@ -1088,17 +1088,17 @@ function table() {
   const rows = ROWS.filter(r => S.f === 'all' || r.st === S.f);
   const row = (r) => `<div class="bts-row">
       <span class="cs-rt-video"><span class="bts-av"><img src="${r.av}" alt=""></span><span class="bts-two"><b>${r.name}</b><span>@${r.handle}</span></span></span>
-      <span class="cs-rt-status is-${r.st}"><i></i><span class="cs-rt-st"><span>${LABEL[r.st]}</span><em>${NOTE[r.st]}</em></span></span>
-      ${r.has ? `<span class="bts-two"><b>${r.store}</b><span>${r.city}</span></span>` : '<span class="bts-muted">Not yet</span>'}
       ${r.has ? `<span class="bts-num">${dec(r.bought)}</span>` : '<span class="bts-muted">—</span>'}
-      ${r.has ? `<span class="bts-num bts-r">${money(r.total)}</span>` : '<span class="bts-muted bts-r">—</span>'}
+      ${r.has ? `<span class="bts-two"><b>${r.store}</b><span>${r.city}</span></span>` : '<span class="bts-muted">Not yet</span>'}
+      ${r.has ? `<span class="bts-num">${money(r.total)}</span>` : '<span class="bts-muted">—</span>'}
+      <span class="cs-rt-status is-${r.st}"><i></i><span class="cs-rt-st"><span>${LABEL[r.st]}</span><em>${NOTE[r.st]}</em></span></span>
       <span class="bts-post">${r.st === 'posted'
         ? `<button class="bts-tile" data-open="${r.i}" aria-label="Watch ${r.name}'s reel"><img src="${r.poster}" alt="">${I.play}</button><button class="bts-view" data-open="${r.i}" aria-label="View ${r.name}'s post">View post</button>`
         : `<span class="bts-muted">${r.st === 'bought' ? 'Due ' + dec(r.bought + 10) : ''}</span>`}</span>
     </div>`;
   return `<div class="cs-toolbar" style="margin-bottom:0"><div class="cs-filters">${pills}</div></div>
     <div class="bts-tablewrap"><div class="cs-rt-card">
-      <div class="bts-cols"><span>Creator</span><span>Status</span><span>Bought at</span><span>Bought on</span><span class="bts-r">Total paid</span><span class="bts-r">Post</span></div>
+      <div class="bts-cols"><span>Creator</span><span>Bought on</span><span>Bought at</span><span>Total paid</span><span>Status</span><span class="bts-r">Post</span></div>
       ${rows.length ? rows.map(row).join('') : '<div class="bts-empty">No creators here yet.</div>'}
     </div></div>
     <p class="bts-foot">Store, date and total come from each creator's receipt. Totals include sales tax, so they differ by state. Want a change to the brief or more creators? <a data-act="more">Message Katie's team</a>.</p>`;
