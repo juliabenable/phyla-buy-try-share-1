@@ -98,7 +98,7 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid 
 .notes ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; }
 .notes li { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 10px; align-items: baseline; }
 .tag { font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
-.tag.agreed { color: var(--ok); } .tag.proposed { color: var(--accent); } .tag.open { color: var(--warn); } .tag.exists { color: var(--muted); }
+.tag.agreed { color: var(--ok); } .tag.research { color: var(--muted); } .tag.proposed { color: var(--accent); } .tag.open { color: var(--warn); } .tag.exists { color: var(--muted); }
 .notes .src { color: var(--muted); font-size: 12px; }
 .jump { display: flex; flex-wrap: wrap; gap: 6px; }
 .jump button { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 4px 10px; font: 500 12px var(--font); cursor: pointer; }
@@ -150,7 +150,7 @@ tbody tr:hover td { background: var(--weak); }
   <div class="top">
     <div>
       <h1>Buy, Try, Share · Phyla pilot</h1>
-      <p>Prototype for the 25-creator pilot. Creator app on the left; tap through it. Notes on each screen say what's agreed, proposed or open.</p>
+      <p>Prototype for the pilot. Every screen design and line of copy is my proposal. The notes beside each screen say which parts rest on what was agreed with Phyla, what is open, and what already exists in the code.</p>
     </div>
     <div class="seg" role="group" aria-label="View">
       <button id="v-app" aria-pressed="true">Creator app</button>
@@ -235,7 +235,7 @@ const steps = [
     notes: [
       ['agreed','Creators buy at Target, in store or online, post, upload the content file, and get reimbursed in full. No post, no payment.','Tony email to Gianna, Nov 10'],
       ['agreed','No brand approval of creators and no edits. Benable still checks brand safety before inviting.','Nov 10 email; Gianna did not push back today'],
-      ['agreed','Pilot of 20 to 25 creators instead of the 100 minimum, then 100 minimum after.','Gianna asked today; Tony said yes pending team. Tony suggests 25 in Slack.'],
+      ['open','Pilot of 20 to 25 creators instead of the 100 minimum, then 100 minimum after.','Gianna asked today; Tony said he did not see why not, pending the team. Tony suggests 25 in Slack.'],
       ['open','Is sales tax reimbursed? "Full price" vs "receipt total" changes the creator promise and Phyla\'s cost.','Ask Gianna'],
       ['proposed','Spots counter ("18 left") to make it feel like an opportunity, not a coupon.','Claude'],
     ]},
@@ -249,7 +249,7 @@ const steps = [
       <p class="note">We match receipts against Phyla's Target returns. A returned bottle shows up.</p>`,
     cta: () => `<button class="btn" data-go="2" ${state.pledge.every(Boolean)?'':'disabled'}>Join</button>`,
     notes: [
-      ['agreed','Returning the product makes the creator ineligible for future Benable campaigns. Tony told Gianna this today as the deterrent.','Today\'s call, Tony'],
+      ['agreed','Returning the product makes the creator ineligible for future Benable campaigns. Tony described it today as what Benable already tells creators.','Today\'s call, Tony'],
       ['proposed','Make the rule a pledge the creator ticks before joining, not fine print. Aisle has the same rule; the difference has to be that our creators read it and care.','Claude'],
       ['proposed','Explain the why (Phyla needs real Target sales). Creators who see the brand as a person are less likely to game it.','Claude'],
       ['open','"A returned bottle shows up" is only true if Phyla can share its Target returns data by store and date. Keep the line only once that is confirmed.','Ask Gianna what Aisle matches against'],
@@ -293,6 +293,7 @@ const steps = [
     cta: () => `<button class="btn" data-go="4" ${state.receipt?'':'disabled'}>Next</button>`,
     notes: [
       ['agreed','Gianna asked that we collect every receipt in a database she can see too. Tony confirmed.','Today\'s call'],
+      ['proposed','The upload screen and the AI reading the receipt.','Claude'],
       ['exists','Benable already reads creator screenshots with AI for Target reviews (ScreenshotReader: stars, name, text). A receipt reader is the same pattern with a new schema: item, store, date, total, receipt number.','beneble_app retailer_reviews/screenshot_reader.rb'],
       ['proposed','Three automatic checks: right item, bought after joining, receipt number never used before. Anything that fails goes to Katie\'s team, not to the creator as an error.','Claude'],
       ['open','Tony asked whether the receipt lets us see a return. Target does not offer a public receipt lookup; the receipt number and store are what we can match on. See the study.','Tony, Slack today'],
@@ -307,7 +308,7 @@ const steps = [
       <button class="drop" data-act="photo">${camSvg}<b>Add photo</b><span>Bottle open, cap off</span></button>`,
     cta: () => `<button class="btn" data-go="5" ${state.photo?'':'disabled'}>Next</button>`,
     notes: [
-      ['proposed','Open-bottle photo. Raised on the Nov 9 call by both Benable (Tony, Katie) and as Aisle\'s own fix. Never agreed with Gianna.','Nov 9 call'],
+      ['proposed','Open-bottle photo. Discussed on the Nov 9 call with Gianna (a Benable idea; Aisle\'s own planned fix was proof of use). Never agreed, not raised today.','Nov 9 call'],
       ['open','Gianna said today Target takes opened skincare back. So this photo is a commitment device more than a block: it raises the effort and the shame of returning, it does not stop a return.','Today\'s call'],
       ['proposed','Let the first frame of the video count, so it costs the creator nothing extra.','Claude'],
     ]},
@@ -343,7 +344,7 @@ const steps = [
       ['agreed','Pay after the post is live. Phyla pays nothing for a creator who does not post.','Nov 10 email; Tony today: "once they provide the proof that they purchased it and the post is up"'],
       ['exists','PayPal and Venmo payouts already run through creator_payments (send, reconcile, CSV export).','beneble_app creator_payments/'],
       ['agreed','Standouts get flagged for Phyla\'s monthly campaigns.','Nov 10 email'],
-      ['proposed','Pay immediately rather than holding the money for the return window. Aisle\'s returns came same day or next day, so a short hold would not help unless returns data arrives that fast. See the study.','Claude'],
+      ['proposed','Pay on post, but if no Sunday returns sheet has covered the purchase date yet, wait for the next one (at most 7 more days). Not discussed with anyone. See the study.','Claude'],
     ]},
 ];
 
@@ -450,7 +451,8 @@ document.addEventListener('click', (e) => {
   const tr = e.target.closest('[data-row]'); if (tr) { sel = +tr.dataset.row; renderPortal(); }
 });
 $('#pnotes').innerHTML = `<h2>What this view is for</h2><ul>
-  <li><span class="tag agreed">agreed</span><div>Gianna sees every receipt. She asked for this today ("collect all of the receipts ... I would be able to see them as well").<div class="src">Today's call</div></div></li>
+  <li><span class="tag agreed">agreed</span><div>Gianna sees every receipt. She asked on today's call to see all receipts in one place, and Tony said yes.<div class="src">Today's call</div></div></li>
+  <li><span class="tag proposed">proposed</span><div>This whole screen, its layout and every column. Not discussed with anyone.<div class="src">Claude</div></div></li>
   <li><span class="tag agreed">agreed</span><div>Pay only per completed post, content file and verified purchase: $19 + the reimbursement. Nothing upfront.<div class="src">Nov 10 email</div></div></li>
   <li><span class="tag proposed">proposed</span><div>Purchases by day, because Gianna's real goal is Target units week over week (~300 a week bar from Nov 5).<div class="src">Claude, from the Nov 5 call</div></div></li>
   <li><span class="tag open">open</span><div>The returns column depends on Phyla sending its Target returns by store and date each week. If Target only gives totals, this column becomes a single weekly number, and per-creator flags go away.<div class="src">Ask Gianna what report Aisle uses</div></div></li>

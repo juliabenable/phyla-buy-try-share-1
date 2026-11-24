@@ -40,7 +40,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 ul, ol { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
 li { max-width: 70ch; }
 .tag { font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; white-space: nowrap; }
-.tag.agreed { color: var(--ok); } .tag.proposed { color: var(--accent); } .tag.open { color: var(--warn); } .tag.exists { color: var(--muted); }
+.tag.agreed { color: var(--ok); } .tag.research { color: var(--muted); } .tag.proposed { color: var(--accent); } .tag.open { color: var(--warn); } .tag.exists { color: var(--muted); }
 .items { list-style: none; padding: 0; gap: 12px; }
 .items li { display: grid; grid-template-columns: 82px minmax(0, 1fr); gap: 10px; align-items: baseline; }
 .items .src { display: block; color: var(--muted); font-size: 13px; }
@@ -74,33 +74,35 @@ footer ul { gap: 4px; }
     <div class="eyebrow">Phyla · Buy, Try, Share pilot · Study · Tue Nov 24, 2026</div>
     <h1>Phyla said yes to Buy, Try, Share. The risk is returns.</h1>
     <p class="lede">Gianna wants to start with 20 to 25 creators, then move to the 100 minimum. Phyla just watched 80 to 90% of its Aisle purchases go back to Target, so the pilot has one job: show that Benable creators buy, post and keep the product.</p>
+    <p class="small muted">Every item is tagged: <span class="tag agreed">agreed</span> said or accepted by Phyla and Benable, with where · <span class="tag open">open</span> raised but not settled · <span class="tag proposed">proposed</span> my suggestion, not discussed with anyone yet · <span class="tag research">research</span> found online or in the code, not from a call.</p>
     <div class="cta"><a class="btnlink" href="prototype.html">Open the prototype</a><span class="muted small">Creator app flow + the brand view where Gianna sees every receipt</span></div>
   </header>
 
   <section>
-    <h2>Start here: run the pilot by hand on Tue Dec 1</h2>
-    <p>Nothing below needs engineering. Katie's team runs it with what Benable already has, and we build the app version for the 100-creator run once the pilot shows the returns rate.</p>
+    <h2>Start here: run the pilot by hand on Tue Dec 1 <span class="tag proposed">proposed</span></h2>
+    <p>This whole plan is my proposal; none of it was discussed on the call. Each step notes what it builds on. Nothing below needs engineering. Katie's team runs it with what Benable already has, and we build the app version for the 100-creator run once the pilot shows the returns rate.</p>
     <div class="steps">
-      <div class="step"><div class="when">Today</div><div>Tony sends the addendum (25 creators, $19 each, pilot first, then 100 minimum). Katie and Julia agree 20 or 25 and the start date. <span class="tag proposed">proposed</span> 25 and Tue Dec 1, as Tony suggested in Slack.</div></div>
-      <div class="step"><div class="when">Wed Nov 25</div><div>Send Gianna the 5 open questions below, mainly: what returns report does she get from Target every Sunday, and what does Aisle match against?</div></div>
-      <div class="step"><div class="when">Mon Nov 30</div><div>Logan picks 25 creators: <b>15 who finished at least one Benable collab</b> and <b>10 new small creators</b> (the real Buy, Try, Share audience), so the pilot shows returns for both. Start from the "Phyla 100" tab Logan built on Nov 10.</div></div>
-      <div class="step"><div class="when">Tue Dec 1</div><div>Campaign opens in the portal with Benable review (no brand approval) and the in-store path, which already skips shipping. Creators send the receipt and an open-bottle photo; Katie's team logs each one in a Google Sheet that Gianna can view.</div></div>
-      <div class="step"><div class="when">On each post</div><div>Katie checks the post is live, tagged and labeled, then pays the receipt total through the existing PayPal/Venmo payouts.</div></div>
-      <div class="step"><div class="when">Each Sunday</div><div>Gianna shares the Target returns sheet she already checks every Sunday; Katie matches store + date against the receipts in the Sheet.</div></div>
-      <div class="step"><div class="when">~Dec 22</div><div>Pilot readout: purchases, posts, returns found, by creator group. If returns are low, launch the 100-creator run on the app version.</div></div>
+      <div class="step"><div class="when">Today</div><div>Tony sends the contract addendum, which he offered in Slack today if the team agrees. Katie and Julia settle 20 or 25 and the start date. <span class="tag open">open</span> Tony suggested 25 and "next Tuesday" (Dec 1) in Slack; Gianna only said 20 to 25, no rush.</div></div>
+      <div class="step"><div class="when">Wed Nov 25</div><div>Send Gianna the questions below, mainly what her Sunday returns sheet shows. <span class="tag proposed">proposed</span></div></div>
+      <div class="step"><div class="when">Mon Nov 30</div><div>Logan picks the creators. <span class="tag proposed">proposed</span> A mix of <b>15 who finished at least one Benable collab</b> and <b>10 new small creators</b>, so the pilot shows returns for both groups. Nobody has suggested this split; it is mine. Tony's Nov 10 email pitches Buy, Try, Share for smaller creators, so the new group is the real audience. <span class="tag research">research</span> Logan's "Phyla 100" tab (Slack, Nov 10) lists 100 creators he pulled for the onboarding-flow test invite, not for this pilot, and he noted not all have a confirmed store nearby; the top 50 were already invited to the portal. It may help as a starting list, but check it with Logan.</div></div>
+      <div class="step"><div class="when">Tue Dec 1</div><div>Campaign opens in the portal with Benable review and the in-store path, which already skips shipping <span class="tag research">research</span>. No brand approval <span class="tag agreed">agreed</span> (Nov 10 email). Creators send the receipt and an open-bottle photo <span class="tag proposed">proposed</span>; Katie's team logs each one in a Google Sheet that Gianna can view <span class="tag proposed">proposed</span>, which covers what Gianna asked for today: seeing every receipt <span class="tag agreed">agreed</span>.</div></div>
+      <div class="step"><div class="when">On each post</div><div>Pay only after the post is up <span class="tag agreed">agreed</span> (Nov 10 email; Tony repeated it on the call). Katie's team checks the post is live, tagged and labeled, then pays through the existing PayPal/Venmo payouts <span class="tag proposed">proposed</span>. Receipt total or $55 <span class="tag open">open</span> (tax).</div></div>
+      <div class="step"><div class="when">Each Sunday</div><div>Gianna checks a Target returns sheet every Sunday <span class="tag agreed">said on the call</span>. Asking her to share it with us, and Katie's team matching store + date against the receipts, is <span class="tag proposed">proposed</span>; we have not asked her yet.</div></div>
+      <div class="step"><div class="when">~Dec 22</div><div>Pilot readout: purchases, posts, returns found, by creator group. <span class="tag proposed">proposed</span> Date and format are mine. Moving to the 100 minimum after the pilot <span class="tag agreed">agreed</span> (Gianna on the call, per Tony's Slack).</div></div>
     </div>
-    <p class="small muted">What already exists in the backend (read Nov 24 from beneble_app): the in-store confirm path that skips shipping (in_person/confirm_service.rb), review_process = benable_review, the 10-days-after-receipt content deadline, PayPal and Venmo payouts (creator_payments/), and an AI reader for creators' Target review screenshots (retailer_reviews/screenshot_reader.rb). Nothing yet handles a purchase receipt.</p>
+    <p class="small muted"><span class="tag research">research</span> What already exists in the backend (read Nov 24 from beneble_app): the in-store confirm path that skips shipping (in_person/confirm_service.rb), review_process = benable_review, the 10-days-after-receipt content deadline, PayPal and Venmo payouts (creator_payments/), and an AI reader for creators' Target review screenshots (retailer_reviews/screenshot_reader.rb). Nothing yet handles a purchase receipt.</p>
   </section>
 
   <section>
-    <h2>What was decided, and with whom</h2>
+    <h2>What was said on the call and in writing</h2>
+    <p class="small muted">Only items from today's call, Tony's Slack after it, and Tony's Nov 10 email, which Gianna accepted today.</p>
     <ul class="items">
       <li><span class="tag agreed">agreed</span><div>Phyla moves forward with Buy, Try, Share as proposed in Tony's email.<span class="src">Gianna, today's call; Tony's Slack after: "They are onboard with the proposal we sent"</span></div></li>
-      <li><span class="tag agreed">agreed</span><div>$19 per creator plus the product reimbursement, paid only per completed post, content file and verified purchase. Nothing upfront. Creators buy at Target, in store or online.<span class="src">Tony email to Gianna, Nov 10</span></div></li>
+      <li><span class="tag agreed">agreed</span><div>$19 per creator plus the product reimbursement, paid only per completed post, content file and verified purchase. Nothing upfront. Creators buy at Target, in store or online.<span class="src">Tony email to Gianna, Nov 10; Tony restated "nothing upfront, paid once proof of purchase and post are up" on the call</span></div></li>
       <li><span class="tag agreed">agreed</span><div>No brand approval of creators and no edits. Benable checks brand safety and flags standouts for the monthly campaigns.<span class="src">Nov 10 email</span></div></li>
       <li><span class="tag agreed">agreed</span><div>Benable collects every receipt in one place Gianna can see.<span class="src">Gianna asked, Tony confirmed, today</span></div></li>
-      <li><span class="tag agreed">agreed</span><div>Pilot of 20 to 25 creators, then the 100 minimum. Tony said yes on the call, pending the team.<span class="src">Today; Tony leans 25 in Slack</span></div></li>
-      <li><span class="tag agreed">agreed</span><div>Returning the product makes a creator ineligible for future Benable campaigns. Tony gave this as the deterrent.<span class="src">Today's call</span></div></li>
+      <li><span class="tag open">open</span><div>Pilot of 20 to 25 creators, then the 100 minimum. Gianna asked; Tony said he didn't see why not but would double-check with the team.<span class="src">Today's call; Tony leans 25 in Slack</span></div></li>
+      <li><span class="tag agreed">agreed</span><div>Returning the product makes a creator ineligible for future Benable campaigns. Tony described this as what Benable already tells creators; Gianna agreed a creator platform is different from a deal-hunter platform.<span class="src">Today's call</span></div></li>
       <li><span class="tag open">open</span><div>Start date. Gianna: not a rush. Tony suggests next Tuesday (Dec 1).<span class="src">Tony, Slack today</span></div></li>
       <li><span class="tag open">open</span><div>How to screen for returns, and whether the receipt lets us see one. Tony asked us to look into it.<span class="src">Tony, Slack today</span></div></li>
       <li><span class="tag open">open</span><div>What lightweight version of this goes into the Brand Portal and the app.<span class="src">Tony, Slack today, to Katie and Julia</span></div></li>
@@ -110,7 +112,7 @@ footer ul { gap: 4px; }
 
   <section>
     <h2>Why returns are a bigger risk here than on Aisle</h2>
-    <p>Full reimbursement doubles the payoff of a return compared with Aisle's 50% cashback. A creator who returns the bottle after being paid back keeps the full price.</p>
+    <p><span class="tag proposed">my analysis</span> Not raised on the call. Full reimbursement doubles the payoff of a return compared with Aisle's 50% cashback. A creator who returns the bottle after being paid back keeps the full price.</p>
     <div class="tablewrap">
       <table>
         <thead><tr><th>Offer</th><th>Creator pays</th><th>Gets back from the brand</th><th>Gets back from Target on return</th><th>Net if they return it</th></tr></thead>
@@ -122,18 +124,19 @@ footer ul { gap: 4px; }
       </table>
     </div>
     <p class="small muted">Before tax. $55 = Phyla serum price at Target (Oct 21 study). Aisle offers are as Gianna described them today; she said the 50% offer saw 80 to 90% returned, and on Nov 9 she gave ~80% on the cleanser.</p>
-    <p>What works in our favor: the creator has to <b>post a video of themselves using it</b> before getting a cent, and they lose access to every future paid and gifted collab on Benable. Aisle has the same "kicked off" rule; Gianna's bet, and Tony's, is that creators who want brand collabs care about that rule more than deal hunters do. The pilot is how we find out.</p>
+    <p>What works in our favor: the creator has to <b>post a video of themselves using it</b> before getting a cent, and they lose access to every future paid and gifted collab on Benable. Gianna said on the call that Aisle has the same rule, and both she and Tony said creators who want brand collabs should care about it more than deal hunters do. The pilot is how we find out.</p>
   </section>
 
   <section>
     <h2>Can a receipt show a return? Not alone, but Phyla's store data can</h2>
+    <p class="small muted">Tony asked this in Slack today. <span class="tag research">research</span> unless marked; only the second and last points come from the call.</p>
     <ul>
       <li><b>No public lookup.</b> Target's help pages describe receipt lookup only at the store, for the customer's own return. Nothing lets a brand or a third party check a receipt number for a refund.</li>
-      <li><b>Phyla already gets returns data.</b> Gianna said today they check a Target returns sheet every Sunday, with numbers for the prior week, and that Aisle matches returns to the receipts it collects, down to people who bought and returned on the same day.</li>
+      <li><span class="tag agreed">from the call</span> <b>Phyla already gets returns data.</b> Gianna said today they check a Target returns sheet every Sunday, with numbers for the prior week, and that Aisle matches returns to the receipts it collects, down to people who bought and returned on the same day.</li>
       <li><b>What Target gives brands is counts per item, per store, per period, not receipts.</b> Brands see sales through Target's supplier portal, Partners Online, and its analytics tool, Greenfield. Third-party guides describe sales by store and by week, some daily. Target's own published sales-data file spec (EDI 852) reports quantities per item per store per period, with codes for inventory, on order and quantity sold. It has no receipt or transaction field and no separate returns code. That spec dates from 2000, so the current feed may differ, but nothing found suggests brands get receipt-level data.</li>
       <li><b>So the sheet probably shows returned units by store and day or week.</b> That is still enough for Aisle-style matching, because Phyla sells so few units per store (below).</li>
       <li><b>The receipt number itself carries the store and date.</b> According to a Target service desk trainer on a Target employee forum (unverified), the REC# reads: receipt type, date (day of year), store number, register, transaction number, check digit, and every online order uses store number 3991. So we can read the store and date straight off the receipt and catch any receipt number used twice.</li>
-      <li><b>Opened skincare can still go back.</b> Gianna said so today. Third-party guides cite 90 days for opened beauty with a receipt; Target's own page only says opened items may be denied. Treat the window as long.</li>
+      <li><span class="tag agreed">from the call</span> <b>Opened skincare can still go back.</b> Gianna said so today. Third-party guides cite 90 days for opened beauty with a receipt; Target's own page only says opened items may be denied. Treat the window as long.</li>
     </ul>
     <div class="tablewrap">
       <table>
@@ -144,12 +147,12 @@ footer ul { gap: 4px; }
         </tbody>
       </table>
     </div>
-    <p>At about one unit every two weeks per store, a returned Phyla serum at the same store within days of a creator's receipt is a strong flag even without a receipt number. Busy stores sell more than average, so it stays a flag for a human to check, not proof.</p>
+    <p><span class="tag proposed">my analysis</span> At about one unit every two weeks per store, a returned Phyla serum at the same store within days of a creator's receipt is a strong flag even without a receipt number. Busy stores sell more than average, so it stays a flag for a human to check, not proof.</p>
     <div class="tablewrap">
       <table>
         <thead><tr><th>If the Sunday sheet shows</th><th>What we can catch</th></tr></thead>
         <tbody>
-          <tr><td>Returns by store and day</td><td>Per-creator flags for in-store buyers. Most likely case, and probably what Aisle uses.</td></tr>
+          <tr><td>Returns by store and day</td><td>Per-creator flags for in-store buyers. My guess at the most likely case, and at what Aisle uses; not confirmed.</td></tr>
           <tr><td>Returns by store and week</td><td>Per-creator flags, a bit looser. Still strong at 0.5 units per store per week.</td></tr>
           <tr><td>Receipt or transaction numbers</td><td>Near proof. Unlikely from what Target shares with brands.</td></tr>
           <tr><td>Totals only, no store</td><td>A pilot-wide returns rate, no per-creator flags.</td></tr>
@@ -166,11 +169,11 @@ footer ul { gap: 4px; }
   <section>
     <h2>Ways to keep returns down, strongest first</h2>
     <div class="ladder">
-      <div class="rung"><span class="k">1</span><div><p><b>Match receipts to Phyla's Sunday returns sheet</b> <span class="tag open">open</span></p><p class="eff">Only lever that actually detects a return. Depends on what the sheet contains. Ask Gianna first.</p></div></div>
+      <div class="rung"><span class="k">1</span><div><p><b>Match receipts to Phyla's Sunday returns sheet</b> <span class="tag open">open</span></p><p class="eff">Gianna said Aisle matches returns to receipts. Doing the same with her sheet is my proposal, not yet asked. Only lever that actually detects a return.</p></div></div>
       <div class="rung"><span class="k">2</span><div><p><b>Pay on post, and wait for one returns sheet to cover the purchase date</b> <span class="tag proposed">proposed</span></p><p class="eff">Turns the agreed post-gating into a natural hold, with no extra step for the creator.</p></div></div>
       <div class="rung"><span class="k">3</span><div><p><b>Pick creators with a track record for part of the pilot</b> <span class="tag proposed">proposed</span></p><p class="eff">15 with a finished collab, 10 new small creators. Shows whether the deterrent works on the audience Buy, Try, Share is really for.</p></div></div>
-      <div class="rung"><span class="k">4</span><div><p><b>A pledge the creator ticks before joining</b> <span class="tag proposed">proposed</span></p><p class="eff">"If I return it, I lose access to brand collabs on Benable." The agreed rule, said plainly at the moment of commitment, with the reason (Phyla needs real Target sales).</p></div></div>
-      <div class="rung"><span class="k">5</span><div><p><b>Open-bottle photo with the receipt</b> <span class="tag proposed">proposed</span></p><p class="eff">Raised on Nov 9 (Benable and Aisle's own fix). Since Target accepts opened skincare, it is a commitment device, not a block. Let the video's first frame count.</p></div></div>
+      <div class="rung"><span class="k">4</span><div><p><b>A pledge the creator ticks before joining</b> <span class="tag proposed">proposed</span></p><p class="eff">"If I return it, I lose access to brand collabs on Benable." The rule Tony described on the call (agreed), said plainly at the moment of commitment, with the reason (Phyla needs real Target sales).</p></div></div>
+      <div class="rung"><span class="k">5</span><div><p><b>Open-bottle photo with the receipt</b> <span class="tag proposed">proposed</span></p><p class="eff">Discussed on the Nov 9 call with Gianna (a Benable idea, and Aisle's own planned fix was proof of use), never agreed as a requirement. Not raised today. Since Target accepts opened skincare, it is a commitment device, not a block. Letting the video's first frame count is mine.</p></div></div>
       <div class="rung"><span class="k">6</span><div><p><b>Receipt checks: right item, bought after joining, receipt number never used before</b> <span class="tag proposed">proposed</span></p><p class="eff">Stops reused and borrowed receipts. Manual in the pilot, automatic in the app version.</p></div></div>
       <div class="rung"><span class="k">7</span><div><p><b>Later: a day-30 check-in clip</b> <span class="tag proposed">proposed</span></p><p class="eff">"Show us how your skin is doing." More content for Phyla, and proof the bottle stayed. Only after the pilot; it adds creator work.</p></div></div>
     </div>
@@ -178,11 +181,12 @@ footer ul { gap: 4px; }
 
   <section>
     <h2>What the pilot costs and what it proves</h2>
+    <p class="small muted">Prices are agreed (Nov 10 email). The math and the 25-creator size are mine.</p>
     <div class="tablewrap">
       <table>
         <thead><tr><th>Figure</th><th>Value</th><th>How it's computed</th><th>Inputs from</th></tr></thead>
         <tbody>
-          <tr><td>Benable fee, all 25 post</td><td class="num">$475</td><td class="calc">25 × $19</td><td>Nov 10 email price; pilot size from today</td></tr>
+          <tr><td>Benable fee, all 25 post</td><td class="num">$475</td><td class="calc">25 × $19</td><td>Nov 10 email price; 25 = Tony's suggestion, not final</td></tr>
           <tr><td>Reimbursements, before tax</td><td class="num">$1,375</td><td class="calc">25 × $55</td><td>Target price, Oct 21 study</td></tr>
           <tr><td>Reimbursements, with tax (example)</td><td class="num">$1,488.50</td><td class="calc">25 × $59.54 ($55 + 8.25%)</td><td>8.25% is an example rate (Austin). Real tax varies by store.</td></tr>
           <tr><td>Most Phyla pays for the pilot</td><td class="num">$1,850 to $1,963.50</td><td class="calc">$475 + $1,375 … $475 + $1,488.50</td><td>Depends on the tax question. Payout fees not included (passed at cost, Nov 5).</td></tr>
@@ -195,8 +199,8 @@ footer ul { gap: 4px; }
   </section>
 
   <section>
-    <h2>The app version, for the 100-creator run</h2>
-    <p>Tony asked what lightweight version goes into the Brand Portal and the app. The prototype shows it. Build only after the pilot readout.</p>
+    <h2>The app version, for the 100-creator run <span class="tag proposed">proposed</span></h2>
+    <p>Tony asked in Slack what lightweight version goes into the Brand Portal and the app. Everything below and in the prototype is my proposal, except what the prototype notes tag otherwise. Build only after the pilot readout.</p>
     <div class="steps">
       <div class="step"><div class="when">Creator app</div><div>Opportunity card with no approval step → pledge → nearest Beauty Studio Target → receipt upload (AI reads item, store, date, total, receipt number) → open-bottle photo → post link + video file → paid. Reuses the screenshot-reader pattern with a receipt schema, and the existing content upload and payouts.</div></div>
       <div class="step"><div class="when">Brand Portal</div><div>One pilot page: joined, bought, posted, paid; what Phyla owes so far with the formula; purchases by day (Gianna's real goal is weekly Target units); every receipt; and a returns column fed by the Sunday sheet.</div></div>
@@ -206,21 +210,21 @@ footer ul { gap: 4px; }
   </section>
 
   <section>
-    <h2>Questions for Gianna</h2>
+    <h2>Questions for Gianna <span class="tag proposed">proposed</span></h2>
     <ol>
       <li><b>Returns sheet.</b> Does the Sunday sheet show returns by store, and by day or by week? Is it from Greenfield or something Target or Aisle sends? Can she share it weekly during the pilot?</li>
       <li><b>Tax.</b> Do we reimburse the receipt total or $55?</li>
       <li><b>Product.</b> Serum only, or the kit too?</li>
-      <li><b>Online orders.</b> Still fine for the pilot? A target.com order has an order number, which may make returns easier to match.</li>
+      <li><b>Online orders.</b> The Nov 10 email says online counts. Would she keep the pilot in-store only? Online returns can't be traced to one creator, since every online order shares one store number.</li>
       <li><b>Success bar and timing.</b> Is "2 or fewer of 25 returned" the bar she'd use to go to 100? Is Tue Dec 1 a good start?</li>
     </ol>
   </section>
 
   <section>
-    <h2>For Katie today</h2>
+    <h2>For Katie today <span class="tag proposed">proposed</span></h2>
     <ul>
       <li>20 or 25 (Tony: 25)? Start Dec 1?</li>
-      <li>Who picks the 25, and is the 15 known / 10 new split OK?</li>
+      <li>Who picks the 25? Is my 15 known / 10 new split worth doing? Is Logan's Phyla 100 tab a usable start?</li>
       <li>Receipts by app upload, text, or a form? The pilot Sheet: who keeps it up to date?</li>
       <li>"Checked" post, with no brand review: live, tagged @phylaskin, Paid Partnership label on. Anything more?</li>
       <li>What happens to a flagged creator: ask for a bottle photo, hold payment, lose access after 3 days without a reply?</li>
@@ -238,7 +242,7 @@ footer ul { gap: 4px; }
       <li>Target supplier data: <a href="https://www.retailpath.ai/blog/target-partners-online-guide-for-suppliers/" target="_blank" rel="noopener">Partners Online guide</a> · <a href="https://www.cahoot.ai/target-vendor-portal/" target="_blank" rel="noopener">Target vendor portal explained</a> · <a href="https://www.edibydesign.com/newdesignAssets/uploads/Retailers_pdf/852%20Point%20of%20Sales%20Map.pdf" target="_blank" rel="noopener">Target EDI 852 sales data map (2000)</a> · <a href="https://thebreakroom.org/threads/decoding-target-receipts-what-do-the-rec-numbers-mean.32157" target="_blank" rel="noopener">Target employee forum on REC# digits (unverified)</a></li>
       <li><a href="https://www.target.com/help/article/000061980" target="_blank" rel="noopener">Target return policy help page</a> · <a href="https://www.target.com/help/article/000062920" target="_blank" rel="noopener">Target returns help</a> · third-party summaries of Target's opened-beauty policy (e.g. <a href="https://couponfollow.com/research/targets-return-policy" target="_blank" rel="noopener">CouponFollow</a>)</li>
     </ul>
-    <div>Tags: <span class="tag agreed">agreed</span> said by Phyla and Benable · <span class="tag proposed">proposed</span> my suggestion, not yet put to anyone · <span class="tag open">open</span> asked, no answer yet.</div>
+    <div>Tags: <span class="tag agreed">agreed</span> said or accepted by Phyla and Benable · <span class="tag open">open</span> raised, not settled · <span class="tag proposed">proposed</span> my suggestion or analysis, not discussed with anyone · <span class="tag research">research</span> found online or in the code.</div>
   </footer>
 </div>
 </body></html>
