@@ -396,18 +396,18 @@ const rows = names.map((n, i) => {
   const has = st !== 'joined';
   return { n, st, has, store, date: has ? `Dec ${2 + (i % 5)}` : '', total: has ? Math.round(55 * (1 + rate / 100) * 100) / 100 : 0 };
 });
-const label = { posted: 'Posted', bought: 'Bought', joined: 'Joined' };
+const label = { posted: 'Posted', bought: 'Bought', joined: 'Accepted' };
 let filter = 'all';
 
 function renderPortal() {
   const c = (s) => rows.filter(r => r.st === s).length;
   const bought = rows.filter(r => r.has).length;
   $('#stats').innerHTML = [
-    ['Joined', `${rows.length} of 25`],
+    ['Accepted', `${rows.length} of 25`],
     ['Bought', bought],
     ['Posted', c('posted')],
   ].map(([k, v]) => `<div class="stat"><span class="k">${k}</span><span class="v">${v}</span></div>`).join('');
-  const fl = [['all','All'],['posted','Posted'],['bought','Bought'],['joined','Joined']];
+  const fl = [['all','All'],['posted','Posted'],['bought','Bought'],['joined','Accepted']];
   $('#filters').innerHTML = fl.map(([k, t]) => `<button data-f="${k}" aria-pressed="${filter === k}">${t} ${k==='all'?rows.length:c(k)}</button>`).join('');
   $('#rows').innerHTML = rows.map((r, i) => ({...r, i})).filter(r => filter === 'all' || r.st === filter).map(r => `<tr>
     <td><b style="font-weight:600">@${r.n}</b></td>
@@ -429,7 +429,7 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape') $('#modal'
 $('#pnotes').innerHTML = `<h2>Brand Portal: what's decided</h2><ul>
   <li><span class="tag decided">decided</span><div>Its own "Buy, Try, Share" tab in the left nav, landing on a table with the same design as the Rights tab. No separate content tab.<div class="src">${JK}</div></div></li>
   <li><span class="tag decided">decided</span><div>Columns: creator, status, store (or online), date bought, total, post. Store and date let Phyla line purchases up with their weekly Target units. Totals differ because of sales tax.<div class="src">${JK}</div></div></li>
-  <li><span class="tag decided">decided</span><div>Top line: joined, bought, posted. No amount owed shown; billing stays off the portal for now.<div class="src">${JK}</div></div></li>
+  <li><span class="tag decided">decided</span><div>Top line: accepted, bought, posted. No amount owed shown; billing stays off the portal for now.<div class="src">${JK}</div></div></li>
   <li><span class="tag decided">decided</span><div>Not shown to Phyla: receipt photos, reimbursed status (admin only, like Nisarg's Target reviews view), returns checks.<div class="src">${JK}</div></div></li>
   <li><span class="tag decided">decided</span><div>Post shows as a small reel tile; Phyla can click it to view. The quality will be mostly bad to mid, so no big content tiles.<div class="src">${JK}</div></div></li>
   <li><span class="tag decided">decided</span><div>"Set it and forget it": Gianna doesn't write or approve the brief, choose creators or review content. "See brief" opens a PDF she can't edit; changes go through email or Slack. It must not look like the regular campaigns, so it doesn't read as a cheaper replacement.<div class="src">${JK}</div></div></li>

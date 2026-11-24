@@ -1000,7 +1000,7 @@ const ROWS = PEOPLE.map(([name, handle, fol], i) => {
     av: IMG[POSTERS[i % POSTERS.length] + '.jpg'], poster: IMG[POSTERS[(i + 2) % POSTERS.length] + '.jpg'],
     cap: CAPS[i % CAPS.length] };
 });
-const LABEL = { posted: 'Posted', bought: 'Bought', joined: 'Joined' };
+const LABEL = { posted: 'Posted', bought: 'Bought', joined: 'Accepted' };
 const NOTE = { posted: 'Reel + story live', bought: 'Post coming', joined: "Hasn't bought yet" };
 const S = { f: 'all', modal: null };
 const dec = (d) => d ? `Dec ${d}` : '';
@@ -1020,7 +1020,7 @@ function stats() {
   const bought = ROWS.filter(r => r.has).length, posted = n('posted');
   const pct = (x) => (x / 25 * 100).toFixed(1) + '%';
   return `<section class="bts-stats" aria-label="Pilot progress">
-    <div class="bts-stat"><span class="k">Joined</span><span class="v">${ROWS.length}<small>of 25</small></span><div class="bts-meter"><i style="width:${pct(ROWS.length)};background:#a1a1aa"></i></div></div>
+    <div class="bts-stat"><span class="k">Accepted</span><span class="v">${ROWS.length}<small>of 25</small></span><div class="bts-meter"><i style="width:${pct(ROWS.length)};background:#a1a1aa"></i></div></div>
     <div class="bts-stat"><span class="k">Bought at Target</span><span class="v">${bought}<small>of 25</small></span><div class="bts-meter"><i style="width:${pct(bought)};background:#7a5cfa"></i></div></div>
     <div class="bts-stat"><span class="k">Posted</span><span class="v">${posted}<small>of 25</small></span><div class="bts-meter"><i style="width:${pct(posted)};background:#2baf87"></i></div></div>
     <div class="bts-stat bts-stat--plan"><span class="k">Your plan</span><span class="v">25 creators · pilot</span><button type="button" class="cs-ghost" data-act="more">${I.mail}Ask for more creators</button></div>
@@ -1030,7 +1030,7 @@ function stats() {
 function table() {
   const counts = { posted: 0, bought: 0, joined: 0 };
   ROWS.forEach(r => counts[r.st]++);
-  const F = [['all', 'All', ROWS.length], ['posted', 'Posted', counts.posted], ['bought', 'Bought', counts.bought], ['joined', 'Joined', counts.joined]];
+  const F = [['all', 'All', ROWS.length], ['posted', 'Posted', counts.posted], ['bought', 'Bought', counts.bought], ['joined', 'Accepted', counts.joined]];
   const pills = F.map(([k, l, c]) => `<button class="cs-filter${S.f === k ? ' is-on' : ''}" data-f="${k}" aria-pressed="${S.f === k}">${l}<span class="cs-count">${c}</span></button>`).join('');
   const rows = ROWS.filter(r => S.f === 'all' || r.st === S.f);
   const row = (r) => `<div class="bts-row">
