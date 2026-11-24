@@ -98,7 +98,7 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid 
 .notes ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; }
 .notes li { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 10px; align-items: baseline; }
 .tag { font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
-.tag.agreed { color: var(--ok); } .tag.research { color: var(--muted); } .tag.proposed { color: var(--accent); } .tag.open { color: var(--warn); } .tag.exists { color: var(--muted); }
+.tag.agreed { color: var(--ok); } .tag.decided { color: #2f6fb0; } .tag.research { color: var(--muted); } .tag.proposed { color: var(--accent); } .tag.open { color: var(--warn); } .tag.exists { color: var(--muted); }
 .notes .src { color: var(--muted); font-size: 12px; }
 .jump { display: flex; flex-wrap: wrap; gap: 6px; }
 .jump button { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 4px 10px; font: 500 12px var(--font); cursor: pointer; }
@@ -150,7 +150,7 @@ tbody tr:hover td { background: var(--weak); }
   <div class="top">
     <div>
       <h1>Buy, Try, Share · Phyla pilot</h1>
-      <p>Prototype for the pilot. Every screen design and line of copy is my proposal. The notes beside each screen say which parts rest on what was agreed with Phyla, what is open, and what already exists in the code.</p>
+      <p>Prototype for the pilot. Updated after the Julia + Katie sync. Notes beside each screen tag every choice: agreed with Phyla, decided by Julia + Katie, open, proposed by me, or already in the code. Screen layout and exact copy are mine unless a note says otherwise.</p>
     </div>
     <div class="seg" role="group" aria-label="View">
       <button id="v-app" aria-pressed="true">Creator app</button>
@@ -197,7 +197,7 @@ tbody tr:hover td { background: var(--weak); }
         <div class="filters" id="filters"></div>
         <div class="tablewrap">
           <table>
-            <thead><tr><th>Creator</th><th>Status</th><th>Receipt</th><th>Store</th><th>Bought</th><th>Total</th><th>Open-bottle photo</th><th>Post</th><th>Returns check</th></tr></thead>
+            <thead><tr><th>Creator</th><th>Status</th><th>Receipt</th><th>Store</th><th>Bought</th><th>Total</th><th>Video</th><th>Post</th><th>Returns check</th></tr></thead>
             <tbody id="rows"></tbody>
           </table>
         </div>
@@ -214,7 +214,14 @@ const tickSvg = '<svg class="tick" viewBox="0 0 20 20" fill="none" stroke="curre
 const camSvg = '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 8h3l2-2.5h6L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.6"/></svg>';
 const bottle = (h=150) => `<svg width="${h*0.42}" height="${h}" viewBox="0 0 42 100" aria-label="Phyla serum bottle"><rect x="15" y="2" width="12" height="18" rx="3" fill="#2f3b36"/><rect x="17" y="18" width="8" height="6" fill="#55625c"/><rect x="5" y="24" width="32" height="74" rx="6" fill="#f7f5ef" stroke="#d5d0c4"/><text x="21" y="56" text-anchor="middle" font-family="Inter,Arial" font-size="7" font-weight="600" fill="#1d2b26">phyla</text><text x="21" y="66" text-anchor="middle" font-family="Inter,Arial" font-size="3.6" fill="#55625c">ACNE PHAGE SERUM</text><text x="21" y="90" text-anchor="middle" font-family="Inter,Arial" font-size="3.4" fill="#8a8f88">1 FL OZ</text></svg>`;
 
-const state = { step: 0, pledge: [false,false,false], receipt: false, photo: false, link: '', file: false };
+const state = { step: 0, receipt: false, checks: [false,false,false,false], link: '', file: false };
+const CHECKS = [
+  'I said <b>Phyla</b> and <b>phage</b> the way the brief shows (phage rhymes with page).',
+  'No medical claims: I didn\'t say it cures or treats acne.',
+  'I mentioned you can get it at Target.',
+  'Good lighting, and the bottle is easy to see.',
+];
+const SRC_JK = 'Julia + Katie sync, Nov 24';
 
 const steps = [
   { title: 'Opportunity', render: () => `
@@ -225,107 +232,64 @@ const steps = [
       </div>
       <div class="label">How it works</div>
       <div class="group">
-        <div class="row"><span class="n">1</span><div class="grow"><b>Buy it at Target</b><div class="sub">In the Beauty Studio, or on target.com</div></div></div>
-        <div class="row"><span class="n">2</span><div class="grow"><b>Try it and keep it</b><div class="sub">Upload your receipt and a photo of the open bottle</div></div></div>
-        <div class="row"><span class="n">3</span><div class="grow"><b>Share one post</b><div class="sub">Instagram or TikTok, within 10 days of buying</div></div></div>
+        <div class="row"><span class="n">1</span><div class="grow"><b>Buy it at Target</b><div class="sub">In store or on target.com</div></div></div>
+        <div class="row"><span class="n">2</span><div class="grow"><b>Make your video</b><div class="sub">Upload it here with your receipt. No waiting for approval.</div></div></div>
+        <div class="row"><span class="n">3</span><div class="grow"><b>Post it and add your link</b><div class="sub">You're paid back once your post is live</div></div></div>
+        <div class="row"><span class="n">4</span><div class="grow"><b>Keep it</b><div class="sub">If you return the product, you lose access to brand collabs on Benable.</div></div></div>
       </div>
-      <p class="note">We pay you back as soon as your post is live and checked. <strong>No approval needed:</strong> if you're in, you're in.</p>
       <p class="note">25 spots · 18 left</p>`,
-    cta: () => `<button class="btn" data-go="1">I'm in</button><div class="hint">You buy it first, then we pay you back.</div>`,
+    cta: () => `<button class="btn" data-go="1" data-toast="You're in. Buy it at Target, then come back here.">I'm in</button><div class="hint">You buy it first, then we pay you back.</div>`,
     notes: [
-      ['agreed','Creators buy at Target, in store or online, post, upload the content file, and get reimbursed in full. No post, no payment.','Tony email to Gianna, Nov 10'],
-      ['agreed','No brand approval of creators and no edits. Benable still checks brand safety before inviting.','Nov 10 email; Gianna did not push back today'],
-      ['open','Pilot of 20 to 25 creators instead of the 100 minimum, then 100 minimum after.','Gianna asked today; Tony said he did not see why not, pending the team. Tony suggests 25 in Slack.'],
-      ['open','Is sales tax reimbursed? "Full price" vs "receipt total" changes the creator promise and Phyla\'s cost.','Ask Gianna'],
-      ['proposed','Spots counter ("18 left") to make it feel like an opportunity, not a coupon.','Claude'],
+      ['agreed','Creators buy at Target, in store or online, post, upload the content file, and get reimbursed in full. No post, no payment. No brand approval of creators.','Tony email to Gianna, Nov 10, accepted on today\'s call'],
+      ['decided','Return rule goes in as the last line of "How it works", not fine print and not a separate pledge screen. Katie asked whether mentioning returns puts the idea in creators\' heads; this was the answer.', SRC_JK],
+      ['decided','Say "keep it", not "use it".', SRC_JK],
+      ['decided','No reason given for the rule (nothing like "Phyla needs to stay on the shelf"). Julia was not comfortable saying that.', SRC_JK],
+      ['decided','25 creators, much smaller than usual (could be about 500 followers). Invite them to the portal today, launch next week.', SRC_JK],
+      ['open','Serum ($55) is the likely product. Phyla also sells the anti-blemish moisturizer ($40) and cleanser ($30) at Target. Confirm with Gianna. Also open: is tax reimbursed?', SRC_JK],
+      ['proposed','Spots counter ("18 left").','Claude'],
     ]},
-  { title: 'Before you join', render: () => `
-      <p class="h4">Before you join</p>
-      <p class="note">Phyla is new at Target, so every real purchase helps them stay on the shelf. That only works if the bottle stays with you.</p>
+  { title: 'Submit', render: () => `
+      <p class="h4">Bought it? Send it in</p>
+      <div class="label">Receipt</div>
+      ${state.receipt ? `<div class="group">
+        <div class="row">${tickSvg}<div class="grow">Phyla Acne Phage Serum · $59.54<div class="sub">Target Austin South Lamar · Dec 2</div></div></div>
+        <div class="row">${tickSvg}<div class="grow">Bought after you joined · receipt not used before</div></div></div>`
+      : `<button class="drop" data-act="receipt">${camSvg}<b>Add receipt</b><span>Photo of the paper receipt or the e-receipt in the Target app</span></button>`}
+      <div class="label">Before you upload</div>
       <div class="group">
-        ${['I\'ll buy it myself at Target, in store or on target.com.','I\'ll keep it and use it. If I return it, I lose access to brand collabs on Benable.','I\'ll post within 10 days of buying, with the Paid Partnership label on.'].map((t,i)=>`
-        <label class="check"><input type="checkbox" data-pledge="${i}" ${state.pledge[i]?'checked':''}><span>${t}</span></label>`).join('')}
+        ${CHECKS.map((t,i)=>`<label class="check"><input type="checkbox" data-check="${i}" ${state.checks[i]?'checked':''}><span>${t}</span></label>`).join('')}
       </div>
-      <p class="note">We match receipts against Phyla's Target returns. A returned bottle shows up.</p>`,
-    cta: () => `<button class="btn" data-go="2" ${state.pledge.every(Boolean)?'':'disabled'}>Join</button>`,
+      <div class="label">Your video</div>
+      ${state.file ? `<div class="group"><div class="row">${tickSvg}<div class="grow">phyla-serum.mov<div class="sub">0:28 · 41 MB</div></div></div></div>` : `<button class="drop" data-act="file">${camSvg}<b>Upload your video</b><span>The video you'll post</span></button>`}`,
+    cta: () => `<button class="btn" data-go="2" data-toast="You're approved. Post it now." ${(state.receipt && state.file && state.checks.every(Boolean))?'':'disabled'}>Submit</button>`,
     notes: [
-      ['agreed','Returning the product makes the creator ineligible for future Benable campaigns. Tony described it today as what Benable already tells creators.','Today\'s call, Tony'],
-      ['proposed','Make the rule a pledge the creator ticks before joining, not fine print. Aisle has the same rule; the difference has to be that our creators read it and care.','Claude'],
-      ['proposed','Explain the why (Phyla needs real Target sales). Creators who see the brand as a person are less likely to game it.','Claude'],
-      ['open','"A returned bottle shows up" is only true if Phyla can share its Target returns data by store and date. Keep the line only once that is confirmed.','Ask Gianna what Aisle matches against'],
-      ['exists','Paid Partnership label rule already applies to gifted campaigns.','Benable compliance memory'],
+      ['agreed','Receipt required: Phyla gets a verified purchase and every receipt in one place Gianna can see.','Nov 10 email; Gianna asked on today\'s call, Tony confirmed'],
+      ['decided','No separate Buy, pledge or open-bottle screens. Submitting works like today\'s content upload.', SRC_JK],
+      ['decided','Open-bottle photo dropped: Target takes opened products back, and the video already shows the product in use.', SRC_JK],
+      ['decided','No Benable review before posting. Instead, a checklist the creator ticks before they can upload: pronunciation, no medical claims, mention Target, lighting and product visible. Benable can still take a creator out if the first few videos are bad.', SRC_JK],
+      ['decided','Why: Buy, Try, Share sells volume, not hand-checked posts. Skipping review means the creator can post the same day, without about 3 days of chasing.', SRC_JK],
+      ['research','Pronunciation is one of the most common fixes today: about 4 to 5 creators per Phyla campaign (Katie).', SRC_JK],
+      ['proposed','Receipt folded into this step. Julia said the receipt does not need its own screen; Katie said creators still turn it in.','Claude, from the sync'],
+      ['exists','AI already reads creator screenshots for Target reviews (ScreenshotReader). A receipt reader is the same pattern.','beneble_app retailer_reviews/screenshot_reader.rb'],
     ]},
-  { title: 'Buy it', render: () => `
-      <p class="h4">Buy it at Target</p>
-      <p class="note">Look in the Target Beauty Studio aisle. Any Target with a Beauty Studio carries it.</p>
-      <div class="label">Near you</div>
-      <div class="group">
-        <div class="row"><div class="grow"><b>Target Austin South Lamar</b><div class="sub">Beauty Studio · open until 10pm</div></div><span class="right">1.2 mi</span></div>
-        <div class="row"><div class="grow"><b>Target Austin Mueller</b><div class="sub">Beauty Studio · open until 11pm</div></div><span class="right">4.8 mi</span></div>
-        <div class="row"><div class="grow"><b>Order on target.com</b><div class="sub">Pickup or delivery works too</div></div><span class="right">›</span></div>
-      </div>
-      <div class="group"><div class="row"><div class="grow"><b>What to buy</b><div class="sub">Phyla Acne Phage Serum, 1 fl oz · $55</div></div></div></div>
-      <p class="note">Keep your paper receipt, or find the e-receipt in the Target app under Purchases.</p>`,
-    cta: () => `<button class="btn" data-go="3">I bought it</button><button class="btn ghost" data-toast="We'll remind you in 3 days.">Remind me later</button>`,
-    notes: [
-      ['exists','611 Target stores with a Beauty Studio, list from Gianna (Oct 2). Logan built store-location matching for Campaign 1.','Phyla deal memory'],
-      ['agreed','Online purchases count.','Nov 10 email: "in store or online"'],
-      ['open','Which SKU: serum only, or the kit too? The Nov 5 call mentioned both; the Nov 10 email does not say.','Ask Gianna'],
-      ['proposed','Nudge at day 3 if they joined but no receipt yet; release the spot at day 7.','Claude'],
-    ]},
-  { title: 'Receipt', render: () => state.receipt ? `
-      <div class="receipt">
-        <div class="c"><b>TARGET</b><br>Austin South Lamar<br>Store T-2279</div><hr>
-        <div class="hl">PHYLA PHAGE SERUM&nbsp;&nbsp;55.00</div>
-        <div>SUBTOTAL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;55.00</div>
-        <div>TAX 8.25%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.54</div>
-        <div><b>TOTAL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;59.54</b></div><hr>
-        <div class="c">12/02/2026 4:18 PM<br>REC# 2279-0412-0081-1203</div>
+  { title: 'Post', render: () => `
+      <div style="text-align:center;padding:10px 0 2px;display:grid;gap:6px;justify-items:center">
+        <svg width="44" height="44" viewBox="0 0 20 20" fill="none" stroke="var(--ok)" stroke-width="1.4"><circle cx="10" cy="10" r="8.6"/><path d="M6.3 10.3l2.4 2.4 5-5.2"/></svg>
+        <p class="h4">You're approved</p>
+        <div class="meta">Post your video now, then add the link here.</div>
       </div>
       <div class="group">
-        <div class="row">${tickSvg}<div class="grow">Phyla Acne Phage Serum found</div></div>
-        <div class="row">${tickSvg}<div class="grow">Bought after you joined (Dec 2)</div></div>
-        <div class="row">${tickSvg}<div class="grow">Receipt not used before</div></div>
-      </div>` : `
-      <p class="h4">Upload your receipt</p>
-      <p class="note">A photo of the paper receipt, or a screenshot of the e-receipt. The item, date and receipt number need to be readable.</p>
-      <button class="drop" data-act="receipt">${camSvg}<b>Add receipt</b><span>Photo or screenshot</span></button>`,
-    cta: () => `<button class="btn" data-go="4" ${state.receipt?'':'disabled'}>Next</button>`,
-    notes: [
-      ['agreed','Gianna asked that we collect every receipt in a database she can see too. Tony confirmed.','Today\'s call'],
-      ['proposed','The upload screen and the AI reading the receipt.','Claude'],
-      ['exists','Benable already reads creator screenshots with AI for Target reviews (ScreenshotReader: stars, name, text). A receipt reader is the same pattern with a new schema: item, store, date, total, receipt number.','beneble_app retailer_reviews/screenshot_reader.rb'],
-      ['proposed','Three automatic checks: right item, bought after joining, receipt number never used before. Anything that fails goes to Katie\'s team, not to the creator as an error.','Claude'],
-      ['open','Tony asked whether the receipt lets us see a return. Target does not offer a public receipt lookup; the receipt number and store are what we can match on. See the study.','Tony, Slack today'],
-      ['open','Note the receipt total ($59.54) is above $55. Same tax question as screen 1.','Ask Gianna'],
-    ]},
-  { title: 'Open it', render: () => state.photo ? `
-      <div class="photo">${bottle(130)}<span class="pill-seam">Seal open · in hand</span></div>
-      <div class="group"><div class="row">${tickSvg}<div class="grow">Open bottle, in your hand</div></div></div>
-      <p class="note">Thanks. That's it until your post.</p>` : `
-      <p class="h4">Show it open</p>
-      <p class="note">One photo of the open bottle in your hand, cap off. It can be the first frame of your video.</p>
-      <button class="drop" data-act="photo">${camSvg}<b>Add photo</b><span>Bottle open, cap off</span></button>`,
-    cta: () => `<button class="btn" data-go="5" ${state.photo?'':'disabled'}>Next</button>`,
-    notes: [
-      ['proposed','Open-bottle photo. Discussed on the Nov 9 call with Gianna (a Benable idea; Aisle\'s own planned fix was proof of use). Never agreed, not raised today.','Nov 9 call'],
-      ['open','Gianna said today Target takes opened skincare back. So this photo is a commitment device more than a block: it raises the effort and the shame of returning, it does not stop a return.','Today\'s call'],
-      ['proposed','Let the first frame of the video count, so it costs the creator nothing extra.','Claude'],
-    ]},
-  { title: 'Share', render: () => `
-      <p class="h4">Share your post</p>
-      <p class="note">Show yourself using it. Tag <strong>@phylaskin</strong> and turn on the Paid Partnership label.</p>
+        <div class="row"><span class="n">1</span><div class="grow">Tag <b>@phylaskin</b></div></div>
+        <div class="row"><span class="n">2</span><div class="grow">Turn on the Paid Partnership label</div></div>
+      </div>
       <div class="label">Link to your post</div>
-      <input class="input" id="link" placeholder="instagram.com/reel/…" value="${state.link}">
-      <div class="label">Video file</div>
-      ${state.file ? `<div class="group"><div class="row">${tickSvg}<div class="grow">phyla-serum.mov<div class="sub">0:28 · 41 MB</div></div></div></div>` : `<button class="drop" data-act="file">${camSvg}<b>Upload the video</b><span>The same video you posted</span></button>`}
-      <p class="note">We check the post is live, tagged and labeled, then pay you.</p>`,
-    cta: () => `<button class="btn" data-go="6" ${(state.link.length>5 && state.file)?'':'disabled'}>Submit</button>`,
+      <input class="input" id="link" placeholder="instagram.com/reel/…" value="${state.link}">`,
+    cta: () => `<button class="btn" data-go="3" ${state.link.length>5?'':'disabled'}>Add link</button>`,
     notes: [
+      ['decided','After upload: "you\'re approved", post, then submit the live link.', SRC_JK],
       ['agreed','Phyla gets a social post and the content file from every creator.','Nov 10 email'],
-      ['agreed','No edits, no brand review of content. Benable checks the post exists.','Nov 10 email'],
-      ['exists','Content upload, post link and the 10-days-after-receipt due date exist in the current campaign flow.','content_deadlines.rb DEFAULT_DAYS_AFTER_RECEIPT = 10'],
-      ['open','What does "checked" mean with no brand review: live + tagged + labeled only, or also a minimum (face, product visible)?','Decide with Katie'],
+      ['exists','Paid Partnership label is required on gifted campaigns too.','Benable compliance rule'],
+      ['open','What Benable checks once the link is in: live, tagged and labeled only? The sync agreed a low bar.', SRC_JK],
     ]},
   { title: 'Paid', render: () => `
       <div style="text-align:center;padding:18px 0 4px;display:grid;gap:6px;justify-items:center">
@@ -334,17 +298,18 @@ const steps = [
         <div class="meta">To your PayPal · usually within 1 business day</div>
       </div>
       <div class="group">
-        <div class="row"><span class="n done">✓</span><div class="grow">Receipt checked<div class="sub">Dec 2</div></div></div>
-        <div class="row"><span class="n done">✓</span><div class="grow">Post live and checked<div class="sub">Dec 6</div></div></div>
-        <div class="row"><span class="n done">✓</span><div class="grow">Paid back<div class="sub">Dec 6 · $59.54, your receipt total</div></div></div>
+        <div class="row"><span class="n done">✓</span><div class="grow">Receipt and video in<div class="sub">Dec 2</div></div></div>
+        <div class="row"><span class="n done">✓</span><div class="grow">Post live<div class="sub">Dec 2</div></div></div>
+        <div class="row"><span class="n done">✓</span><div class="grow">Paid back<div class="sub">Dec 3 · $59.54, your receipt total</div></div></div>
       </div>
       <p class="note">Enjoy the serum. Creators whose posts stand out get invited to Phyla's monthly campaigns.</p>`,
     cta: () => `<button class="btn" data-go="0" data-reset="1">Back to start</button>`,
     notes: [
-      ['agreed','Pay after the post is live. Phyla pays nothing for a creator who does not post.','Nov 10 email; Tony today: "once they provide the proof that they purchased it and the post is up"'],
-      ['exists','PayPal and Venmo payouts already run through creator_payments (send, reconcile, CSV export).','beneble_app creator_payments/'],
-      ['agreed','Standouts get flagged for Phyla\'s monthly campaigns.','Nov 10 email'],
-      ['proposed','Pay on post, but if no Sunday returns sheet has covered the purchase date yet, wait for the next one (at most 7 more days). Not discussed with anyone. See the study.','Claude'],
+      ['decided','Pay all of it after the content is in and the post is live. Not 50% up front.', SRC_JK],
+      ['agreed','Phyla pays nothing for a creator who does not post. Standouts get flagged for the monthly campaigns.','Nov 10 email'],
+      ['open','Katie\'s idea: a $5 bonus once the 90-day return window closes. Not decided; there is no way yet to prove they still have it.', SRC_JK],
+      ['proposed','If no Sunday returns sheet has covered the purchase date yet, wait for the next one before paying (at most 7 more days). Not discussed in the sync.','Claude'],
+      ['exists','PayPal and Venmo payouts run through creator_payments.','beneble_app creator_payments/'],
     ]},
 ];
 
@@ -361,22 +326,20 @@ function render() {
     <h2>${state.step+1}. ${s.title}</h2>
     <ul>${s.notes.map(([t, txt, src]) => `<li><span class="tag ${t}">${t}</span><div>${txt}<div class="src">${src}</div></div></li>`).join('')}</ul>`;
 }
-function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('show'), 1800); }
+function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('show'), 2000); }
 
 document.addEventListener('click', (e) => {
   const go = e.target.closest('[data-go]');
   if (go && !go.disabled) {
-    if (go.dataset.reset) Object.assign(state, { pledge: [false,false,false], receipt: false, photo: false, link: '', file: false });
-    state.step = +go.dataset.go; render(); return;
+    if (go.dataset.reset) Object.assign(state, { receipt: false, checks: [false,false,false,false], link: '', file: false });
+    state.step = +go.dataset.go; render(); if (go.dataset.toast) toast(go.dataset.toast); return;
   }
   const j = e.target.closest('[data-jump]');
-  if (j) { const n = +j.dataset.jump; if (n >= 2) state.pledge = [true,true,true]; if (n >= 4) state.receipt = true; if (n >= 5) state.photo = true; if (n >= 6) { state.link = 'instagram.com/reel/DfQ2x9'; state.file = true; } state.step = n; render(); return; }
+  if (j) { const n = +j.dataset.jump; if (n >= 2) { state.receipt = true; state.file = true; state.checks = [true,true,true,true]; } if (n >= 3) state.link = 'instagram.com/reel/DfQ2x9'; state.step = n; render(); return; }
   const a = e.target.closest('[data-act]');
-  if (a) { const k = a.dataset.act; if (k === 'receipt') state.receipt = true; if (k === 'photo') state.photo = true; if (k === 'file') state.file = true; render(); if (k==='receipt') toast('Receipt read in 2 seconds'); return; }
-  const t = e.target.closest('[data-toast]');
-  if (t) { toast(t.dataset.toast); return; }
+  if (a) { const k = a.dataset.act; if (k === 'receipt') state.receipt = true; if (k === 'file') state.file = true; render(); if (k==='receipt') toast('Receipt read in 2 seconds'); return; }
 });
-document.addEventListener('change', (e) => { if (e.target.dataset.pledge) { state.pledge[+e.target.dataset.pledge] = e.target.checked; $('#cta').innerHTML = steps[state.step].cta(); } });
+document.addEventListener('change', (e) => { if (e.target.dataset.check) { state.checks[+e.target.dataset.check] = e.target.checked; $('#cta').innerHTML = steps[state.step].cta(); } });
 document.addEventListener('input', (e) => { if (e.target.id === 'link') { state.link = e.target.value; $('#cta').innerHTML = steps[state.step].cta(); } });
 $('#back').addEventListener('click', () => { if (state.step > 0) { state.step--; render(); } });
 
@@ -392,10 +355,10 @@ const rows = names.map((n, i) => {
   const day = 1 + (i % 6);
   const tax = city === 'Online' ? 4.40 : [4.54, 4.54, 4.54, 4.42, 5.67, 4.62, 4.40][i % 7];
   return { n, st, has, sid, city, date: has ? `Dec ${day + 1}` : '', day, total: has ? (55 + tax) : 0,
-    photo: has, post: (st === 'paid' || st === 'posted') ? 'Reel' : '',
+    photo: has && st !== 'bought', post: (st === 'paid' || st === 'posted') ? 'Reel' : '',
     ret: st === 'flag' ? 'Return at same store, Dec 4' : has ? (day <= 3 ? 'No return found' : 'Waiting for next report') : '' };
 });
-const label = { paid: 'Paid', posted: 'Posted, checking', bought: 'Bought, not posted', joined: 'Joined', flag: 'Check: possible return' };
+const label = { paid: 'Paid', posted: 'Posted, paying', bought: 'Bought, not posted', joined: 'Joined', flag: 'Check: possible return' };
 let filter = 'all', sel = 0;
 
 function renderPortal() {
@@ -407,7 +370,7 @@ function renderPortal() {
   $('#stats').innerHTML = [
     ['Joined', `${rows.length} of 25`, 'no approvals'],
     ['Bought', bought, `${bought} receipts verified`],
-    ['Posted', c('paid') + c('posted'), `${c('posted')} being checked`],
+    ['Posted', c('paid') + c('posted'), `${c('posted')} payment sending`],
     ['Paid back', paid.length, `${paid.length} creators`],
     ['Owed so far', '$' + (fee + reimb).toFixed(2), `${paid.length} × $19 = $${fee} + $${reimb.toFixed(2)} receipts`],
   ].map(([k, v, f]) => `<div class="stat"><span class="k">${k}</span><span class="v">${v}</span><span class="f">${f}</span></div>`).join('');
@@ -428,7 +391,7 @@ function renderPortal() {
     <td>${r.has ? `${r.city}<div class="meta">${r.sid}</div>` : ''}</td>
     <td>${r.date}</td>
     <td>${r.has ? '$' + r.total.toFixed(2) : ''}</td>
-    <td>${r.photo ? '<span class="ok">Open, in hand</span>' : ''}</td>
+    <td>${r.photo ? '<span class="ok">Uploaded</span>' : ''}</td>
     <td>${r.post ? `<a href="#" onclick="return false" style="color:var(--accent)">${r.post}</a>` : ''}</td>
     <td>${r.st === 'flag' ? `<span class="st flag">${r.ret}</span>` : `<span class="meta">${r.ret}</span>`}</td></tr>`).join('');
 
@@ -439,7 +402,7 @@ function renderPortal() {
       <div><b style="font-weight:600;font-size:15px">@${r.n}</b> <span class="st ${r.st}" style="margin-left:8px">${label[r.st]}</span></div>
       <dl>
         <dt>Receipt checks</dt><dd>${r.has ? 'Right item · bought after joining · receipt number unique' : '—'}</dd>
-        <dt>Open-bottle photo</dt><dd>${r.photo ? 'Yes' : '—'}</dd>
+        <dt>Video file</dt><dd>${r.photo ? 'Uploaded, checklist ticked' : '—'}</dd>
         <dt>Post</dt><dd>${r.post ? 'Live · tagged @phylaskin · Paid Partnership on' : '—'}</dd>
         <dt>Returns check</dt><dd>${r.ret || '—'}</dd>
         ${r.st === 'flag' ? '<dt>Next step</dt><dd>Katie\'s team asks the creator for a photo of the bottle. No reply in 3 days: payment stays on hold and the creator loses collab access.</dd>' : ''}
@@ -452,7 +415,7 @@ document.addEventListener('click', (e) => {
 });
 $('#pnotes').innerHTML = `<h2>What this view is for</h2><ul>
   <li><span class="tag agreed">agreed</span><div>Gianna sees every receipt. She asked on today's call to see all receipts in one place, and Tony said yes.<div class="src">Today's call</div></div></li>
-  <li><span class="tag proposed">proposed</span><div>This whole screen, its layout and every column. Not discussed with anyone.<div class="src">Claude</div></div></li>
+  <li><span class="tag proposed">proposed</span><div>This whole screen, its layout and every column. The brand side was next on the Julia + Katie agenda and not discussed yet.<div class="src">Claude</div></div></li>
   <li><span class="tag agreed">agreed</span><div>Pay only per completed post, content file and verified purchase: $19 + the reimbursement. Nothing upfront.<div class="src">Nov 10 email</div></div></li>
   <li><span class="tag proposed">proposed</span><div>Purchases by day, because Gianna's real goal is Target units week over week (~300 a week bar from Nov 5).<div class="src">Claude, from the Nov 5 call</div></div></li>
   <li><span class="tag open">open</span><div>The returns column depends on Phyla sending its Target returns by store and date each week. If Target only gives totals, this column becomes a single weekly number, and per-creator flags go away.<div class="src">Ask Gianna what report Aisle uses</div></div></li>
