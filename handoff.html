@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Buy, Try, Share Build Handoff</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one reading column of build specs, grouped by surface; every line is decided */
+:root { --bg: #fafafa; --surface: #fff; --ink: #1c1c1c; --muted: #6b6b70; --line: #e3e3e3; --weak: #f2f1f5; --accent: #7a5cfa; --font: "Inter", -apple-system, "Segoe UI", Roboto, sans-serif; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #121214; --surface: #1b1b1e; --ink: #f1f1f3; --muted: #a2a2aa; --line: #303036; --weak: #222228; --accent: #9b85ff; color-scheme: dark; } }
+:root[data-theme="dark"] { --bg: #121214; --surface: #1b1b1e; --ink: #f1f1f3; --muted: #a2a2aa; --line: #303036; --weak: #222228; --accent: #9b85ff; color-scheme: dark; }
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 15px; line-height: 1.6; margin: 0; }
+.wrap { max-width: 820px; margin: 0 auto; padding-block: 40px 72px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 36px; }
+h1, h2, h3 { margin: 0; line-height: 1.25; font-weight: 600; text-wrap: balance; }
+h1 { font-size: clamp(26px, 4vw, 34px); } h2 { font-size: 20px; } h3 { font-size: 15px; }
+p { margin: 0; max-width: 68ch; }
+.eyebrow { font-size: 12px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+header, section { display: grid; gap: 12px; }
+.muted { color: var(--muted); } .small { font-size: 13px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+.box { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; display: grid; gap: 10px; min-width: 0; }
+ul, ol { margin: 0; padding-left: 20px; display: grid; gap: 6px; } li { max-width: 70ch; }
+.tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 560px; }
+th { text-align: left; font-weight: 500; color: var(--muted); background: var(--weak); padding: 9px 14px; border-bottom: 1px solid var(--line); }
+td { padding: 9px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: 0; }
+.links { display: flex; flex-wrap: wrap; gap: 10px; }
+.links a { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; text-decoration: none; font-weight: 500; font-size: 14px; color: var(--ink); }
+footer { border-top: 1px solid var(--line); padding-top: 16px; font-size: 13px; color: var(--muted); }
+</style>
+</head><body>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Buy, Try, Share · Build handoff · Nov 24, 2026</div>
+    <h1>What to build for the Phyla pilot</h1>
+    <p>Everything on this page was decided on the Nov 24 calls (Julia, Katie, Amine; Tony and Gianna for the deal). Open items are listed separately at the end, so nothing here needs a second guess.</p>
+    <div class="links"><a href="brand.html">Brand Portal page</a><a href="prototype.html#app">Creator flow prototype</a><a href="https://www.figma.com/design/8rB3KQsQhmJrnQk3EFkcDx/Design-Labs?node-id=16022-60354" target="_blank" rel="noopener">Figma: opportunity screen (Amine)</a></div>
+    <p class="small muted">Amine's Figma is the source of truth for creator-side visuals. The prototype shows the flow and logic.</p>
+  </header>
+
+  <section>
+    <h2>The deal in one paragraph</h2>
+    <p>Rising creators (200 to 999 followers, posting skincare) buy Phyla Acne Phage Serum ($55) at Target, in store or online, upload their receipt and video, post one feed post and one story, and get the serum plus tax paid back. No brand approval and no Benable review. Pilot: 25 creators, then 100 minimum. Phyla pays $19 per creator plus reimbursements; billing stays off the portal.</p>
+  </section>
+
+  <section>
+    <h2>Recruiting</h2>
+    <ul>
+      <li>New Dashboard group <b>"Buy, Try, Share"</b>, wired like the existing ABC flows. Adding creators to it keeps them out of the standard onboarding messages.</li>
+      <li>Logan's list of about 300 creators. Katie adds the copy to the group; first send planned for Nov 25 around 10am.</li>
+      <li>They go through the normal Brand Portal onboarding (terms included).</li>
+      <li>These creators stay out of regular collabs.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Creator app</h2>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Screen</th><th>What it does</th></tr></thead>
+      <tbody>
+        <tr><td>Opportunity tile</td><td>Existing tile component, stronger purple, "Buy, Try, Share" label, Target mark, product price on the card. No founder photo.</td></tr>
+        <tr><td>Opportunity page</td><td>Amine's Figma screen: big product shot, "Phyla Acne Phage Serum" in full, "You buy, we reimburse", "Shop online or in store", How it works 1 to 4 (buy at Target, make your video, post it, keep it), creator brief as a PDF, footer "$55 + tax back" next to <b>I'm in</b>.</td></tr>
+        <tr><td>Before you join</td><td>Checklist, all boxes required before <b>Join</b>: buy it myself at Target (store or online); keep and upload my receipt; keep the product, returning it ends brand collab access; paid back once feed post and story are live.</td></tr>
+        <tr><td>Step 1 of 4</td><td>In store or online (radio). Stored for reporting; changes nothing else.</td></tr>
+        <tr><td>Step 2 of 4</td><td>Add receipt. Nothing else on this screen.</td></tr>
+        <tr><td>Step 3 of 4</td><td>Upload video (existing upload design). Tapping upload opens a bottom sheet checklist: pronunciation of Phyla and phage, no medical claims, mention Target, good lighting with the bottle visible. Upload approves the creator immediately; no review.</td></tr>
+        <tr><td>Step 4 of 4</td><td>Time to post: tag @phylaskin, copy the affiliate link (block from the existing design), add feed post link and story link. No "turn on Paid Partnership" toggle.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="box">
+      <h3>Rules</h3>
+      <ul>
+        <li>Progress: 4 segments, no labels, one countdown for the whole flow.</li>
+        <li>Deadline: 10 days to post, shipping time included.</li>
+        <li>Payout: triggered when both posts are live, not by a date. Amount = the serum plus its tax from the receipt, sent through the existing PayPal / Venmo payouts.</li>
+        <li>Usage rights: in perpetuity, stated in the creator brief and terms. No extra UI.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Brand Portal</h2>
+    <ul>
+      <li>Its own <b>"Buy, Try, Share"</b> item in the left nav, separate from Campaigns. Same table design as the Rights tab.</li>
+      <li>Header: title, Active pill, one-line description, <b>See brief</b> (PDF; the only actions are download or email Katie).</li>
+      <li>Four cards, no progress bars: Accepted, Bought at Target, Posted (each "x of 25" with a small %), and Your pilot (25 creators, with a link to ask for more, which emails Katie).</li>
+      <li>Filters: All, Posted, Bought, Accepted, with counts.</li>
+      <li>Table columns, in order: Creator (photo, name, handle; no follower count), Bought at (store name and city, or target.com), Bought on, Total paid (serum plus tax), Status (Accepted / Bought / Posted with a short note), Post (thumbnail).</li>
+      <li>Clicking the thumbnail opens the Instagram post directly. No in-portal viewer.</li>
+      <li>Not shown to the brand: receipt photos, reimbursed status, returns checks, amount owed.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Admin and data</h2>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Need</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td>Receipt reading</td><td>Store (or online), date, the serum line and its tax only, even when the order has other items. Same pattern as the Target review screenshot reader.</td></tr>
+        <tr><td>Creator status</td><td>Accepted → Bought (receipt in) → Posted (both links in).</td></tr>
+        <tr><td>Per creator</td><td>In store / online choice, receipt fields, video file, feed post link, story link, affiliate link.</td></tr>
+        <tr><td>Reimbursed</td><td>Admin only, like the Target reviews view. Not on the brand side.</td></tr>
+        <tr><td>Deadline extension</td><td>Dashboard input to give one creator extra days. Target: end of next week, after launch.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>Timeline</h2>
+    <ul>
+      <li>Nov 25, 9:30am: Tony review (Julia, Amine). Amine finishes the receipt, video and post screens before that.</li>
+      <li>Nov 25: brand page to dev; creator invites go out.</li>
+      <li>Target launch: Tue Dec 1.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Still open (not for the build yet)</h2>
+    <ul>
+      <li>Is Phyla set up as an affiliate partner? Needed before Step 4's link works.</li>
+      <li>Product: serum assumed; Gianna to confirm versus the moisturizer or cleanser.</li>
+      <li>Black Friday / Cyber Monday shipping may squeeze the 10 days.</li>
+    </ul>
+  </section>
+
+  <footer>Sources: Granola notes and transcripts of the Nov 24 calls (Tony and Gianna; Julia and Katie; Julia and Amine, 10:23am and 2pm; Julia, Katie and Amine, 2:40pm), Tony's Nov 10 proposal email, Amine's Figma screen.</footer>
+</div>
+</body></html>

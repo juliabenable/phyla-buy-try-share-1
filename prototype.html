@@ -162,6 +162,42 @@ tbody tr:hover td { background: var(--weak); }
 .pdf b { color: var(--ink); }
 .copyline { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 4px; }
 .copy { border: 0; background: var(--accent-weak); color: var(--accent); border-radius: 8px; padding: 4px 10px; font: 600 12px var(--font); cursor: pointer; }
+
+/* creator flow v2 (Figma Onboarding 1974 + 4-step flow) */
+.phone { position: relative; }
+.btn.sm { width: auto; padding: 12px 40px; }
+.ctarow { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.ctarow b { font-size: 16px; }
+.pimg { height: 220px; margin: 0 40px; border-radius: 20px; background: radial-gradient(circle at 50% 40%, #ffffff, #e9e9ea 70%); display: grid; place-items: center; box-shadow: 0 2px 10px #0000000f; }
+.brandline { display: flex; align-items: center; gap: 10px; padding: 12px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.logo.sm { width: 28px; height: 28px; font-size: 10px; }
+.feat { display: grid; grid-template-columns: 24px minmax(0,1fr); gap: 14px; align-items: start; }
+.feat b { font-weight: 600; font-size: 15px; }
+.ficon { width: 24px; height: 24px; display: grid; place-items: center; color: var(--muted); font-size: 11px; font-weight: 700; border-radius: 6px; flex: none; }
+.group .ficon { width: 32px; height: 32px; background: var(--weak); color: var(--stop); font-size: 9px; }
+.hiw .row { padding: 8px 0; }
+.hiw .row + .row { border-top: 0; }
+.hiw .n { width: 30px; height: 30px; font-size: 13px; color: var(--ink); }
+.fhead { display: flex; align-items: center; gap: 10px; padding-bottom: 4px; }
+.fhead .grow { flex: 1; min-width: 0; }
+.fback { border: 0; background: none; font-size: 24px; line-height: 1; color: var(--ink); cursor: pointer; padding: 0 4px 0 0; }
+.fhead b { font-size: 14px; } .fhead .vb { font-size: 13px; font-weight: 600; }
+.segs { display: flex; gap: 4px; margin: 0 0 6px; } .segs i { flex: 1; height: 3px; border-radius: 2px; background: var(--line); } .segs i.on { background: var(--ink); }
+.rcard { display: flex; gap: 12px; align-items: flex-start; text-align: left; width: 100%; padding: 14px 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); color: var(--ink); font: inherit; cursor: pointer; }
+.rcard b { font-weight: 600; } .rcard.on { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.radio { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid #c6c6c6; flex: none; margin-top: 1px; }
+.rcard.on .radio { border: 6px solid var(--ink); }
+.duebar { margin-top: auto; display: flex; align-items: center; justify-content: space-between; padding-top: 8px; }
+.duebar b { font-size: 16px; } .duepill { font-size: 12px; font-weight: 600; color: var(--accent); background: var(--accent-weak); padding: 4px 10px; border-radius: 999px; }
+.btile { width: 100%; border: 0; text-align: left; cursor: pointer; border-radius: 16px; padding: 14px; background: #6b4cf0; color: #fff; display: grid; gap: 12px; font: inherit; }
+.btile-top { display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; } .btile-tag { background: #ffffff2b; padding: 3px 8px; border-radius: 999px; } .btile-tgt { opacity: .85; }
+.btile-body { display: flex; gap: 12px; align-items: center; } .btile-img { width: 64px; height: 80px; border-radius: 10px; background: #fff; display: grid; place-items: center; flex: none; }
+.btile-body b { font-size: 15px; } .btile-price { font-size: 20px; font-weight: 700; margin-top: 2px; } .btile-sub { font-size: 12px; opacity: .85; }
+.ghosttile { height: 96px; border-radius: 16px; background: var(--weak); }
+#sheet { position: absolute; inset: 0; z-index: 5; }
+.sheet-scrim { position: absolute; inset: 0; background: #0000004d; }
+.sheet { position: absolute; left: 0; right: 0; bottom: 0; background: var(--phone-bg); border-radius: 20px 20px 0 0; padding: 10px 16px 30px; display: grid; gap: 12px; box-shadow: 0 -8px 30px #00000026; }
+.grab { width: 36px; height: 4px; border-radius: 2px; background: var(--line); justify-self: center; }
 </style>
 </head><body>
 
@@ -169,7 +205,7 @@ tbody tr:hover td { background: var(--weak); }
   <div class="top">
     <div>
       <h1>Buy, Try, Share · Phyla pilot</h1>
-      <p>Prototype for the pilot. Updated after the Julia + Katie sync. Notes beside each screen tag every choice: agreed with Phyla, decided by Julia + Katie, open, proposed by me, or already in the code. Screen layout and exact copy are mine unless a note says otherwise.</p>
+      <p>Prototype for the pilot. Creator flow rebuilt on Amine's Figma opportunity screen and the 4-step flow decided on the Nov 24 calls. Notes beside each screen tag every choice: agreed with Phyla, decided on our calls, open, proposed by me, or already in the code. Amine's Figma is the source of truth for visuals.</p>
     </div>
     <div class="seg" role="group" aria-label="View">
       <button id="v-app" aria-pressed="true">Creator app</button>
@@ -185,6 +221,7 @@ tbody tr:hover td { background: var(--weak); }
       <div class="scroll" id="screen"></div>
       <div class="cta" id="cta"></div>
       <div class="toast" id="toast"></div>
+      <div id="sheet" hidden></div>
     </div>
     <aside class="notes" id="notes"></aside>
   </div>
@@ -231,135 +268,168 @@ tbody tr:hover td { background: var(--weak); }
 const $ = (s) => document.querySelector(s);
 const tickSvg = '<svg class="tick" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="10" cy="10" r="8.2"/><path d="M6.3 10.3l2.4 2.4 5-5.2"/></svg>';
 const camSvg = '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 8h3l2-2.5h6L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.6"/></svg>';
-const bottle = (h=150) => `<svg width="${h*0.42}" height="${h}" viewBox="0 0 42 100" aria-label="Phyla serum bottle"><rect x="15" y="2" width="12" height="18" rx="3" fill="#2f3b36"/><rect x="17" y="18" width="8" height="6" fill="#55625c"/><rect x="5" y="24" width="32" height="74" rx="6" fill="#f7f5ef" stroke="#d5d0c4"/><text x="21" y="56" text-anchor="middle" font-family="Inter,Arial" font-size="7" font-weight="600" fill="#1d2b26">phyla</text><text x="21" y="66" text-anchor="middle" font-family="Inter,Arial" font-size="3.6" fill="#55625c">ACNE PHAGE SERUM</text><text x="21" y="90" text-anchor="middle" font-family="Inter,Arial" font-size="3.4" fill="#8a8f88">1 FL OZ</text></svg>`;
+const bottle = (h=150) => `<svg width="${h*0.36}" height="${h}" viewBox="0 0 36 100" aria-label="Phyla serum bottle"><defs><linearGradient id="bg1" x1="0" x2="1"><stop offset="0" stop-color="#2a2a2a"/><stop offset=".55" stop-color="#111"/><stop offset="1" stop-color="#262626"/></linearGradient></defs><rect x="6" y="2" width="24" height="96" rx="5" fill="url(#bg1)"/><circle cx="15" cy="14" r="1" fill="#ddd"/><circle cx="18" cy="14" r="1" fill="#ddd"/><circle cx="21" cy="14" r="1" fill="#ddd"/><text x="18" y="27" text-anchor="middle" font-family="Inter,Arial" font-size="3.4" fill="#ddd">Acne</text><text x="18" y="31" text-anchor="middle" font-family="Inter,Arial" font-size="3.4" fill="#ddd">Phage Serum</text><text transform="translate(21 76) rotate(-90)" font-family="Inter,Arial" font-size="9" font-weight="700" letter-spacing="1" fill="#f2f2f2">PHYLA</text></svg>`;
 
-const state = { step: 0, commit: [false,false,false,false], receipt: false, checks: [false,false,false,false,false], link: '', story: '', file: false };
+const state = { step: 0, commit: [false,false,false,false], how: '', receipt: false, checks: [false,false,false,false], file: false, sheet: false, link: '', story: '' };
+const blank = () => ({ commit: [false,false,false,false], how: '', receipt: false, checks: [false,false,false,false], file: false, sheet: false, link: '', story: '' });
+const JK = 'Julia + Katie + Amine call, Nov 24 (2:40pm)';
+const AM = 'Julia + Amine calls, Nov 24';
+const COMMIT = [
+  'I\'ll buy it myself at Target, in store or on target.com.',
+  'I\'ll keep my receipt and upload it here.',
+  'I\'ll keep the product. If I return it, I lose access to brand collabs on Benable.',
+  'I get paid back once my feed post and story are live.',
+];
 const CHECKS = [
   'I said <b>Phyla</b> and <b>phage</b> the way the brief shows (phage rhymes with page).',
   'No medical claims: I didn\'t say it cures or treats acne.',
   'I mentioned you can get it at Target.',
   'Good lighting, and the bottle is easy to see.',
-  'I\'ll tag <b>@phylaskin</b> in my post and story.',
 ];
-const COMMIT = [
-  'I\'ll buy it myself at Target, in store or on target.com.',
-  'I\'ll be paid back after I upload my video and my post is live.',
-  'I\'ll keep the product.',
-  'If I return it, I lose access to brand collabs on Benable.',
-];
-const JK = 'Julia + Katie sync, Nov 24';
-const blank = () => ({ commit: [false,false,false,false], receipt: false, checks: [false,false,false,false,false], link: '', story: '', file: false });
+const FLOW_FIRST = 3; /* steps 3..6 are the 4-step flow */
+const due = '<div class="duebar"><div><div class="meta">Post by</div><b>Mon, Dec 14</b></div><span class="duepill">10 days left</span></div>';
+const flowHead = () => `<div class="fhead"><button class="fback" data-back aria-label="Back">‹</button><div class="logo sm">ph</div><div class="grow"><b>Phyla</b><div class="meta">Acne Phage Serum</div></div><span class="vb">View brief</span></div>
+  <div class="segs">${[0,1,2,3].map(i => `<i class="${state.step - FLOW_FIRST >= i ? 'on' : ''}"></i>`).join('')}</div>`;
 
 const steps = [
+  { title: 'Opportunities', nav: false, render: () => `
+      <p class="h4" style="margin-top:4px">For you</p>
+      <button class="btile" data-go="1" aria-label="Open the Phyla opportunity">
+        <div class="btile-top"><span class="btile-tag">Buy, Try, Share</span><span class="btile-tgt">at Target</span></div>
+        <div class="btile-body"><div class="btile-img">${bottle(70)}</div><div class="grow"><b>Phyla Acne Phage Serum</b><div class="btile-price">$55 + tax back</div><div class="btile-sub">Buy it, post it, get paid back</div></div></div>
+      </button>
+      <div class="ghosttile"></div><div class="ghosttile"></div>`,
+    cta: () => '',
+    notes: [
+      ['decided','Same tile component as other opportunities, in the stronger purple, labelled "Buy, Try, Share", with a Target mark.', AM],
+      ['decided','Add the price to the tile. Katie liked the stronger purple as the main version.', JK],
+      ['decided','No founder photo on this tile.', JK],
+      ['decided','"Buy, Try, Share" stays as the name. Katie: creators may not get it at first, but it makes sense once they see the flow.', JK],
+    ]},
   { title: 'Opportunity', render: () => `
-      <div class="hero">${bottle(160)}<span class="pill-seam">For rising creators</span></div>
-      <div class="brandrow"><div class="logo">ph</div><div><p class="h4">Phyla</p><div class="meta">Buy, Try, Share · Acne Phage Serum at Target</div></div></div>
-      <div class="group">
-        <div class="money" style="padding:14px"><div><div class="meta">You get back</div><div class="big">Full price</div></div><div class="meta" style="text-align:right">$55 at Target<br>paid to PayPal or Venmo</div></div>
-      </div>
+      <div class="pimg">${bottle(150)}</div>
+      <div style="text-align:center;display:grid;gap:2px"><p class="h4" style="font-size:20px">Phyla Acne Phage Serum</p><div class="meta">Buy, Try, Share · at Target</div></div>
+      <div class="brandline"><div class="logo sm">ph</div><b>Phyla</b></div>
+      <div class="feat"><span class="ficon">$</span><div><b>You buy, we <span style="color:var(--accent)">reimburse</span></b><div class="meta">We pay back what you paid for the serum, tax included, to your PayPal or Venmo once your posts are live.</div></div></div>
+      <div class="feat"><span class="ficon">⌂</span><div><b>Shop online or in store</b><div class="meta">Pick it up at Target or order on target.com. Keep your receipt.</div></div></div>
       <div class="label">How it works</div>
-      <div class="group">
-        <div class="row"><span class="n">1</span><div class="grow"><b>Buy it at Target</b><div class="sub">In store or on target.com</div></div></div>
-        <div class="row"><span class="n">2</span><div class="grow"><b>Make your video</b><div class="sub">Upload it here with your receipt</div></div></div>
-        <div class="row"><span class="n">3</span><div class="grow"><b>Post it</b><div class="sub">One feed post and one story. You're paid back once it's live.</div></div></div>
+      <div class="hiw">
+        <div class="row"><span class="n">1</span><div class="grow"><b>Buy it at Target</b><div class="sub">In store or on target.com.</div></div></div>
+        <div class="row"><span class="n">2</span><div class="grow"><b>Make your video</b><div class="sub">Upload it here with your receipt.</div></div></div>
+        <div class="row"><span class="n">3</span><div class="grow"><b>Post it</b><div class="sub">One feed post and one story. We pay you back as soon as both are live.</div></div></div>
         <div class="row"><span class="n">4</span><div class="grow"><b>Keep it</b><div class="sub">If you return the product, you lose access to brand collabs on Benable.</div></div></div>
       </div>
-      <div class="group"><div class="row"><div class="grow"><b>Brief</b><div class="sub">What to say and show · PDF</div></div><span class="right" style="color:var(--accent)">Open</span></div></div>
-      <p class="note">25 spots · 18 left</p>`,
-    cta: () => `<button class="btn" data-go="1">I'm in</button><div class="hint">You buy it first, then we pay you back.</div>`,
+      <div class="group"><div class="row"><span class="ficon">PDF</span><div class="grow"><b>Creator brief</b><div class="sub">What to say and show · PDF</div></div><span class="right">›</span></div></div>`,
+    cta: () => `<div class="ctarow"><div><b>$55 + tax back</b><div class="meta">You buy first, we pay you back</div></div><button class="btn sm" data-go="2">I'm in</button></div>`,
     notes: [
-      ['agreed','Creators buy at Target, in store or online, post, upload the content file, and get reimbursed in full. No post, no payment. No brand approval of creators.','Tony email to Gianna, Nov 10, accepted on today\'s call'],
-      ['decided','Rising creators: 200 to 999 followers who actively post skincare. Logan pulls the list; invited to the portal today with "rising creator" language; they go through regular onboarding. Katie writes the invite copy.', JK],
-      ['decided','Posting is one in-feed post and one story. Katie: Phyla will want the permanence of a feed post for 100% reimbursement; Julia: stories are what move sales.', JK],
-      ['decided','Brief is a PDF, adapted from the in-store brief Phyla already gave us. Same brief every month.', JK],
-      ['decided','Return rule is line 4 of "How it works", worded "keep it". No reason about staying on the shelf.', JK],
-      ['open','Product: serum ($55) likely. Moisturizer ($40) and cleanser ($30) are also at Target. Confirm with Gianna.', JK],
-      ['proposed','"For rising creators" pill and spots counter.','Claude'],
+      ['decided','Layout is Amine\'s Figma screen (Onboarding 1974): big product, "You buy, we reimburse", "Shop online or in store", How it works 1 to 4, creator brief PDF, "$55 + tax back" in the footer next to I\'m in.', 'Figma, Design Labs'],
+      ['decided','Full product name in both spots: Phyla Acne Phage Serum.', JK],
+      ['decided','Step 3 says paid back as soon as the posts are live (feed post and story), not a date.', JK],
+      ['decided','Return rule lives in the "Keep it" subtitle, not a separate "Things to know" section.', JK],
+      ['decided','No "check your store" caveat. Katie: creators can check online, and many will just order online.', JK],
+      ['proposed','Copy for Katie\'s worry that "$55 + tax" means only $55 back: "We pay back what you paid for the serum, tax included". Also "Keep your receipt" added to the shop line, since in-store buyers need the paper receipt.', 'Claude'],
+      ['proposed','Figma copy fixes: "loose" → "lose"; "We reimburse you back" → "We pay you back"; the subtitle repeats the product name twice.', 'Claude'],
     ]},
   { title: 'Before you join', render: () => `
       <p class="h4">Before you join</p>
       <p class="note">Tick each one to confirm.</p>
-      <div class="group">
-        ${COMMIT.map((t,i)=>`<label class="check"><input type="checkbox" data-commit="${i}" ${state.commit[i]?'checked':''}><span>${t}</span></label>`).join('')}
-      </div>`,
-    cta: () => `<button class="btn" data-go="2" data-toast="You're in. Buy it at Target, then come back here." ${state.commit.every(Boolean)?'':'disabled'}>Join</button>`,
+      <div class="group">${COMMIT.map((t,i) => `<label class="check"><input type="checkbox" data-commit="${i}" ${state.commit[i]?'checked':''}><span>${t}</span></label>`).join('')}</div>`,
+    cta: () => `<button class="btn" data-go="3" data-toast="You're in!" ${state.commit.every(Boolean)?'':'disabled'}>Join</button>`,
     notes: [
-      ['decided','Restored. Before joining, the creator confirms what they will do: buy it at Target (store or online), get paid back after the video is in and the post is live, keep it, and lose collab access if they return it. Julia flagged at the end of the sync that this "1, 2, 3" step had been lost.', JK],
-      ['decided','"Keep it", not "keep it and use it".', JK],
+      ['decided','Creators tick every line, then Join.', JK],
+      ['decided','An explicit line about keeping and uploading the receipt. Katie: even with bigger creators it took several reminders.', JK],
+      ['decided','"Keep the product" and "return = lose collab access" merged into one line.', JK],
+      ['decided','These creators are new, so they go through the normal Brand Portal onboarding (terms included) before this.', JK],
     ]},
-  { title: 'Submit', render: () => `
-      <p class="h4">Bought it? Send it in</p>
-      <div class="label">Receipt</div>
-      ${state.receipt ? `<div class="group"><div class="row">${tickSvg}<div class="grow">Phyla Acne Phage Serum · $59.54<div class="sub">Target Austin South Lamar · Dec 2</div></div></div></div>`
-      : `<button class="drop" data-act="receipt">${camSvg}<b>Add receipt</b><span>Photo of the paper receipt or the e-receipt in the Target app</span></button>`}
-      <div class="label">Before you upload</div>
-      <div class="group">
-        ${CHECKS.map((t,i)=>`<label class="check"><input type="checkbox" data-check="${i}" ${state.checks[i]?'checked':''}><span>${t}</span></label>`).join('')}
-      </div>
-      <div class="label">Your video</div>
-      ${state.file ? `<div class="group"><div class="row">${tickSvg}<div class="grow">phyla-serum.mov<div class="sub">0:28 · 41 MB</div></div></div></div>` : `<button class="drop" data-act="file">${camSvg}<b>Upload your video</b><span>The video you'll post</span></button>`}`,
-    cta: () => `<button class="btn" data-go="3" data-toast="You're approved. Post it now." ${(state.receipt && state.file && state.checks.every(Boolean))?'':'disabled'}>Submit</button>`,
+  { title: 'Step 1', flow: true, render: () => `${flowHead()}
+      <p class="h4">How will you buy it?</p>
+      <p class="note">Pick one. Either way, you'll add your receipt next.</p>
+      ${[['store','At a Target store','Find it in the Beauty Studio aisle. Keep your paper receipt.'],['online','On target.com','Pickup or delivery. Shipping is free over $35.']].map(([k,t,d]) => `<button class="rcard${state.how===k?' on':''}" data-how="${k}"><span class="radio"></span><div><b>${t}</b><div class="meta">${d}</div></div></button>`).join('')}
+      ${due}`,
+    cta: () => `<button class="btn" data-go="4" ${state.how?'':'disabled'}>Next</button>`,
     notes: [
-      ['decided','Receipt, then video. The checklist must be ticked before upload: pronunciation, no medical claims, mention Target, lighting and product visible, tag @phylaskin. No Benable review; the creator is approved on upload. Benable can take a creator out if the first videos are bad.', JK],
-      ['decided','Store, date and total are read from the receipt; Phyla sees those, not the receipt photo. Tax makes totals differ by store.', JK],
-      ['decided','No open-bottle photo and no visible receipt check rows ("bought after you joined" etc.). Checks can run in the background.', JK],
-      ['exists','AI already reads creator screenshots for Target reviews (ScreenshotReader). A receipt reader is the same pattern.','beneble_app retailer_reviews/screenshot_reader.rb'],
+      ['decided','First step after joining: in store or online. Data capture only.', JK],
+      ['decided','Progress: 4 segments, no labels (Amine\'s cleaner version), one countdown for the whole flow. Julia likes seeing how many steps are left.', JK],
+      ['decided','10 days to post, shipping time included. A deadline-extension tool in Dashboard comes end of next week.', JK],
+      ['open','Black Friday / Cyber Monday shipping delays could eat into the 10 days.', JK],
     ]},
-  { title: 'Post', render: () => `
-      <div style="text-align:center;padding:10px 0 2px;display:grid;gap:6px;justify-items:center">
-        <svg width="44" height="44" viewBox="0 0 20 20" fill="none" stroke="var(--ok)" stroke-width="1.4"><circle cx="10" cy="10" r="8.6"/><path d="M6.3 10.3l2.4 2.4 5-5.2"/></svg>
-        <p class="h4">You're approved</p>
-        <div class="meta">Post a feed post and a story, then add both links.</div>
-      </div>
+  { title: 'Step 2', flow: true, render: () => `${flowHead()}
+      <p class="h4">Add your receipt</p>
+      <p class="note">${state.how === 'online' ? 'A screenshot of your target.com order or the e-receipt works.' : 'A photo of the paper receipt, or the e-receipt in the Target app.'}</p>
+      ${state.receipt ? `<div class="group"><div class="row">${tickSvg}<div class="grow">Phyla Acne Phage Serum · $59.54<div class="sub">${state.how === 'online' ? 'target.com · Dec 2' : 'Target South Lamar · Dec 2'}</div></div><span class="right" data-act="receipt-x" style="cursor:pointer">Change</span></div></div>`
+        : `<button class="drop" data-act="receipt">${camSvg}<b>Add receipt</b><span>Photo or screenshot</span></button>`}
+      ${due}`,
+    cta: () => `<button class="btn" data-go="5" ${state.receipt?'':'disabled'}>Next</button>`,
+    notes: [
+      ['decided','This step is only "add your receipt".', JK],
+      ['decided','Phyla sees store or online, date and total from the receipt.', 'Julia + Katie sync, Nov 24'],
+      ['decided','Total must be the serum plus its tax only, even if the creator bought other things in the same order. Katie raised it; Nisarg to read the receipt.', JK],
+    ]},
+  { title: 'Step 3', flow: true, render: () => `${flowHead()}
+      <p class="h4">Upload your video</p>
+      <p class="note">The same video you'll post. You're approved as soon as it's in.</p>
+      ${state.file ? `<div class="group"><div class="row">${tickSvg}<div class="grow">phyla-serum.mov<div class="sub">0:28 · 41 MB</div></div></div></div>`
+        : `<button class="drop" data-act="open-sheet">${camSvg}<b>Upload your video</b><span>MP4 or MOV</span></button>`}
+      ${due}`,
+    cta: () => `<button class="btn" data-go="6" data-toast="You're approved. Time to post!" ${state.file?'':'disabled'}>Next</button>`,
+    notes: [
+      ['decided','Checklist shows as a bottom sheet after tapping upload (Amine\'s idea), not inline. Tick all four, then upload.', JK],
+      ['decided','No Benable review: uploading approves the creator right away.', AM],
+      ['decided','Reuses the existing upload content design, step by step.', AM],
+    ]},
+  { title: 'Step 4', flow: true, render: () => `${flowHead()}
+      <p class="h4">Time to post</p>
+      <p class="note">Post one feed post and one story, then add both links.</p>
       <div class="group">
         <div class="row"><span class="n">1</span><div class="grow">Tag <b>@phylaskin</b></div></div>
-        <div class="row"><span class="n">2</span><div class="grow">Turn on the Paid Partnership label</div></div>
-        <div class="row"><span class="n">3</span><div class="grow">Add your link to the story<div class="sub copyline"><span>benable.com/r/phyla-maya</span><button class="copy" data-toast="Link copied">Copy</button></div></div></div>
+        <div class="row"><span class="n">2</span><div class="grow">Add your link to the story<div class="sub copyline"><span>benable.com/r/phyla-maya</span><button class="copy" data-toast="Link copied">Copy</button></div></div></div>
       </div>
-      <div class="label">Feed post link</div>
-      <input class="input" id="link" placeholder="instagram.com/reel/…" value="${state.link}">
-      <div class="label">Story link</div>
-      <input class="input" id="story" placeholder="instagram.com/stories/…" value="${state.story}">`,
-    cta: () => `<button class="btn" data-go="4" ${(state.link.length>5 && state.story.length>5)?'':'disabled'}>Add links</button><div class="hint">We'll text you a reminder if your post isn't up.</div>`,
+      <div class="label">Feed post link</div><input class="input" id="link" placeholder="instagram.com/reel/…" value="${state.link}">
+      <div class="label">Story link</div><input class="input" id="story" placeholder="instagram.com/stories/…" value="${state.story}">`,
+    cta: () => `<button class="btn" data-go="7" ${(state.link.length>5 && state.story.length>5)?'':'disabled'}>Submit links</button>`,
     notes: [
-      ['decided','"You\'re approved" screen tells the creator what to tag and gives their link to copy.', JK],
-      ['decided','Every creator gets an affiliate link, shown here to copy, so Benable sends nothing by hand.', JK],
-      ['open','Is Phyla set up as an affiliate partner? Neither Julia nor Katie was sure. Link format here is made up.', JK],
-      ['decided','AI follows up if a creator has not posted. As little Benable involvement as possible beyond making sure all 25 post.', JK],
-      ['open','Paid Partnership label: Julia said "I don\'t think we tell you" this. Kept here because Benable\'s rule requires the label even on gifted collabs, and an affiliate link makes disclosure more important. Decide whether to show it.', JK],
+      ['decided','Tag Phyla, copy the affiliate link, post. The affiliate link block comes from the existing design (today it only shows at the end).', AM],
+      ['decided','No "turn on Paid Partnership" toggle in this flow.', AM],
+      ['open','Julia to send Amine the affiliate link block for this screen.', AM],
     ]},
-  { title: 'Paid', render: () => `
-      <div style="text-align:center;padding:18px 0 4px;display:grid;gap:6px;justify-items:center">
+  { title: 'Done', render: () => `
+      <div style="text-align:center;padding:24px 0 4px;display:grid;gap:6px;justify-items:center">
         <svg width="52" height="52" viewBox="0 0 20 20" fill="none" stroke="var(--ok)" stroke-width="1.4"><circle cx="10" cy="10" r="8.6"/><path d="M6.3 10.3l2.4 2.4 5-5.2"/></svg>
-        <p class="h4">$59.54 is on its way</p>
-        <div class="meta">To your PayPal · usually within 1 business day</div>
+        <p class="h4">You're all set</p>
+        <div class="meta">We'll send $59.54 to your PayPal once we see both posts live.</div>
       </div>
       <div class="group">
-        <div class="row"><span class="n done">✓</span><div class="grow">Receipt and video in<div class="sub">Dec 2</div></div></div>
-        <div class="row"><span class="n done">✓</span><div class="grow">Post and story live<div class="sub">Dec 2</div></div></div>
-        <div class="row"><span class="n done">✓</span><div class="grow">Paid back<div class="sub">Dec 3 · $59.54, your receipt total</div></div></div>
-      </div>
-      <p class="note">Enjoy the serum. Creators whose posts stand out get invited to Phyla's monthly campaigns.</p>`,
+        <div class="row"><span class="n done">✓</span><div class="grow">Receipt added</div></div>
+        <div class="row"><span class="n done">✓</span><div class="grow">Video uploaded</div></div>
+        <div class="row"><span class="n done">✓</span><div class="grow">Feed post and story links in</div></div>
+      </div>`,
     cta: () => `<button class="btn" data-go="0" data-reset="1">Back to start</button>`,
     notes: [
-      ['decided','Pay the full receipt total after the content is in and the post is live. Not 50% up front.', JK],
-      ['decided','PayPal Payouts API fee is $0.25 per payment (Nisarg confirmed): $6.25 for 25 creators. Benable covers it inside the rounded $2,000.', JK],
-      ['agreed','Standouts get flagged for the monthly campaigns.','Nov 10 email'],
-      ['exists','PayPal and Venmo payouts run through creator_payments.','beneble_app creator_payments/'],
+      ['decided','Payout is triggered by the posts going live, not a fixed date.', JK],
+      ['decided','Usage rights in perpetuity, written into the creator brief and terms, no extra design.', JK],
     ]},
 ];
+
+function sheetHtml() {
+  return `<div class="sheet-scrim" data-act="close-sheet"></div><div class="sheet" role="dialog" aria-modal="true" aria-label="Before you upload">
+    <div class="grab"></div><p class="h4">Before you upload</p><p class="note">Check your video does all four.</p>
+    <div class="group">${CHECKS.map((t,i) => `<label class="check"><input type="checkbox" data-check="${i}" ${state.checks[i]?'checked':''}><span>${t}</span></label>`).join('')}</div>
+    <button class="btn" data-act="upload" ${state.checks.every(Boolean)?'':'disabled'}>Upload video</button></div>`;
+}
 
 function render() {
   const s = steps[state.step];
   $('#navtitle').textContent = s.title;
+  document.querySelector('.nav').style.display = s.nav === false || s.flow ? 'none' : '';
   $('#back').style.visibility = state.step === 0 ? 'hidden' : 'visible';
-  $('#mini').innerHTML = steps.map((_, i) => `<i class="${i <= state.step ? 'on' : ''}"></i>`).join('');
+  $('#mini').innerHTML = '';
   $('#screen').innerHTML = s.render();
-  $('#cta').innerHTML = s.cta();
+  const c = s.cta(); $('#cta').innerHTML = c; $('#cta').style.display = c ? '' : 'none';
   $('#screen').scrollTop = 0;
+  const sh = $('#sheet'); sh.innerHTML = state.sheet ? sheetHtml() : ''; sh.hidden = !state.sheet;
   $('#notes').innerHTML = `
-    <div class="jump" role="group" aria-label="Jump to screen">${steps.map((x,i)=>`<button data-jump="${i}" aria-current="${i===state.step}">${i+1}. ${x.title}</button>`).join('')}</div>
-    <h2>${state.step+1}. ${s.title}</h2>
+    <div class="jump" role="group" aria-label="Jump to screen">${steps.map((x,i)=>`<button data-jump="${i}" aria-current="${i===state.step}">${i+1}. ${x.flow ? x.title + ' of 4' : x.title}</button>`).join('')}</div>
+    <h2>${state.step+1}. ${s.flow ? s.title + ' of 4' : s.title}</h2>
     <ul>${s.notes.map(([t, txt, src]) => `<li><span class="tag ${t}">${t}</span><div>${txt}<div class="src">${src}</div></div></li>`).join('')}</ul>`;
 }
 function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('show'), 2000); }
@@ -368,24 +438,29 @@ document.addEventListener('click', (e) => {
   const go = e.target.closest('[data-go]');
   if (go && !go.disabled) {
     if (go.dataset.reset) Object.assign(state, blank());
-    state.step = +go.dataset.go; render(); if (go.dataset.toast) toast(go.dataset.toast); return;
+    state.step = +go.dataset.go; state.sheet = false; render(); if (go.dataset.toast) toast(go.dataset.toast); return;
   }
   const j = e.target.closest('[data-jump]');
-  if (j) { const n = +j.dataset.jump; Object.assign(state, blank()); if (n >= 2) state.commit = [true,true,true,true]; if (n >= 3) { state.receipt = true; state.file = true; state.checks = [true,true,true,true,true]; } if (n >= 4) { state.link = 'instagram.com/reel/DfQ2x9'; state.story = 'instagram.com/stories/maya.glows'; } state.step = n; render(); return; }
+  if (j) { const n = +j.dataset.jump; Object.assign(state, blank()); if (n >= 3) state.commit = [true,true,true,true]; if (n >= 4) state.how = 'store'; if (n >= 5) state.receipt = true; if (n >= 6) { state.file = true; state.checks = [true,true,true,true]; } if (n >= 7) { state.link = 'instagram.com/reel/DfQ2x9'; state.story = 'instagram.com/stories/maya.glows'; } state.step = n; render(); return; }
+  if (e.target.closest('[data-back]')) { if (state.step > 0) { state.step--; state.sheet = false; render(); } return; }
+  const h = e.target.closest('[data-how]'); if (h) { state.how = h.dataset.how; render(); return; }
   const a = e.target.closest('[data-act]');
-  if (a) { const k = a.dataset.act; if (k === 'receipt') state.receipt = true; if (k === 'file') state.file = true; render(); if (k==='receipt') toast('Receipt read in 2 seconds'); return; }
-  const t = e.target.closest('[data-toast]');
-  if (t) { toast(t.dataset.toast); return; }
+  if (a) { const k = a.dataset.act;
+    if (k === 'receipt') { state.receipt = true; render(); toast('Receipt read: serum $55.00 + tax'); }
+    else if (k === 'receipt-x') { state.receipt = false; render(); }
+    else if (k === 'open-sheet') { state.sheet = true; render(); }
+    else if (k === 'close-sheet') { state.sheet = false; render(); }
+    else if (k === 'upload') { state.sheet = false; state.file = true; render(); toast('Video uploaded'); }
+    return; }
+  const t = e.target.closest('[data-toast]'); if (t) { toast(t.dataset.toast); return; }
 });
 document.addEventListener('change', (e) => {
   const d = e.target.dataset;
-  if (d.check) state.checks[+d.check] = e.target.checked;
-  else if (d.commit) state.commit[+d.commit] = e.target.checked;
-  else return;
-  $('#cta').innerHTML = steps[state.step].cta();
+  if (d.check) { state.checks[+d.check] = e.target.checked; const b = document.querySelector('[data-act="upload"]'); if (b) b.disabled = !state.checks.every(Boolean); return; }
+  if (d.commit) { state.commit[+d.commit] = e.target.checked; $('#cta').innerHTML = steps[state.step].cta(); }
 });
 document.addEventListener('input', (e) => { if (e.target.id === 'link' || e.target.id === 'story') { state[e.target.id] = e.target.value; $('#cta').innerHTML = steps[state.step].cta(); } });
-$('#back').addEventListener('click', () => { if (state.step > 0) { state.step--; render(); } });
+$('#back').addEventListener('click', () => { if (state.step > 0) { state.step--; state.sheet = false; render(); } });
 
 /* ---------- Brand Portal (sample data) ---------- */
 const names = ['maya.glows','skinwithsam','jess.tries','its.brielle','kendra_k','acne.diaries.lu','nina.routine','tay.fresh','ashleyy.skin','glowup.gabi','morgan.mornings','dani.dewy','rach.realskin','sofi.spf','lexi.lately','carly.clear','emmie.edits','jordyn.j','hannah.h.skin','priya.daily','kels.kare','ava.unfiltered','bree.beauty','zoe.z','livvy.lux'];
