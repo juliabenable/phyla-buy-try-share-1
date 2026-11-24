@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Buy, Try, Share Prototype</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: a phone (creator app) or a desktop panel (Brand Portal) on the left, notes for the current screen on the right */
+:root {
+  --bg: #f4f4f6; --surface: #ffffff; --ink: #1c1c1c; --muted: #717171; --weak: #f1f1f1; --line: #e3e3e3;
+  --accent: #7a5cfa; --accent-weak: #efebff; --ok: #1f8a4c; --warn: #b26b00; --stop: #c2412d;
+  --phone-bg: #ffffff; --chip: #ececec;
+  --font: "Inter", -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #121214; --surface: #1c1c1f; --ink: #f2f2f3; --muted: #a0a0a8; --weak: #26262a; --line: #33333a;
+  --accent: #9b85ff; --accent-weak: #2a2440; --ok: #5cc98a; --warn: #e5a54a; --stop: #f07a66; --phone-bg: #1c1c1f; --chip: #2c2c31; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #121214; --surface: #1c1c1f; --ink: #f2f2f3; --muted: #a0a0a8; --weak: #26262a; --line: #33333a;
+  --accent: #9b85ff; --accent-weak: #2a2440; --ok: #5cc98a; --warn: #e5a54a; --stop: #f07a66; --phone-bg: #1c1c1f; --chip: #2c2c31; color-scheme: dark; }
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 14px; line-height: 1.45; margin: 0; }
+.page { max-width: 1240px; margin: 0 auto; padding-block: 24px 48px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 20px; }
+.top { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; justify-content: space-between; }
+.top h1 { font-size: 20px; line-height: 28px; font-weight: 600; margin: 0; }
+.top p { margin: 2px 0 0; color: var(--muted); }
+.seg { display: inline-flex; background: var(--weak); border-radius: 10px; padding: 3px; }
+.seg button { border: 0; background: transparent; font: 500 14px/20px var(--font); color: var(--muted); padding: 6px 14px; border-radius: 8px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px #0000001a; }
+button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.stage { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 28px; align-items: start; }
+@media (max-width: 860px) { .stage { grid-template-columns: 1fr; justify-items: center; } }
+
+/* phone */
+.phone { width: 375px; max-width: 100%; height: 812px; background: var(--phone-bg); border-radius: 44px; box-shadow: 0 0 0 10px #111, 0 24px 60px #0000003a; overflow: hidden; display: flex; flex-direction: column; position: relative; }
+.status { height: 54px; flex: none; display: flex; align-items: flex-end; justify-content: space-between; padding: 0 28px 8px; font-weight: 600; font-size: 15px; }
+.status .dots { display: flex; gap: 5px; align-items: center; }
+.status .dots i { width: 17px; height: 11px; border: 1.5px solid currentColor; border-radius: 3px; display: block; }
+.nav { height: 48px; flex: none; display: flex; align-items: center; gap: 8px; padding: 0 12px; border-bottom: 1px solid var(--line); }
+.nav button.back { border: 0; background: none; color: var(--ink); font-size: 22px; width: 36px; height: 36px; cursor: pointer; border-radius: 8px; }
+.nav .t { font-weight: 600; font-size: 16px; flex: 1; text-align: center; margin-right: 44px; }
+.scroll { flex: 1; overflow-y: auto; padding: 16px; display: grid; gap: 16px; align-content: start; }
+.cta { flex: none; padding: 12px 16px 30px; border-top: 1px solid var(--line); display: grid; gap: 8px; background: var(--phone-bg); }
+.btn { width: 100%; border: 0; border-radius: 12px; background: var(--accent); color: #fff; font: 600 16px/24px var(--font); padding: 12px; cursor: pointer; }
+.btn[disabled] { opacity: .4; cursor: not-allowed; }
+.btn.ghost { background: transparent; color: var(--accent); padding: 6px; font-weight: 500; font-size: 14px; }
+.hint { color: var(--muted); font-size: 12px; text-align: center; }
+
+.hero { border-radius: 16px; overflow: hidden; background: linear-gradient(160deg, #f3efe9, #e7e0d6); height: 196px; position: relative; display: grid; place-items: center; }
+:root[data-theme="dark"] .hero { background: linear-gradient(160deg, #2b2824, #22201d); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .hero { background: linear-gradient(160deg, #2b2824, #22201d); } }
+.pill-seam { position: absolute; left: 12px; bottom: 12px; background: var(--surface); color: var(--ink); border-radius: 999px; padding: 4px 10px; font-size: 12px; font-weight: 500; box-shadow: 0 2px 8px #00000022; }
+.brandrow { display: flex; gap: 10px; align-items: center; }
+.logo { width: 36px; height: 36px; border-radius: 50%; background: #1d2b26; color: #e9f2ec; display: grid; place-items: center; font-weight: 600; font-size: 13px; flex: none; }
+.h4 { font-size: 18px; line-height: 26px; font-weight: 600; margin: 0; }
+.meta { color: var(--muted); font-size: 13px; }
+.group { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.row { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; }
+.row + .row { border-top: 1px solid var(--line); }
+.row .n { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--line); font-size: 12px; font-weight: 600; color: var(--muted); display: grid; place-items: center; flex: none; margin-top: 1px; }
+.row .n.done { border-color: var(--ok); color: var(--ok); }
+.row b { font-weight: 600; }
+.row .sub { color: var(--muted); font-size: 13px; }
+.row .grow { flex: 1; min-width: 0; }
+.row .right { color: var(--muted); font-size: 13px; white-space: nowrap; }
+.label { font-size: 12px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin: 4px 2px -8px; }
+.money { display: flex; justify-content: space-between; align-items: baseline; }
+.money .big { font-size: 24px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.note { font-size: 13px; color: var(--muted); padding: 0 2px; }
+.note strong { color: var(--ink); font-weight: 600; }
+.check { display: flex; gap: 12px; padding: 12px 14px; align-items: flex-start; cursor: pointer; }
+.check + .check { border-top: 1px solid var(--line); }
+.check input { width: 20px; height: 20px; accent-color: var(--accent); margin: 1px 0 0; flex: none; }
+.drop { border: 1.5px dashed var(--line); border-radius: 12px; padding: 22px 16px; display: grid; justify-items: center; gap: 6px; color: var(--muted); text-align: center; cursor: pointer; background: var(--surface); font: inherit; width: 100%; }
+.drop svg { color: var(--accent); }
+.drop b { color: var(--ink); font-weight: 600; }
+.ok { color: var(--ok); }
+.tick { width: 18px; height: 18px; flex: none; color: var(--ok); margin-top: 1px; }
+.receipt { background: #fbfaf7; color: #222; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 11px; line-height: 1.5; padding: 14px 16px; border-radius: 4px; box-shadow: 0 2px 10px #0000001f; width: 232px; margin: 0 auto; transform: rotate(-1.2deg); }
+.receipt .c { text-align: center; }
+.receipt .hl { background: #fff1a8; }
+.receipt hr { border: 0; border-top: 1px dashed #999; margin: 6px 0; }
+.input { width: 100%; border: 0; background: var(--chip); border-radius: 10px; padding: 12px; font: 400 15px var(--font); color: var(--ink); }
+.photo { height: 170px; border-radius: 12px; background: radial-gradient(circle at 40% 40%, #e9d6c6, #c9a88e); position: relative; display: grid; place-items: center; }
+.toast { position: absolute; left: 16px; right: 16px; top: 64px; background: var(--ink); color: var(--surface); padding: 10px 14px; border-radius: 12px; font-size: 13px; opacity: 0; transform: translateY(-8px); transition: .25s; pointer-events: none; }
+.toast.show { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .toast { transition: none; } }
+.store { display: flex; justify-content: space-between; gap: 8px; }
+.steps-mini { display: flex; gap: 4px; padding: 0 16px; margin-top: 10px; }
+.steps-mini i { flex: 1; height: 3px; border-radius: 2px; background: var(--line); }
+.steps-mini i.on { background: var(--accent); }
+
+/* notes column */
+.notes { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 20px 22px; display: grid; gap: 14px; min-width: 0; max-width: 620px; }
+.notes h2 { font-size: 16px; line-height: 24px; margin: 0; font-weight: 600; }
+.notes ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+.notes li { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 10px; align-items: baseline; }
+.tag { font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+.tag.agreed { color: var(--ok); } .tag.proposed { color: var(--accent); } .tag.open { color: var(--warn); } .tag.exists { color: var(--muted); }
+.notes .src { color: var(--muted); font-size: 12px; }
+.jump { display: flex; flex-wrap: wrap; gap: 6px; }
+.jump button { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 4px 10px; font: 500 12px var(--font); cursor: pointer; }
+.jump button[aria-current="true"] { border-color: var(--accent); color: var(--accent); }
+
+/* brand portal */
+.portal { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; min-width: 0; width: 100%; }
+.p-head { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; justify-content: space-between; padding: 18px 22px; border-bottom: 1px solid var(--line); }
+.p-head h2 { margin: 0; font-size: 18px; font-weight: 600; }
+.p-head .meta { margin-top: 2px; }
+.sample { font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--warn); border: 1px solid currentColor; padding: 2px 8px; border-radius: 999px; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); border-bottom: 1px solid var(--line); }
+.stat { padding: 16px 22px; display: grid; gap: 2px; }
+.stat + .stat { border-left: 1px solid var(--line); }
+.stat .v { font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.stat .k { color: var(--muted); font-size: 13px; }
+.stat .f { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+.p-body { padding: 18px 22px; display: grid; gap: 16px; }
+.filters { display: flex; flex-wrap: wrap; gap: 6px; }
+.filters button { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 5px 12px; font: 500 13px var(--font); cursor: pointer; }
+.filters button[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+.tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; }
+table { border-collapse: collapse; width: 100%; min-width: 860px; font-size: 13px; }
+th { text-align: left; font-weight: 500; color: var(--muted); padding: 10px 12px; border-bottom: 1px solid var(--line); background: var(--weak); white-space: nowrap; }
+td { padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: middle; font-variant-numeric: tabular-nums; }
+tr:last-child td { border-bottom: 0; }
+tbody tr { cursor: pointer; }
+tbody tr:hover td { background: var(--weak); }
+.st { font-weight: 500; }
+.st.paid { color: var(--ok); } .st.posted { color: var(--accent); } .st.bought { color: var(--ink); } .st.joined { color: var(--muted); } .st.flag { color: var(--stop); }
+.thumb { width: 30px; height: 38px; border-radius: 4px; background: #f6f3ec; border: 1px solid var(--line); display: inline-block; vertical-align: middle; }
+.drawer { border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 20px; align-items: start; }
+@media (max-width: 640px) { .drawer { grid-template-columns: 1fr; } }
+.drawer dl { margin: 0; display: grid; grid-template-columns: 130px minmax(0,1fr); gap: 6px 12px; }
+.drawer dt { color: var(--muted); }
+.drawer dd { margin: 0; }
+.bars { display: flex; gap: 6px; align-items: flex-end; height: 70px; }
+.bars div { flex: 1; background: var(--accent); border-radius: 3px 3px 0 0; min-height: 2px; position: relative; }
+.bars-x { display: flex; gap: 6px; color: var(--muted); font-size: 11px; }
+.bars-x span { flex: 1; text-align: center; }
+.split2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+@media (max-width: 760px) { .split2 { grid-template-columns: 1fr; } }
+.card { border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: grid; gap: 8px; min-width: 0; }
+.card h3 { margin: 0; font-size: 14px; font-weight: 600; }
+</style>
+</head><body>
+
+<div class="page">
+  <div class="top">
+    <div>
+      <h1>Buy, Try, Share · Phyla pilot</h1>
+      <p>Prototype for the 25-creator pilot. Creator app on the left; tap through it. Notes on each screen say what's agreed, proposed or open.</p>
+    </div>
+    <div class="seg" role="group" aria-label="View">
+      <button id="v-app" aria-pressed="true">Creator app</button>
+      <button id="v-portal" aria-pressed="false">Brand Portal</button>
+    </div>
+  </div>
+
+  <div class="stage" id="stage-app">
+    <div class="phone" id="phone">
+      <div class="status"><span>9:41</span><span class="dots"><span style="font-size:12px">5G</span><i></i></span></div>
+      <div class="nav"><button class="back" id="back" aria-label="Back">‹</button><div class="t" id="navtitle">Opportunity</div></div>
+      <div class="steps-mini" id="mini"></div>
+      <div class="scroll" id="screen"></div>
+      <div class="cta" id="cta"></div>
+      <div class="toast" id="toast"></div>
+    </div>
+    <aside class="notes" id="notes"></aside>
+  </div>
+
+  <div class="stage" id="stage-portal" hidden style="grid-template-columns: 1fr;">
+    <div class="portal">
+      <div class="p-head">
+        <div>
+          <h2>Buy, Try, Share · Pilot</h2>
+          <div class="meta">Phyla Acne Phage Serum · Target, in store or online · 25 creators · opened Tue Dec 1</div>
+        </div>
+        <span class="sample">Sample data</span>
+      </div>
+      <div class="stats" id="stats"></div>
+      <div class="p-body">
+        <div class="split2">
+          <div class="card">
+            <h3>Purchases by day</h3>
+            <div class="bars" id="bars"></div>
+            <div class="bars-x" id="barsx"></div>
+            <div class="meta">Each verified receipt is one Target unit. Counted from the receipt date, not the upload date.</div>
+          </div>
+          <div class="card">
+            <h3>Returns check</h3>
+            <div class="meta" id="returnsline"></div>
+            <div class="meta">How it works: each receipt's store and date are matched against Phyla's weekly Target returns report. A match on the same store within the window flags the creator for a look; it is not proof by itself.</div>
+          </div>
+        </div>
+        <div class="filters" id="filters"></div>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th>Creator</th><th>Status</th><th>Receipt</th><th>Store</th><th>Bought</th><th>Total</th><th>Open-bottle photo</th><th>Post</th><th>Returns check</th></tr></thead>
+            <tbody id="rows"></tbody>
+          </table>
+        </div>
+        <div class="drawer" id="drawer"></div>
+      </div>
+    </div>
+    <aside class="notes" id="pnotes" style="max-width:none"></aside>
+  </div>
+</div>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const tickSvg = '<svg class="tick" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="10" cy="10" r="8.2"/><path d="M6.3 10.3l2.4 2.4 5-5.2"/></svg>';
+const camSvg = '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 8h3l2-2.5h6L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.6"/></svg>';
+const bottle = (h=150) => `<svg width="${h*0.42}" height="${h}" viewBox="0 0 42 100" aria-label="Phyla serum bottle"><rect x="15" y="2" width="12" height="18" rx="3" fill="#2f3b36"/><rect x="17" y="18" width="8" height="6" fill="#55625c"/><rect x="5" y="24" width="32" height="74" rx="6" fill="#f7f5ef" stroke="#d5d0c4"/><text x="21" y="56" text-anchor="middle" font-family="Inter,Arial" font-size="7" font-weight="600" fill="#1d2b26">phyla</text><text x="21" y="66" text-anchor="middle" font-family="Inter,Arial" font-size="3.6" fill="#55625c">ACNE PHAGE SERUM</text><text x="21" y="90" text-anchor="middle" font-family="Inter,Arial" font-size="3.4" fill="#8a8f88">1 FL OZ</text></svg>`;
+
+const state = { step: 0, pledge: [false,false,false], receipt: false, photo: false, link: '', file: false };
+
+const steps = [
+  { title: 'Opportunity', render: () => `
+      <div class="hero">${bottle(160)}<span class="pill-seam">Buy, Try, Share</span></div>
+      <div class="brandrow"><div class="logo">ph</div><div><p class="h4">Phyla</p><div class="meta">Acne Phage Serum · at Target</div></div></div>
+      <div class="group">
+        <div class="money" style="padding:14px"><div><div class="meta">You get back</div><div class="big">Full price</div></div><div class="meta" style="text-align:right">$55 at Target<br>paid to PayPal or Venmo</div></div>
+      </div>
+      <div class="label">How it works</div>
+      <div class="group">
+        <div class="row"><span class="n">1</span><div class="grow"><b>Buy it at Target</b><div class="sub">In the Beauty Studio, or on target.com</div></div></div>
+        <div class="row"><span class="n">2</span><div class="grow"><b>Try it and keep it</b><div class="sub">Upload your receipt and a photo of the open bottle</div></div></div>
+        <div class="row"><span class="n">3</span><div class="grow"><b>Share one post</b><div class="sub">Instagram or TikTok, within 10 days of buying</div></div></div>
+      </div>
+      <p class="note">We pay you back as soon as your post is live and checked. <strong>No approval needed:</strong> if you're in, you're in.</p>
+      <p class="note">25 spots · 18 left</p>`,
+    cta: () => `<button class="btn" data-go="1">I'm in</button><div class="hint">You buy it first, then we pay you back.</div>`,
+    notes: [
+      ['agreed','Creators buy at Target, in store or online, post, upload the content file, and get reimbursed in full. No post, no payment.','Tony email to Gianna, Nov 10'],
+      ['agreed','No brand approval of creators and no edits. Benable still checks brand safety before inviting.','Nov 10 email; Gianna did not push back today'],
+      ['agreed','Pilot of 20 to 25 creators instead of the 100 minimum, then 100 minimum after.','Gianna asked today; Tony said yes pending team. Tony suggests 25 in Slack.'],
+      ['open','Is sales tax reimbursed? "Full price" vs "receipt total" changes the creator promise and Phyla\'s cost.','Ask Gianna'],
+      ['proposed','Spots counter ("18 left") to make it feel like an opportunity, not a coupon.','Claude'],
+    ]},
+  { title: 'Before you join', render: () => `
+      <p class="h4">Before you join</p>
+      <p class="note">Phyla is new at Target, so every real purchase helps them stay on the shelf. That only works if the bottle stays with you.</p>
+      <div class="group">
+        ${['I\'ll buy it myself at Target, in store or on target.com.','I\'ll keep it and use it. If I return it, I lose access to brand collabs on Benable.','I\'ll post within 10 days of buying, with the Paid Partnership label on.'].map((t,i)=>`
+        <label class="check"><input type="checkbox" data-pledge="${i}" ${state.pledge[i]?'checked':''}><span>${t}</span></label>`).join('')}
+      </div>
+      <p class="note">We match receipts against Phyla's Target returns. A returned bottle shows up.</p>`,
+    cta: () => `<button class="btn" data-go="2" ${state.pledge.every(Boolean)?'':'disabled'}>Join</button>`,
+    notes: [
+      ['agreed','Returning the product makes the creator ineligible for future Benable campaigns. Tony told Gianna this today as the deterrent.','Today\'s call, Tony'],
+      ['proposed','Make the rule a pledge the creator ticks before joining, not fine print. Aisle has the same rule; the difference has to be that our creators read it and care.','Claude'],
+      ['proposed','Explain the why (Phyla needs real Target sales). Creators who see the brand as a person are less likely to game it.','Claude'],
+      ['open','"A returned bottle shows up" is only true if Phyla can share its Target returns data by store and date. Keep the line only once that is confirmed.','Ask Gianna what Aisle matches against'],
+      ['exists','Paid Partnership label rule already applies to gifted campaigns.','Benable compliance memory'],
+    ]},
+  { title: 'Buy it', render: () => `
+      <p class="h4">Buy it at Target</p>
+      <p class="note">Look in the Target Beauty Studio aisle. Any Target with a Beauty Studio carries it.</p>
+      <div class="label">Near you</div>
+      <div class="group">
+        <div class="row"><div class="grow"><b>Target Austin South Lamar</b><div class="sub">Beauty Studio · open until 10pm</div></div><span class="right">1.2 mi</span></div>
+        <div class="row"><div class="grow"><b>Target Austin Mueller</b><div class="sub">Beauty Studio · open until 11pm</div></div><span class="right">4.8 mi</span></div>
+        <div class="row"><div class="grow"><b>Order on target.com</b><div class="sub">Pickup or delivery works too</div></div><span class="right">›</span></div>
+      </div>
+      <div class="group"><div class="row"><div class="grow"><b>What to buy</b><div class="sub">Phyla Acne Phage Serum, 1 fl oz · $55</div></div></div></div>
+      <p class="note">Keep your paper receipt, or find the e-receipt in the Target app under Purchases.</p>`,
+    cta: () => `<button class="btn" data-go="3">I bought it</button><button class="btn ghost" data-toast="We'll remind you in 3 days.">Remind me later</button>`,
+    notes: [
+      ['exists','611 Target stores with a Beauty Studio, list from Gianna (Oct 2). Logan built store-location matching for Campaign 1.','Phyla deal memory'],
+      ['agreed','Online purchases count.','Nov 10 email: "in store or online"'],
+      ['open','Which SKU: serum only, or the kit too? The Nov 5 call mentioned both; the Nov 10 email does not say.','Ask Gianna'],
+      ['proposed','Nudge at day 3 if they joined but no receipt yet; release the spot at day 7.','Claude'],
+    ]},
+  { title: 'Receipt', render: () => state.receipt ? `
+      <div class="receipt">
+        <div class="c"><b>TARGET</b><br>Austin South Lamar<br>Store T-2279</div><hr>
+        <div class="hl">PHYLA PHAGE SERUM&nbsp;&nbsp;55.00</div>
+        <div>SUBTOTAL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;55.00</div>
+        <div>TAX 8.25%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.54</div>
+        <div><b>TOTAL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;59.54</b></div><hr>
+        <div class="c">12/02/2026 4:18 PM<br>REC# 2279-0412-0081-1203</div>
+      </div>
+      <div class="group">
+        <div class="row">${tickSvg}<div class="grow">Phyla Acne Phage Serum found</div></div>
+        <div class="row">${tickSvg}<div class="grow">Bought after you joined (Dec 2)</div></div>
+        <div class="row">${tickSvg}<div class="grow">Receipt not used before</div></div>
+      </div>` : `
+      <p class="h4">Upload your receipt</p>
+      <p class="note">A photo of the paper receipt, or a screenshot of the e-receipt. The item, date and receipt number need to be readable.</p>
+      <button class="drop" data-act="receipt">${camSvg}<b>Add receipt</b><span>Photo or screenshot</span></button>`,
+    cta: () => `<button class="btn" data-go="4" ${state.receipt?'':'disabled'}>Next</button>`,
+    notes: [
+      ['agreed','Gianna asked that we collect every receipt in a database she can see too. Tony confirmed.','Today\'s call'],
+      ['exists','Benable already reads creator screenshots with AI for Target reviews (ScreenshotReader: stars, name, text). A receipt reader is the same pattern with a new schema: item, store, date, total, receipt number.','beneble_app retailer_reviews/screenshot_reader.rb'],
+      ['proposed','Three automatic checks: right item, bought after joining, receipt number never used before. Anything that fails goes to Katie\'s team, not to the creator as an error.','Claude'],
+      ['open','Tony asked whether the receipt lets us see a return. Target does not offer a public receipt lookup; the receipt number and store are what we can match on. See the study.','Tony, Slack today'],
+      ['open','Note the receipt total ($59.54) is above $55. Same tax question as screen 1.','Ask Gianna'],
+    ]},
+  { title: 'Open it', render: () => state.photo ? `
+      <div class="photo">${bottle(130)}<span class="pill-seam">Seal open · in hand</span></div>
+      <div class="group"><div class="row">${tickSvg}<div class="grow">Open bottle, in your hand</div></div></div>
+      <p class="note">Thanks. That's it until your post.</p>` : `
+      <p class="h4">Show it open</p>
+      <p class="note">One photo of the open bottle in your hand, cap off. It can be the first frame of your video.</p>
+      <button class="drop" data-act="photo">${camSvg}<b>Add photo</b><span>Bottle open, cap off</span></button>`,
+    cta: () => `<button class="btn" data-go="5" ${state.photo?'':'disabled'}>Next</button>`,
+    notes: [
+      ['proposed','Open-bottle photo. Raised on the Nov 9 call by both Benable (Tony, Katie) and as Aisle\'s own fix. Never agreed with Gianna.','Nov 9 call'],
+      ['open','Gianna said today Target takes opened skincare back. So this photo is a commitment device more than a block: it raises the effort and the shame of returning, it does not stop a return.','Today\'s call'],
+      ['proposed','Let the first frame of the video count, so it costs the creator nothing extra.','Claude'],
+    ]},
+  { title: 'Share', render: () => `
+      <p class="h4">Share your post</p>
+      <p class="note">Show yourself using it. Tag <strong>@phylaskin</strong> and turn on the Paid Partnership label.</p>
+      <div class="label">Link to your post</div>
+      <input class="input" id="link" placeholder="instagram.com/reel/…" value="${state.link}">
+      <div class="label">Video file</div>
+      ${state.file ? `<div class="group"><div class="row">${tickSvg}<div class="grow">phyla-serum.mov<div class="sub">0:28 · 41 MB</div></div></div></div>` : `<button class="drop" data-act="file">${camSvg}<b>Upload the video</b><span>The same video you posted</span></button>`}
+      <p class="note">We check the post is live, tagged and labeled, then pay you.</p>`,
+    cta: () => `<button class="btn" data-go="6" ${(state.link.length>5 && state.file)?'':'disabled'}>Submit</button>`,
+    notes: [
+      ['agreed','Phyla gets a social post and the content file from every creator.','Nov 10 email'],
+      ['agreed','No edits, no brand review of content. Benable checks the post exists.','Nov 10 email'],
+      ['exists','Content upload, post link and the 10-days-after-receipt due date exist in the current campaign flow.','content_deadlines.rb DEFAULT_DAYS_AFTER_RECEIPT = 10'],
+      ['open','What does "checked" mean with no brand review: live + tagged + labeled only, or also a minimum (face, product visible)?','Decide with Katie'],
+    ]},
+  { title: 'Paid', render: () => `
+      <div style="text-align:center;padding:18px 0 4px;display:grid;gap:6px;justify-items:center">
+        <svg width="52" height="52" viewBox="0 0 20 20" fill="none" stroke="var(--ok)" stroke-width="1.4"><circle cx="10" cy="10" r="8.6"/><path d="M6.3 10.3l2.4 2.4 5-5.2"/></svg>
+        <p class="h4">$59.54 is on its way</p>
+        <div class="meta">To your PayPal · usually within 1 business day</div>
+      </div>
+      <div class="group">
+        <div class="row"><span class="n done">✓</span><div class="grow">Receipt checked<div class="sub">Dec 2</div></div></div>
+        <div class="row"><span class="n done">✓</span><div class="grow">Post live and checked<div class="sub">Dec 6</div></div></div>
+        <div class="row"><span class="n done">✓</span><div class="grow">Paid back<div class="sub">Dec 6 · $59.54, your receipt total</div></div></div>
+      </div>
+      <p class="note">Enjoy the serum. Creators whose posts stand out get invited to Phyla's monthly campaigns.</p>`,
+    cta: () => `<button class="btn" data-go="0" data-reset="1">Back to start</button>`,
+    notes: [
+      ['agreed','Pay after the post is live. Phyla pays nothing for a creator who does not post.','Nov 10 email; Tony today: "once they provide the proof that they purchased it and the post is up"'],
+      ['exists','PayPal and Venmo payouts already run through creator_payments (send, reconcile, CSV export).','beneble_app creator_payments/'],
+      ['agreed','Standouts get flagged for Phyla\'s monthly campaigns.','Nov 10 email'],
+      ['proposed','Pay immediately rather than holding the money for the return window. Aisle\'s returns came same day or next day, so a short hold would not help unless returns data arrives that fast. See the study.','Claude'],
+    ]},
+];
+
+function render() {
+  const s = steps[state.step];
+  $('#navtitle').textContent = s.title;
+  $('#back').style.visibility = state.step === 0 ? 'hidden' : 'visible';
+  $('#mini').innerHTML = steps.map((_, i) => `<i class="${i <= state.step ? 'on' : ''}"></i>`).join('');
+  $('#screen').innerHTML = s.render();
+  $('#cta').innerHTML = s.cta();
+  $('#screen').scrollTop = 0;
+  $('#notes').innerHTML = `
+    <div class="jump" role="group" aria-label="Jump to screen">${steps.map((x,i)=>`<button data-jump="${i}" aria-current="${i===state.step}">${i+1}. ${x.title}</button>`).join('')}</div>
+    <h2>${state.step+1}. ${s.title}</h2>
+    <ul>${s.notes.map(([t, txt, src]) => `<li><span class="tag ${t}">${t}</span><div>${txt}<div class="src">${src}</div></div></li>`).join('')}</ul>`;
+}
+function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('show'), 1800); }
+
+document.addEventListener('click', (e) => {
+  const go = e.target.closest('[data-go]');
+  if (go && !go.disabled) {
+    if (go.dataset.reset) Object.assign(state, { pledge: [false,false,false], receipt: false, photo: false, link: '', file: false });
+    state.step = +go.dataset.go; render(); return;
+  }
+  const j = e.target.closest('[data-jump]');
+  if (j) { const n = +j.dataset.jump; if (n >= 2) state.pledge = [true,true,true]; if (n >= 4) state.receipt = true; if (n >= 5) state.photo = true; if (n >= 6) { state.link = 'instagram.com/reel/DfQ2x9'; state.file = true; } state.step = n; render(); return; }
+  const a = e.target.closest('[data-act]');
+  if (a) { const k = a.dataset.act; if (k === 'receipt') state.receipt = true; if (k === 'photo') state.photo = true; if (k === 'file') state.file = true; render(); if (k==='receipt') toast('Receipt read in 2 seconds'); return; }
+  const t = e.target.closest('[data-toast]');
+  if (t) { toast(t.dataset.toast); return; }
+});
+document.addEventListener('change', (e) => { if (e.target.dataset.pledge) { state.pledge[+e.target.dataset.pledge] = e.target.checked; $('#cta').innerHTML = steps[state.step].cta(); } });
+document.addEventListener('input', (e) => { if (e.target.id === 'link') { state.link = e.target.value; $('#cta').innerHTML = steps[state.step].cta(); } });
+$('#back').addEventListener('click', () => { if (state.step > 0) { state.step--; render(); } });
+
+/* ---------- Brand Portal (sample data) ---------- */
+const names = ['maya.glows','skinwithsam','jess.tries','its.brielle','kendra_k','acne.diaries.lu','nina.routine','tay.fresh','ashleyy.skin','glowup.gabi','morgan.mornings','dani.dewy','rach.realskin','sofi.spf','lexi.lately','carly.clear','emmie.edits','jordyn.j','hannah.h.skin','priya.daily','kels.kare','ava.unfiltered','bree.beauty','zoe.z','livvy.lux'];
+const stores = [['T-2279','Austin, TX'],['T-1840','Dallas, TX'],['T-0932','Kansas City, MO'],['T-3311','Denver, CO'],['T-1102','Chicago, IL'],['T-2650','Phoenix, AZ'],['T-0418','Atlanta, GA'],['T-target.com','Online']];
+const statuses = Array.from({length: 25}, (_, i) => i < 13 ? 'paid' : i < 15 ? 'posted' : i < 19 ? 'bought' : 'joined');
+statuses[17] = 'flag';
+const rows = names.map((n, i) => {
+  const st = statuses[i];
+  const has = st !== 'joined';
+  const [sid, city] = stores[i % stores.length];
+  const day = 1 + (i % 6);
+  const tax = city === 'Online' ? 4.40 : [4.54, 4.54, 4.54, 4.42, 5.67, 4.62, 4.40][i % 7];
+  return { n, st, has, sid, city, date: has ? `Dec ${day + 1}` : '', day, total: has ? (55 + tax) : 0,
+    photo: has, post: (st === 'paid' || st === 'posted') ? 'Reel' : '',
+    ret: st === 'flag' ? 'Return at same store, Dec 4' : has ? (day <= 3 ? 'No return found' : 'Waiting for next report') : '' };
+});
+const label = { paid: 'Paid', posted: 'Posted, checking', bought: 'Bought, not posted', joined: 'Joined', flag: 'Check: possible return' };
+let filter = 'all', sel = 0;
+
+function renderPortal() {
+  const c = (s) => rows.filter(r => r.st === s).length;
+  const bought = rows.filter(r => r.has).length;
+  const paid = rows.filter(r => r.st === 'paid');
+  const reimb = paid.reduce((a, r) => a + r.total, 0);
+  const fee = paid.length * 19;
+  $('#stats').innerHTML = [
+    ['Joined', `${rows.length} of 25`, 'no approvals'],
+    ['Bought', bought, `${bought} receipts verified`],
+    ['Posted', c('paid') + c('posted'), `${c('posted')} being checked`],
+    ['Paid back', paid.length, `${paid.length} creators`],
+    ['Owed so far', '$' + (fee + reimb).toFixed(2), `${paid.length} × $19 = $${fee} + $${reimb.toFixed(2)} receipts`],
+  ].map(([k, v, f]) => `<div class="stat"><span class="k">${k}</span><span class="v">${v}</span><span class="f">${f}</span></div>`).join('');
+
+  const perDay = [1,2,3,4,5,6,7].map(d => rows.filter(r => r.has && r.day + 1 === d + 1).length);
+  const max = Math.max(...perDay, 1);
+  $('#bars').innerHTML = perDay.map(v => `<div style="height:${(v / max) * 100}%" title="${v} purchases"></div>`).join('');
+  $('#barsx').innerHTML = perDay.map((v, i) => `<span>Dec ${i + 2}<br><b style="color:var(--ink)">${v}</b></span>`).join('');
+  $('#returnsline').innerHTML = `<b style="color:var(--ink)">${rows.filter(r=>r.st==='flag').length} to look at</b> · ${rows.filter(r=>r.ret==='No return found').length} cleared · ${rows.filter(r=>r.ret==='Waiting for next report').length} waiting for Phyla's next weekly report`;
+
+  const fl = [['all','All'],['paid','Paid'],['posted','Posted'],['bought','Bought, not posted'],['joined','Joined'],['flag','Possible return']];
+  $('#filters').innerHTML = fl.map(([k, t]) => `<button data-f="${k}" aria-pressed="${filter === k}">${t} ${k==='all'?rows.length:rows.filter(r=>r.st===k).length}</button>`).join('');
+  const list = rows.map((r, i) => ({...r, i})).filter(r => filter === 'all' || r.st === filter);
+  $('#rows').innerHTML = list.map(r => `<tr data-row="${r.i}">
+    <td><b style="font-weight:600">@${r.n}</b></td>
+    <td><span class="st ${r.st}">${label[r.st]}</span></td>
+    <td>${r.has ? '<span class="thumb"></span>' : '<span class="meta">Not yet</span>'}</td>
+    <td>${r.has ? `${r.city}<div class="meta">${r.sid}</div>` : ''}</td>
+    <td>${r.date}</td>
+    <td>${r.has ? '$' + r.total.toFixed(2) : ''}</td>
+    <td>${r.photo ? '<span class="ok">Open, in hand</span>' : ''}</td>
+    <td>${r.post ? `<a href="#" onclick="return false" style="color:var(--accent)">${r.post}</a>` : ''}</td>
+    <td>${r.st === 'flag' ? `<span class="st flag">${r.ret}</span>` : `<span class="meta">${r.ret}</span>`}</td></tr>`).join('');
+
+  const r = rows[sel];
+  $('#drawer').innerHTML = `
+    <div>${r.has ? `<div class="receipt" style="transform:none;width:100%"><div class="c"><b>TARGET</b><br>${r.city}<br>Store ${r.sid}</div><hr><div class="hl">PHYLA PHAGE SERUM&nbsp;&nbsp;55.00</div><div><b>TOTAL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${r.total.toFixed(2)}</b></div><hr><div class="c">${r.date}, 2026</div></div>` : '<div class="meta">No receipt yet.</div>'}</div>
+    <div style="display:grid;gap:10px;min-width:0">
+      <div><b style="font-weight:600;font-size:15px">@${r.n}</b> <span class="st ${r.st}" style="margin-left:8px">${label[r.st]}</span></div>
+      <dl>
+        <dt>Receipt checks</dt><dd>${r.has ? 'Right item · bought after joining · receipt number unique' : '—'}</dd>
+        <dt>Open-bottle photo</dt><dd>${r.photo ? 'Yes' : '—'}</dd>
+        <dt>Post</dt><dd>${r.post ? 'Live · tagged @phylaskin · Paid Partnership on' : '—'}</dd>
+        <dt>Returns check</dt><dd>${r.ret || '—'}</dd>
+        ${r.st === 'flag' ? '<dt>Next step</dt><dd>Katie\'s team asks the creator for a photo of the bottle. No reply in 3 days: payment stays on hold and the creator loses collab access.</dd>' : ''}
+      </dl>
+    </div>`;
+}
+document.addEventListener('click', (e) => {
+  const f = e.target.closest('[data-f]'); if (f) { filter = f.dataset.f; renderPortal(); return; }
+  const tr = e.target.closest('[data-row]'); if (tr) { sel = +tr.dataset.row; renderPortal(); }
+});
+$('#pnotes').innerHTML = `<h2>What this view is for</h2><ul>
+  <li><span class="tag agreed">agreed</span><div>Gianna sees every receipt. She asked for this today ("collect all of the receipts ... I would be able to see them as well").<div class="src">Today's call</div></div></li>
+  <li><span class="tag agreed">agreed</span><div>Pay only per completed post, content file and verified purchase: $19 + the reimbursement. Nothing upfront.<div class="src">Nov 10 email</div></div></li>
+  <li><span class="tag proposed">proposed</span><div>Purchases by day, because Gianna's real goal is Target units week over week (~300 a week bar from Nov 5).<div class="src">Claude, from the Nov 5 call</div></div></li>
+  <li><span class="tag open">open</span><div>The returns column depends on Phyla sending its Target returns by store and date each week. If Target only gives totals, this column becomes a single weekly number, and per-creator flags go away.<div class="src">Ask Gianna what report Aisle uses</div></div></li>
+  <li><span class="tag proposed">proposed</span><div>For the pilot this view can be a shared Google Sheet with receipt images, not a portal screen. Build the screen for the 100-creator run.<div class="src">Claude (go-small rule)</div></div></li></ul>`;
+
+function setView(v) {
+  $('#v-app').setAttribute('aria-pressed', v === 'app'); $('#v-portal').setAttribute('aria-pressed', v === 'portal');
+  $('#stage-app').hidden = v !== 'app'; $('#stage-portal').hidden = v !== 'portal';
+  if (location.hash !== '#' + v) history.replaceState(null, '', '#' + v);
+}
+$('#v-app').addEventListener('click', () => setView('app'));
+$('#v-portal').addEventListener('click', () => setView('portal'));
+window.addEventListener('hashchange', () => setView(location.hash === '#portal' ? 'portal' : 'app'));
+render(); renderPortal(); setView(location.hash === '#portal' ? 'portal' : 'app');
+</script>
+</body></html>
