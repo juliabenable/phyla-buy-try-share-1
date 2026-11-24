@@ -919,7 +919,7 @@ html, body { background: #fff; color: #1a1a1a; margin: 0; }
 .nf .bts-a .v small, .nf .bts-d .v small { font-size: 14px; font-weight: 500; color: #9a9a9a; margin-left: 4px; }
 .nf .bts-a .v2, .nf .bts-d .v2 { font-size: 16px; line-height: 22px; font-weight: 600; }
 .nf .bts-a-plan button, .nf .bts-d-plan button { justify-self: start; margin-top: 6px; }
-.nf .bts-b { border: 1px solid #e3e3e3; border-radius: 16px; background: #fff; box-shadow: 0 4px 8px rgba(0,0,0,.03); padding: 18px 24px; display: grid; gap: 12px; }
+.nf .bts-b { border: 1px solid #e3e3e3; border-radius: 16px; background: #fff; box-shadow: 0 4px 8px rgba(0,0,0,.03); padding: 16px 24px; display: grid; gap: 12px; }
 .nf .bts-b-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
 .nf .bts-b-nums { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; font-size: 14px; color: #4b4b4b; }
 .nf .bts-b-nums b { font-size: 22px; font-weight: 600; color: #1a1a1a; margin-right: 4px; font-variant-numeric: tabular-nums; }
@@ -1057,16 +1057,12 @@ function stats() {
   const more = `<button type="button" class="cs-ghost" data-act="more">${I.mail}Ask for more creators</button>`;
   const V = S.top;
   if (V === 'a') return `<section class="bts-a" aria-label="Pilot progress">
-    ${[['Accepted', acc, '#a1a1aa'], ['Bought at Target', bought, '#7a5cfa'], ['Posted', posted, '#2baf87']].map(([k, v, c]) => `<div class="bts-a-cell"><span class="k">${k}</span><span class="v">${v}<small>of 25</small></span><div class="bts-meter"><i style="width:${pct(v)};background:${c}"></i></div></div>`).join('')}
+    ${[['Accepted', acc, '#a1a1aa'], ['Bought at Target', bought, '#7a5cfa'], ['Posted', posted, '#2baf87']].map(([k, v, c]) => `<div class="bts-a-cell"><span class="k">${k}</span><span class="v">${v}<small>of 25</small></span></div>`).join('')}
     <div class="bts-a-cell bts-a-plan"><span class="k">Your plan</span><span class="v2">25 creators · pilot</span>${more}</div></section>`;
   if (V === 'b') return `<section class="bts-b" aria-label="Pilot progress">
     <div class="bts-b-top"><div class="bts-b-nums">
       <span><b>${acc}</b> accepted</span><i aria-hidden="true">›</i><span><b>${bought}</b> bought at Target</span><i aria-hidden="true">›</i><span><b>${posted}</b> posted</span>
-    </div><div class="bts-b-plan"><span>Pilot · 25 creators</span>${more}</div></div>
-    <div class="bts-b-bar" role="img" aria-label="${posted} posted, ${bought - posted} bought but not posted, ${acc - bought} accepted only, out of 25">
-      <i style="width:${pct(posted)};background:#2baf87"></i><i style="width:${pct(bought - posted)};background:#7a5cfa"></i><i style="width:${pct(acc - bought)};background:#d4d4d8"></i>
-    </div>
-    <div class="bts-b-legend"><span><em style="background:#2baf87"></em>Posted</span><span><em style="background:#7a5cfa"></em>Bought, post coming</span><span><em style="background:#d4d4d8"></em>Accepted, not bought yet</span></div></section>`;
+    </div><div class="bts-b-plan"><span>Pilot · 25 creators</span>${more}</div></div></section>`;
   if (V === 'c') return `<section class="bts-c" aria-label="Pilot progress">
     <div class="bts-c-nums">
       <div><span class="v">${acc}</span><span class="k">Accepted</span></div>
@@ -1076,7 +1072,7 @@ function stats() {
     </div>${more}</section>`;
   /* d: separate compact cards, plan in its own card */
   return `<section class="bts-d" aria-label="Pilot progress">
-    ${[['Accepted', acc, '#a1a1aa'], ['Bought at Target', bought, '#7a5cfa'], ['Posted', posted, '#2baf87']].map(([k, v, c]) => `<div class="bts-d-card"><div class="bts-d-head"><span class="k">${k}</span><span class="pc">${Math.round(v / 25 * 100)}%</span></div><span class="v">${v}<small>/ 25</small></span><div class="bts-meter"><i style="width:${pct(v)};background:${c}"></i></div></div>`).join('')}
+    ${[['Accepted', acc, '#a1a1aa'], ['Bought at Target', bought, '#7a5cfa'], ['Posted', posted, '#2baf87']].map(([k, v, c]) => `<div class="bts-d-card"><div class="bts-d-head"><span class="k">${k}</span><span class="pc">${Math.round(v / 25 * 100)}%</span></div><span class="v">${v}<small>/ 25</small></span></div>`).join('')}
     <div class="bts-d-card bts-d-plan"><span class="k">Your plan</span><span class="v2">25 creators · pilot</span>${more}</div></section>`;
 }
 
