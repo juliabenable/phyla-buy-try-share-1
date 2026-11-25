@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Buy, Try, Share · Design review list</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root { --ink: #1c1c1c; --muted: #6b6b70; --line: #e3e3e3; --weak: #f2f1f5; --accent: #7a5cfa; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #fafafa; color: var(--ink); font: 15px/1.6 Inter, -apple-system, "Segoe UI", sans-serif; }
+.wrap { max-width: 900px; margin: 0 auto; padding: 40px 20px 72px; display: grid; gap: 32px; }
+h1 { font-size: 30px; line-height: 1.2; font-weight: 600; margin: 6px 0 8px; } h2 { font-size: 19px; font-weight: 600; margin: 0 0 4px; }
+p { margin: 0; max-width: 70ch; } .muted { color: var(--muted); } .small { font-size: 13px; }
+.eyebrow { font-size: 12px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+a { color: var(--accent); }
+.links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+.links a { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; text-decoration: none; font-weight: 500; font-size: 14px; color: var(--ink); }
+.tw { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: #fff; margin-top: 12px; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 640px; }
+th { text-align: left; font-weight: 500; color: var(--muted); background: var(--weak); padding: 9px 14px; border-bottom: 1px solid var(--line); }
+td { padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; } tr:last-child td { border-bottom: 0; }
+td:first-child { white-space: nowrap; font-weight: 500; }
+.tag { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+.t-call { background: #daf7ed; color: #196249; } .t-prop { background: #edeaf9; color: #5a41c9; } .t-open { background: #fdf0d5; color: #8a5a00; }
+.key { display: flex; flex-wrap: wrap; gap: 14px; font-size: 13px; color: var(--muted); margin-top: 10px; }
+footer { border-top: 1px solid var(--line); padding-top: 16px; font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Buy, Try, Share · Creator app · Nov 25, 2026</div>
+    <h1>Design review: what to improve in the Nov 25 frames</h1>
+    <p>Seven Figma frames were reviewed on the Nov 25 calls (Julia and Amine at 9:09am, then 9:30am). The v2 prototype rebuilds them and keeps the pieces the frames do not have yet. This page lists what is still to fix, screen by screen.</p>
+    <div class="links"><a href="creator-v2.html">Creator flow v2 (prototype)</a><a href="creator.html">Previous version (v1)</a><a href="https://www.figma.com/design/8rB3KQsQhmJrnQk3EFkcDx/Design-Labs?node-id=16058-62988" target="_blank" rel="noopener">Figma frames</a></div>
+    <div class="key"><span><span class="tag t-call">Call</span> said on a Nov 25 call</span><span><span class="tag t-prop">Proposed</span> my read of the frames, not discussed</span><span><span class="tag t-open">Open</span> needs a decision</span></div>
+  </header>
+
+  <section>
+    <h2>1. Asked for on the call, not in the frames yet</h2>
+    <p class="muted">All of these are already in the v2 prototype, so Amine can copy from it.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Where</th><th>What is missing</th><th>Source</th><th>In v2</th></tr></thead>
+      <tbody>
+        <tr><td>Opportunity</td><td>Struck-through price under the product name: $55 in grey with a line through it, $0 in bold, the rest in black. The frame still shows "Buy, Try, Share / Phyla Acne Phage Serum at Target" there.</td><td><span class="tag t-call">Call</span></td><td>Yes</td></tr>
+        <tr><td>After Store or online</td><td>A screen that tells the creator to go buy it and come back. Julia called it nice to have, not required.</td><td><span class="tag t-call">Call</span></td><td>Yes, screen 5</td></tr>
+        <tr><td>Receipt</td><td>The state after a photo is added: thumbnail, remove, and "Add another" for long receipts.</td><td><span class="tag t-call">Call</span></td><td>Yes</td></tr>
+        <tr><td>Upload content</td><td>TikTok as an option next to Instagram.</td><td><span class="tag t-call">Call</span></td><td>Yes, in Content Type</td></tr>
+        <tr><td>Add content</td><td>No caption field. A block that says what to say and do takes its place.</td><td><span class="tag t-call">Call</span></td><td>Yes</td></tr>
+        <tr><td>Caption</td><td>#target has to be in the caption. Julia to tell Nathan.</td><td><span class="tag t-call">Call</span></td><td>Yes, 3 places</td></tr>
+        <tr><td>Checklist</td><td>Shown once, before the first upload, on the Upload content step. The frame shows it over the receipt screen.</td><td><span class="tag t-call">Call</span></td><td>Yes</td></tr>
+        <tr><td>After upload</td><td>A green success state ("you're good to post") before Time to Post. Going straight there felt too dry.</td><td><span class="tag t-call">Call</span></td><td>Yes, screen 8</td></tr>
+        <tr><td>Upload flow</td><td>The full upload flow chained together in Figma (Amine).</td><td><span class="tag t-call">Call</span></td><td>Yes</td></tr>
+        <tr><td>Receipt reading</td><td>Left out for now. Julia to ask Nathan what is possible.</td><td><span class="tag t-call">Call</span></td><td>Removed</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>2. What I would fix in the frames</h2>
+    <div class="tw"><table>
+      <thead><tr><th>Screen</th><th>Issue</th><th>Suggested fix</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td>All flow steps</td><td>Footer reads "Monday, Sep 1" and "3 days left".</td><td>Real values: 10 days from joining.</td><td><span class="tag t-prop">Proposed</span></td></tr>
+        <tr><td>All flow steps</td><td>Footer label is "Upload post by", but the deadline is for posting.</td><td>"Post by".</td><td><span class="tag t-prop">Proposed</span></td></tr>
+        <tr><td>All flow steps</td><td>Progress bar: segment widths and fills differ from frame to frame.</td><td>Four equal segments, one rule for filled. Amine flagged this on the call.</td><td><span class="tag t-call">Call</span></td></tr>
+        <tr><td>All flow steps</td><td>Mixed capitalisation: "Upload Content", "Time to Post!", "View Brief" next to "How will you buy it?".</td><td>Sentence case everywhere.</td><td><span class="tag t-prop">Proposed</span></td></tr>
+        <tr><td>Opportunity</td><td>"you loose access" in step 4.</td><td>"lose".</td><td><span class="tag t-prop">Proposed</span></td></tr>
+        <tr><td>Opportunity</td><td>"We reimburse you back" and "$55+tax".</td><td>"We reimburse you" and "$55 + tax".</td><td><span class="tag t-prop">Proposed</span></td></tr>
+        <tr><td>Before you join</td><td>"after my post is live" (one post) and "Once I upload my video and post".</td><td>Name both posts: "after my feed post and story are live".</td><td><span class="tag t-prop">Proposed</span></td></tr>
+        <tr><td>Store or online</td><td>The two cards have different padding (16 vs 14 / 18).</td><td>Same padding on both.</td><td><span class="tag t-prop">Proposed</span></td></tr>
+        <tr><td>Store or online</td><td>With the radio gone, selected is only a darker border.</td><td>Keep it, but check it reads on a phone in daylight; a check mark in the corner is a cheap backup.</td><td><span class="tag t-prop">Proposed</span></td></tr>
+        <tr><td>Receipt</td><td>Two versions of the title in the file: "Bought it? Add your receipt" and "Bought it? Send it in" (with a leftover product card).</td><td>Keep the first, delete the second.</td><td><span class="tag t-prop">Proposed</span></td></tr>
+        <tr><td>Receipt</td><td>The lead mentions both receipt types although the creator just told us which one.</td><td>Match the choice, as the prototype does. Julia liked this on the call.</td><td><span class="tag t-call">Call</span></td></tr>
+        <tr><td>Receipt</td><td>"tap to upload photo or a pdf".</td><td>"Tap to upload a photo or a PDF".</td><td><span class="tag t-prop">Proposed</span></td></tr>
+        <tr><td>Upload content</td><td>No state once a video is in, and nothing says how many are needed.</td><td>Count ("1/2") and a card per video, as in v2.</td><td><span class="tag t-prop">Proposed</span></td></tr>
+        <tr><td>Upload content</td><td>Button says "Submit"; the other steps say "Next".</td><td>"Next".</td><td><span class="tag t-prop">Proposed</span></td></tr>
+        <tr><td>Upload content</td><td>"Review campaign brief →" sits right under "View Brief" in the header.</td><td>Keep one. The call asked for the brief inline here, so drop the header one on this step or accept the repeat.</td><td><span class="tag t-open">Open</span></td></tr>
+        <tr><td>Checklist</td><td>"(FYE-luh, Phage = FAYJ (rhymes with “page”)" has an unclosed bracket.</td><td>"Phyla (FYE-luh) and phage (FAYJ, rhymes with page)".</td><td><span class="tag t-prop">Proposed</span></td></tr>
+        <tr><td>Checklist</td><td>Row titles are 15px on two rows and 16px on three.</td><td>One size.</td><td><span class="tag t-prop">Proposed</span></td></tr>
+        <tr><td>Checklist</td><td>Four rows are past tense ("I said"), the last is future ("I'll tag").</td><td>Fine as is if the tag happens at posting; otherwise move it to Time to Post.</td><td><span class="tag t-prop">Proposed</span></td></tr>
+        <tr><td>Time to Post</td><td>Link reads "httpa://benable.com/a/dav".</td><td>Fix the typo; drop the protocol.</td><td><span class="tag t-prop">Proposed</span></td></tr>
+        <tr><td>Time to Post</td><td>Fields are "IG Post" and "TikTok". The agreement with Phyla is one feed post and one story.</td><td>Decide what counts. v2 labels the fields from what was uploaded.</td><td><span class="tag t-open">Open</span></td></tr>
+        <tr><td>Time to Post</td><td>No reminder of @phylaskin and #target at the moment of posting.</td><td>A "In your caption" card with both, tap to copy (in v2).</td><td><span class="tag t-prop">Proposed</span></td></tr>
+        <tr><td>Time to Post</td><td>"My Draft" does not say what it opens. Kept on the call because there is a draft.</td><td>"View my video".</td><td><span class="tag t-prop">Proposed</span></td></tr>
+        <tr><td>Time to Post</td><td>"Add Another Link": unclear when a creator needs a third link.</td><td>Keep only if TikTok is an extra on top of the two required posts.</td><td><span class="tag t-open">Open</span></td></tr>
+        <tr><td>After publishing</td><td>No end screen: nothing says the money is coming or when.</td><td>The "You're all set" screen from v1 (kept in v2).</td><td><span class="tag t-prop">Proposed</span></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>3. Kept in v2 because the frames do not have it</h2>
+    <div class="tw"><table>
+      <thead><tr><th>Piece</th><th>Why it stays</th></tr></thead>
+      <tbody>
+        <tr><td>Campaigns tile</td><td>Not part of the seven frames. The green pill is gone; the price is a plain line under the product name.</td></tr>
+        <tr><td>Receipt thumbnails + Add another</td><td>Asked for on the call.</td></tr>
+        <tr><td>Receipt copy that follows the store / online choice</td><td>Julia liked it on the call.</td></tr>
+        <tr><td>Upload count, video cards, Add Content screen</td><td>The frame only shows the empty state.</td></tr>
+        <tr><td>Creator brief as a full-page sheet</td><td>No brief frame in this set.</td></tr>
+        <tr><td>@phylaskin and #target at Time to Post</td><td>Only place the creator sees them while posting.</td></tr>
+        <tr><td>"You're all set" end screen</td><td>No end screen in this set.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>4. Follow-ups from the call</h2>
+    <div class="tw"><table>
+      <thead><tr><th>Owner</th><th>What</th></tr></thead>
+      <tbody>
+        <tr><td>Julia</td><td>Ask Nathan whether receipt scanning is possible.</td></tr>
+        <tr><td>Julia</td><td>Ask Nathan whether the "what to say and do" block is already in progress, and get #target added to the caption instructions.</td></tr>
+        <tr><td>Julia</td><td>With Katie: invite the creators through onboarding.</td></tr>
+        <tr><td>Julia</td><td>Record the walkthrough video for Tony, and send it to Nisarg so he can start.</td></tr>
+        <tr><td>Amine</td><td>Add the two missing states, chain the upload flow, fix the progress bar spacing.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <footer>Sources: Granola transcripts of the two Nov 25 calls (9:09am design review; 9:30am "Buy, Try, Share - Quick review"), Figma frames 16058:62988, 16022:61267, 16030:61975, 16053:62287, 16058:63090, 16058:62819, 16058:63177.</footer>
+</div>
+</body>
+</html>

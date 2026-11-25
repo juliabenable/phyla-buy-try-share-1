@@ -30,3 +30,8 @@ print('creator.html', round(len(c) / 1e6, 2), 'MB')
 k = re.sub(r'm/([\w.-]+\.(?:png|jpg|svg))', inline, (src / 'stickers.html').read_text())
 (here / 'stickers.html').write_text(k)
 print('stickers.html', round(len(k) / 1e6, 2), 'MB')
+
+# ---- creator-v2.html: Nov 25 designs ----
+v = re.sub(r'm/([\w.-]+\.(?:png|jpg|svg))', inline, (src / 'creator-v2.html').read_text())
+(here / 'creator-v2.html').write_text(v)
+print('creator-v2.html', round(len(v) / 1e6, 2), 'MB')

@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Buy, Try, Share · Creator flow v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Tokens transcribed from Figma "Design Labs" (Onboarding 1960 + 1974) and the Benable Mobile design library. */
+:root {
+  --text: #1c1c1c; --text-2: #222; --medium: #717171; --soft: #6a6a6a; --subtle: #aaa;
+  --line: #e3e3e3; --line-2: #ddd; --weak: #f1f1f1; --page: #f9fafb; --white: #fff;
+  --accent: #7a5cfa; --accent-press: #664bd7; --accent-weak: #edeaf9; --pink: #c05ff0;
+  --green: #18906c; --green-bg: #effbf7;
+  --sh-light: 0 4px 24px rgba(0,0,0,.08); --sh-medium: 0 16px 40px rgba(0,0,0,.08);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body { font-family: Inter, -apple-system, "SF Pro Text", "Segoe UI", sans-serif; color: var(--text); background: #ececef; -webkit-font-smoothing: antialiased; }
+button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; padding: 0; text-align: inherit; }
+button:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+p { margin: 0; }
+
+/* ---------- workbench ---------- */
+.bench { min-height: 100%; display: grid; grid-template-columns: 220px minmax(0, 1fr); }
+.rail { padding: 28px 16px; display: flex; flex-direction: column; gap: 4px; border-right: 1px solid #dcdce0; background: #f6f6f8; }
+.rail h1 { font-size: 15px; font-weight: 600; margin: 0 8px 2px; }
+.rail .sub { font-size: 12px; color: var(--medium); margin: 0 8px 14px; line-height: 16px; }
+.rail button.s { display: flex; gap: 10px; align-items: baseline; padding: 8px; border-radius: 8px; font-size: 13px; color: #555; width: 100%; }
+.rail button.s span { font-variant-numeric: tabular-nums; color: var(--subtle); font-size: 11px; width: 12px; }
+.rail button.s[aria-current="true"] { background: var(--white); color: var(--text); font-weight: 600; box-shadow: 0 1px 2px rgba(0,0,0,.06); }
+.rail .links { margin-top: auto; display: grid; gap: 6px; padding: 12px 8px 0; font-size: 12px; }
+.rail .links a { color: var(--medium); text-decoration: none; }
+.rail .links a:hover { color: var(--text); }
+.stage { display: grid; place-items: center; padding: 28px 16px; }
+@media (max-width: 760px) { .bench { grid-template-columns: 1fr; } .rail { flex-direction: row; flex-wrap: wrap; border-right: 0; border-bottom: 1px solid #dcdce0; padding: 12px; } .rail h1, .rail .sub, .rail .links { display: none; } .rail button.s { width: auto; } }
+
+/* ---------- device ---------- */
+.device { width: 375px; height: 812px; border-radius: 44px; background: var(--white); position: relative; overflow: hidden; box-shadow: 0 0 0 10px #111, 0 0 0 11px #2c2c2e, 0 30px 70px rgba(0,0,0,.28); display: flex; flex-direction: column; }
+.statusbar { height: 54px; flex: none; background: var(--white); display: flex; align-items: flex-end; justify-content: space-between; padding: 0 32px 11px 40px; font-size: 17px; font-weight: 600; letter-spacing: -.2px; }
+.statusbar .ic { display: flex; align-items: center; gap: 6px; }
+.hdr { height: 48px; flex: none; background: var(--white); display: grid; grid-template-columns: 56px 1fr 56px; align-items: center; }
+.hdr .t { text-align: center; font-size: 14px; font-weight: 600; }
+.hdr .ib { width: 32px; height: 32px; display: grid; place-items: center; margin-left: 12px; border-radius: 8px; }
+.hdr .ib.r { margin: 0 12px 0 auto; }
+.scroll { flex: 1; min-height: 0; overflow-y: auto; scrollbar-width: none; }
+.scroll::-webkit-scrollbar { display: none; }
+.home { height: 21px; flex: none; position: relative; }
+.home::after { content: ""; position: absolute; left: 50%; bottom: 8px; width: 139px; height: 5px; margin-left: -69.5px; border-radius: 100px; background: #000; }
+
+/* ---------- 1. campaigns (Figma 1960) ---------- */
+.pg { background: var(--page); }
+.tabs { margin: 16px 16px 0; background: var(--weak); border-radius: 12px; padding: 4px; display: flex; gap: 8px; }
+.tabs b { flex: 1; height: 32px; display: grid; place-items: center; border-radius: 8px; font-size: 14px; font-weight: 500; color: var(--medium); }
+.tabs b.on { background: var(--white); color: var(--text); box-shadow: inset 0 0 0 .5px var(--line), 0 4px 12px rgba(0,0,0,.08); }
+.tile { margin: 22px 16px 0; border-radius: 16px; box-shadow: inset 0 0 0 .5px var(--line); padding-bottom: 8px; position: relative; overflow: hidden; display: block; width: 343px; }
+.tile--bts { background: #b79cf2 url(m/tile-bg.jpg) center / cover; }
+.tile--pair { background: linear-gradient(88deg, rgba(204,161,247,.12) 7%, rgba(215,164,222,.12) 48%, rgba(234,169,178,.12) 95%), #fff; margin-top: 45px; margin-bottom: 40px; }
+.tile-h { height: 72px; display: flex; align-items: center; gap: 12px; padding: 0 8px; }
+.tile-logo { width: 48px; height: 48px; border-radius: 50%; background: #fff; box-shadow: var(--sh-light); display: grid; place-items: center; flex: none; overflow: hidden; }
+.tile-logo img { width: 85%; display: block; }
+.tile-h .nm { font-size: 16px; font-weight: 700; flex: 1; }
+.tile--bts .nm { color: #fff; }
+.chip-bts { background: #e4ffa9; color: #1c8857; font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 999px; box-shadow: 0 4px 14px rgba(0,0,0,.08); white-space: nowrap; }
+.tile-c { margin: 0 8px; background: #fff; border-radius: 12px; padding: 12px; box-shadow: var(--sh-medium); display: grid; gap: 20px; }
+.tile-c .txt { display: grid; gap: 6px; font-size: 14px; line-height: 17px; }
+.tile-c .txt b { font-weight: 600; color: var(--text-2); }
+.tile-c .txt span { color: var(--medium); }
+.chip-cash { background: #daf7ed; box-shadow: inset 0 0 0 .5px #cae0d6; border-radius: 8px; padding: 10px 12px; text-align: center; font-size: 16px; font-weight: 600; color: #196249; margin-bottom: 2px; }
+.founder { display: flex; align-items: center; gap: 12px; }
+.founder img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+.founder b { display: block; font-size: 13px; font-weight: 600; color: #1a1a1a; }
+.founder span { font-size: 11px; color: #8a8a8a; }
+.pillbtn { height: 41px; border-radius: 40px; display: grid; place-items: center; font-size: 14px; font-weight: 500; background: var(--accent); color: #fff; width: 100%; }
+.pillbtn.o { background: #fff; color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+
+/* ---------- 2. opportunity (Figma 1974) ---------- */
+.opp { padding: 16px 16px 24px; }
+.shot { width: 231px; height: 219px; margin: 0 auto; border-radius: 16px; box-shadow: inset 0 0 0 .5px var(--line), 0 18px 16px -4px rgba(0,0,0,.05); overflow: hidden; position: relative; }
+.shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.shot::after { content: ""; position: absolute; inset: 0; border-radius: 16px; box-shadow: inset 0 0 0 .5px var(--line); }
+.opp-t { text-align: center; margin: 24px 14px 0; display: grid; gap: 8px; }
+.opp-t h2 { margin: 0; font-size: 20px; line-height: 24px; font-weight: 700; }
+.opp-t p { font-size: 14px; line-height: 17px; color: var(--medium); }
+.chip-cash s { font-weight: 500; opacity: .6; } .chip-cash b { font-weight: 700; }
+.tile-c .txt .tpr { font-size: 16px; line-height: 20px; color: var(--text-2); margin: 0; } .tile-c .txt .tpr b { display: inline; font-weight: 700; } .tpr s { color: var(--medium); }
+.opp-t p.pr { font-size: 16px; line-height: 20px; color: var(--text-2); } .opp-t .pr b { font-weight: 700; } .opp-t .pr s { color: var(--medium); }
+.brand { margin-top: 23px; height: 62px; display: flex; align-items: center; gap: 12px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); font-size: 14px; font-weight: 600; color: var(--text-2); }
+.blogo { width: 28px; height: 28px; border-radius: 50%; background: #fff; box-shadow: inset 0 0 0 .5px #c6c6c6; display: grid; place-items: center; overflow: hidden; flex: none; }
+.blogo img { width: 85%; display: block; }
+.feats { padding: 32px 0; border-bottom: 1px solid var(--line); display: grid; gap: 24px; }
+.feat { display: grid; grid-template-columns: 24px 1fr; gap: 16px; }
+.feat b { display: block; font-size: 16px; line-height: 24px; font-weight: 600; color: var(--text-2); }
+.feat b em { font-style: normal; color: var(--pink); }
+.feat span { font-size: 14px; line-height: 19.25px; color: var(--soft); }
+.hiw { padding: 24px 0; }
+.hiw h3 { margin: 0 0 16px; font-size: 18px; line-height: 22px; font-weight: 700; letter-spacing: -.22px; color: var(--text-2); }
+.hstep { display: grid; grid-template-columns: 32px 1fr; gap: 16px; padding-bottom: 24px; position: relative; }
+.hstep:last-child { padding-bottom: 0; }
+.hstep:not(:last-child)::before { content: ""; position: absolute; left: 15.5px; top: 34px; bottom: 2px; width: 1px; background: var(--line-2); }
+.hstep i { width: 32px; height: 32px; border-radius: 50%; box-shadow: inset 0 0 0 1px var(--line-2); display: grid; place-items: center; font-style: normal; font-size: 13px; font-weight: 600; color: var(--text-2); }
+.hstep div { padding-top: 4px; }
+.hstep b { display: block; font-size: 16px; line-height: 24px; font-weight: 600; color: var(--text-2); }
+.hstep span { display: block; padding-top: 2px; font-size: 14px; line-height: 19.25px; color: var(--soft); }
+.briefrow { width: 100%; height: 82px; display: flex; align-items: center; gap: 12px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.briefrow .ib { width: 38px; height: 38px; border-radius: 8px; background: #f7f7f7; display: grid; place-items: center; flex: none; }
+.briefrow b { display: block; font-size: 16px; line-height: 24px; font-weight: 600; color: var(--text-2); }
+.briefrow span { font-size: 14px; color: var(--soft); }
+.briefrow .g { flex: 1; }
+.foot { flex: none; background: #fff; box-shadow: 0 -.5px 0 var(--line), 0 4px 32px rgba(0,0,0,.04); padding: 20px 16px 0; }
+.foot-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+.price b { font-size: 16px; font-weight: 600; color: var(--text-2); }
+.price b span { font-weight: 400; }
+.price small { display: block; margin-top: 2px; font-size: 12px; color: var(--soft); }
+.cta { height: 48px; border-radius: 12px; background: var(--accent); color: #fff; font-size: 16px; font-weight: 600; letter-spacing: -.07px; display: grid; place-items: center; transition: background-color .12s; }
+.cta:hover { background: var(--accent-press); }
+.cta.w { width: 144px; flex: none; }
+.cta.full { width: 100%; }
+.cta:disabled { background: #d6cfea; cursor: default; }
+
+/* ---------- flow steps ---------- */
+.fhdr { flex: none; background: #fff; padding: 6px 16px 0; }
+.fhdr-r { height: 52px; display: flex; align-items: center; gap: 10px; }
+.fhdr-r .bk { width: 24px; height: 32px; display: grid; place-items: center; margin-left: -4px; }
+.fhdr-r .lg { width: 40px; height: 40px; border-radius: 50%; background: #fff; box-shadow: inset 0 0 0 .5px #c6c6c6; display: grid; place-items: center; overflow: hidden; flex: none; }
+.fhdr-r .lg img { width: 84%; }
+.fhdr-r .n { flex: 1; min-width: 0; }
+.fhdr-r .n b { display: block; font-size: 14px; font-weight: 600; line-height: 18px; }
+.fhdr-r .n span { font-size: 12px; color: var(--medium); line-height: 16px; }
+.fhdr-r .vb { font-size: 14px; font-weight: 600; padding: 6px 0; }
+.segs { display: flex; gap: 6px; padding: 10px 0 14px; }
+.segs i { flex: 1; height: 3px; border-radius: 2px; background: var(--line); }
+.segs i.on { background: var(--text); }
+.fbody { padding: 24px 16px; display: grid; gap: 12px; align-content: start; min-height: 100%; }
+.fbody h2 { margin: 0; font-size: 18px; line-height: 24px; font-weight: 700; letter-spacing: -.2px; }
+.fbody .lead { font-size: 14px; line-height: 20px; color: var(--medium); margin: -6px 0 8px; }
+.opt { display: grid; grid-template-columns: 1fr 22px; gap: 12px; align-items: start; background: #fff; border-radius: 16px; padding: 16px; box-shadow: inset 0 0 0 1px var(--line); width: 100%; transition: box-shadow .12s; }
+.opt.on { box-shadow: inset 0 0 0 1.5px var(--text); }
+.opt b { display: block; font-size: 15px; line-height: 20px; font-weight: 600; }
+.opt span { display: block; margin-top: 4px; font-size: 14px; line-height: 20px; color: var(--medium); }
+.opt .rd { width: 22px; height: 22px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px #c6c6c6; margin-top: -1px; }
+.opt.on .rd { box-shadow: inset 0 0 0 7px var(--text); }
+.opt { cursor: pointer; }
+.plink { grid-column: 1 / -1; justify-self: start; display: inline-flex; align-items: center; gap: 4px; color: var(--accent); text-decoration: none; font-size: 14px; font-weight: 600; line-height: 20px; margin-top: -4px; }
+.plink:hover { text-decoration: underline; }
+.thumbs { display: flex; gap: 12px; }
+.th { position: relative; width: 96px; height: 126px; border-radius: 12px; overflow: hidden; box-shadow: inset 0 0 0 1px var(--line); background: #eee; flex: none; }
+.th > img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.th-x { position: absolute; top: 6px; right: 6px; width: 22px; height: 22px; border-radius: 50%; background: rgba(255,255,255,.92); display: grid; place-items: center; box-shadow: 0 1px 4px rgba(0,0,0,.2); }
+.th-add { width: 96px; height: 126px; border-radius: 12px; border: 1.5px dashed #c6c6c6; background: #fff; display: grid; place-content: center; justify-items: center; gap: 6px; color: var(--text); flex: none; }
+.th-add span { font-size: 12px; font-weight: 600; color: var(--text); }
+.th-add:hover { border-color: var(--text); }
+.hint { font-size: 13px; line-height: 18px; color: var(--medium); margin: -4px 0 4px; }
+.rtitle { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.rtitle b { font-size: 15px; font-weight: 600; } .rtitle span { font-size: 13px; color: var(--medium); }
+.card .lines { margin-top: 12px; }
+.zone { width: 100%; background: #fff; border-radius: 16px; border: 1.5px dashed #c6c6c6; padding: 36px 16px; display: grid; justify-items: center; gap: 4px; text-align: center; }
+.zone:hover { border-color: var(--accent); }
+.zone .zi { width: 44px; height: 44px; border-radius: 50%; background: var(--accent-weak); display: grid; place-items: center; margin-bottom: 8px; color: var(--accent); }
+.zone b { font-size: 15px; font-weight: 600; }
+.zone span { font-size: 13px; color: var(--medium); }
+.card { background: #fff; border-radius: 16px; box-shadow: inset 0 0 0 1px var(--line); padding: 14px; }
+.rcpt { display: grid; grid-template-columns: 64px 1fr; gap: 14px; align-items: center; }
+.paper { width: 64px; height: 84px; border-radius: 4px; background: #fbfaf6; box-shadow: 0 1px 4px rgba(0,0,0,.14); padding: 8px 7px; display: grid; gap: 4px; align-content: start; transform: rotate(-2deg); }
+.paper i { display: block; height: 2px; border-radius: 1px; background: #c9c7c0; }
+.paper i.m { width: 60%; margin: 0 auto 3px; height: 3px; background: #d2232a; }
+.paper i.h { background: #f3d55b; height: 4px; }
+.rcpt b { font-size: 15px; font-weight: 600; line-height: 20px; display: block; }
+.rcpt span { font-size: 13px; color: var(--medium); line-height: 18px; display: block; }
+.lines { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--weak); display: grid; gap: 8px; font-size: 14px; font-variant-numeric: tabular-nums; }
+.lines div { display: flex; justify-content: space-between; color: var(--medium); }
+.lines div.tot { color: var(--text); font-weight: 600; }
+.tlink { font-size: 14px; font-weight: 600; color: var(--accent); justify-self: start; padding: 4px 0; }
+.vid { display: grid; grid-template-columns: 64px 1fr auto; gap: 14px; align-items: center; }
+.vid img { width: 64px; height: 84px; border-radius: 8px; object-fit: cover; display: block; }
+.ok { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--green); }
+.row2 { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.row2 + .row2 { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--weak); }
+.row2 small { display: block; font-size: 12px; color: var(--medium); line-height: 16px; }
+.row2 b { font-size: 15px; font-weight: 600; line-height: 20px; }
+.copy { height: 32px; padding: 0 14px; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--line); font-size: 13px; font-weight: 600; background: #fff; flex: none; }
+.copy:hover { background: #f7f7f8; }
+.field { display: grid; gap: 6px; }
+.field label { font-size: 13px; font-weight: 600; }
+.field input { height: 48px; border-radius: 12px; border: 0; box-shadow: inset 0 0 0 1px var(--line); background: #fff; padding: 0 14px; font: 400 15px Inter, sans-serif; color: var(--text); width: 100%; }
+.field input::placeholder { color: var(--subtle); }
+.field input:focus { outline: 0; box-shadow: inset 0 0 0 1.5px var(--text); }
+.uc .lead { margin: -8px 0 8px; }
+.uc-h { display: flex; align-items: center; justify-content: space-between; }
+.uc-h h2 { font-size: 16px; line-height: 20px; }
+.uc-n { display: inline-flex; align-items: center; gap: 12px; font-size: 16px; font-weight: 600; color: var(--medium); font-variant-numeric: tabular-nums; }
+.uc-item { background: #fff; box-shadow: inset 0 0 0 .5px var(--line); border-radius: 16px; height: 108px; padding: 8px 12px 8px 8px; display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+.uc-th { width: 70px; height: 100%; border-radius: 8px; object-fit: cover; flex: none; background: #c69769; }
+.uc-c { flex: 1; min-width: 0; display: grid; gap: 8px; }
+.uc-top { display: flex; align-items: center; justify-content: space-between; }
+.uc-chip { background: #f5f5f5; box-shadow: inset 0 0 0 1px var(--weak); border-radius: 52px; padding: 4px 8px; font-size: 12px; font-weight: 500; line-height: 15px; }
+.uc-cap { font-size: 12px; line-height: 15px; color: var(--text); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.at { color: #0c8ee9; } .hash { color: var(--accent); }
+.uc-zone { width: 100%; height: 120px; background: #fff; border: 1px dashed var(--medium); border-radius: 12px; display: grid; place-content: center; justify-items: center; gap: 12px; font-size: 13px; font-weight: 500; }
+.ac { padding: 16px; display: grid; gap: 12px; }
+.ac-card { background: #fff; box-shadow: inset 0 0 0 .5px var(--line); border-radius: 16px; padding: 16px; display: grid; gap: 8px; width: 100%; position: relative; }
+.ac-card > b { font-size: 14px; line-height: 16px; font-weight: 600; }
+.ac-tiles { display: flex; gap: 12px; margin-top: 8px; }
+.ac-tile { width: 95.67px; height: 95.67px; border-radius: 8px; box-shadow: inset 0 0 0 .5px var(--line); background: var(--weak); position: relative; overflow: hidden; display: grid; place-items: center; }
+.ac-tile > img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ac-act { width: 20px; height: 20px; border-radius: 12px; background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,.08); display: grid; place-items: center; position: absolute; top: 4px; right: 4px; }
+.ac-act.c { position: static; }
+.ac-type span { font-size: 14px; color: var(--medium); line-height: 17px; }
+.ac-type img { position: absolute; right: 16px; top: 50%; margin-top: -8px; }
+.ac-sub { font-size: 14px; line-height: 17px; color: var(--medium); } .ac-sub strong { font-weight: 600; }
+.ac-chip { display: inline-flex; align-items: center; gap: 4px; height: 28px; padding: 0 16px 0 12px; border-radius: 52px; font-size: 13px; font-weight: 500; color: var(--medium); box-shadow: inset 0 0 0 1px var(--line); margin: 4px 0; }
+.ac-chip img { opacity: 0; width: 0; }
+.ac-chip.ok { background: var(--green-bg); box-shadow: inset 0 0 0 1px #2baf87; color: var(--green); }
+.ac-chip.ok img { opacity: 1; width: 12px; }
+.ac-card textarea { width: 100%; min-height: 96px; resize: none; border: 0; box-shadow: inset 0 0 0 1px var(--text); background: #fafafa; border-radius: 8px; padding: 8px; font: 400 13px/16px Inter, sans-serif; color: var(--text); }
+.ac-card textarea:focus { outline: 0; }
+.ct-opt { display: flex; align-items: center; gap: 12px; width: 100%; padding: 14px 16px; border-radius: 12px; box-shadow: inset 0 0 0 1px var(--line); font-size: 14px; font-weight: 500; margin-bottom: 8px; }
+.ct-opt .rd { width: 20px; height: 20px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px #c6c6c6; flex: none; }
+.ct-opt.on { box-shadow: inset 0 0 0 1.5px var(--text); } .ct-opt.on .rd { box-shadow: inset 0 0 0 6px var(--text); }
+.ct-opt:disabled { color: var(--subtle); cursor: default; } .ct-opt small { margin-left: auto; font-size: 12px; color: var(--subtle); }
+.ffoot { flex: none; background: #fff; box-shadow: 0 -.5px 0 var(--line); padding: 14px 16px 0; }
+.due { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.due small { display: block; font-size: 11px; color: var(--medium); line-height: 14px; }
+.due b { font-size: 16px; font-weight: 700; line-height: 22px; }
+.due .pill { font-size: 12px; font-weight: 600; color: var(--accent); background: var(--accent-weak); padding: 6px 12px; border-radius: 999px; }
+.ffoot .cta { margin-bottom: 8px; }
+
+/* done */
+.done { padding: 56px 24px 24px; display: grid; justify-items: center; text-align: center; gap: 8px; }
+.done .ring { width: 72px; height: 72px; border-radius: 50%; background: var(--green-bg); display: grid; place-items: center; margin-bottom: 12px; }
+.done h2 { margin: 0; font-size: 22px; line-height: 28px; font-weight: 700; letter-spacing: -.3px; }
+.done p { font-size: 15px; line-height: 22px; color: var(--medium); max-width: 280px; }
+.sum { margin: 28px 0 0; width: 100%; text-align: left; }
+.sum .row2 b { font-weight: 500; }
+
+/* sheets */
+.scrim { position: absolute; inset: 0; background: rgba(0,0,0,.36); z-index: 5; animation: fade .18s ease; }
+.sheet { position: absolute; left: 0; right: 0; bottom: 0; z-index: 6; background: #fff; border-radius: 24px 24px 0 0; padding: 8px 16px 0; box-shadow: 0 -8px 40px rgba(0,0,0,.16); animation: up .24s cubic-bezier(.2,.8,.2,1); max-height: 88%; overflow-y: auto; }
+.grab { width: 36px; height: 4px; border-radius: 2px; background: var(--line); margin: 0 auto 16px; }
+.sheet h2 { margin: 0 0 4px; font-size: 18px; line-height: 24px; font-weight: 700; letter-spacing: -.2px; }
+.sheet .lead { font-size: 14px; line-height: 20px; color: var(--medium); margin-bottom: 8px; }
+.ck { display: grid; grid-template-columns: 22px 1fr; gap: 12px; padding: 14px 0; width: 100%; align-items: start; font-size: 15px; line-height: 21px; }
+.ck + .ck { border-top: 1px solid var(--weak); }
+.ck .bx { width: 22px; height: 22px; border-radius: 6px; box-shadow: inset 0 0 0 1.5px #c6c6c6; display: grid; place-items: center; transition: background-color .12s, box-shadow .12s; }
+.ck[aria-checked="true"] .bx { background: var(--accent); box-shadow: none; }
+.ck .bx svg { opacity: 0; }
+.ck[aria-checked="true"] .bx svg { opacity: 1; }
+.ck b { font-weight: 600; }
+.sheet .cta { margin: 12px 0 8px; }
+.sheet--full { top: 54px; max-height: none; display: flex; flex-direction: column; padding-bottom: 0; }
+.sheet--full .bh { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding-bottom: 12px; }
+.sheet--full .bx2 { width: 32px; height: 32px; border-radius: 50%; background: var(--weak); display: grid; place-items: center; flex: none; }
+.sheet--full .pdf { flex: 1; min-height: 0; overflow-y: auto; margin: 0 -16px; border-radius: 0; padding: 20px 16px; }
+.sheet--full .pp { padding: 24px 22px 28px; font-size: 13px; line-height: 19px; gap: 10px; }
+.sheet--full .pp h4 { font-size: 17px; line-height: 22px; }
+.sheet--full .pphead { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text); }
+.sheet--full .bf { padding-top: 12px; }
+.sheet--full .bf .cta { margin: 0 0 8px; }
+.sheet { border-radius: 32px 32px 0 0; max-height: calc(100% - 54px); scrollbar-width: none; }
+.sheet::-webkit-scrollbar { display: none; }
+.sh-h { margin-bottom: 20px; } .pc { margin-bottom: 20px; } .ag-h { margin-bottom: 12px; } .ag-row { padding: 14px 0; } .ag { margin-bottom: 16px; }
+.grab { width: auto; height: auto; background: none; margin: 0; padding: 0 0 20px; display: grid; place-items: center; }
+.sh-h { display: grid; gap: 4px; margin-bottom: 24px; }
+.sh-h h2 { margin: 0; font-size: 18px; line-height: 22px; font-weight: 600; letter-spacing: 0; color: var(--text-2); }
+.sh-h p { font-size: 16px; line-height: 19px; color: #868686; }
+.pc { height: 89px; background: #fcfcfc; box-shadow: inset 0 0 0 .5px var(--line); border-radius: 16px; padding: 8px; display: flex; align-items: center; gap: 8px; margin-bottom: 24px; }
+.pc img { width: 67px; height: 73px; border-radius: 8px; object-fit: cover; box-shadow: 0 0 0 .5px var(--line); }
+.pc div { display: grid; gap: 4px; }
+.pc b { font-size: 15px; font-weight: 600; color: var(--text-2); line-height: 18px; }
+.pc span { font-size: 13px; color: var(--soft); line-height: 16px; }
+.pc em { font-style: normal; font-size: 13px; line-height: 16px; color: var(--text-2); } .pc strong { font-weight: 600; }
+.ag-h { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.ag-h b { font-size: 18px; line-height: 22px; font-weight: 600; color: var(--text-2); }
+.ag-h span { font-size: 16px; line-height: 24px; font-weight: 600; color: var(--subtle); font-variant-numeric: tabular-nums; }
+.ag { background: #fff; box-shadow: inset 0 0 0 .5px #c6c6c6; border-radius: 12px; padding: 4px 16px; margin-bottom: 20px; }
+.ag-row { display: grid; grid-template-columns: 24px 1fr 24px; gap: 12px; align-items: center; width: 100%; padding: 16px 0; }
+.ag-row + .ag-row { box-shadow: 0 -.5px 0 #c6c6c6; }
+.ag-row > img, .ag-row > svg { align-self: start; }
+.ag-t { display: grid; gap: 2px; }
+.ag-t b { font-size: 15px; line-height: 19px; font-weight: 600; color: var(--text-2); }
+.ag-t span { font-size: 14px; line-height: 17px; color: var(--soft); }
+.ag-ck { width: 24px; height: 24px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px #c6c6c6; display: block; transition: box-shadow .12s; }
+.ag-ck img { display: block; opacity: 0; transform: scale(.6); transition: .14s; }
+.ag-row[aria-checked="true"] .ag-ck { box-shadow: none; }
+.ag-row[aria-checked="true"] .ag-ck img { opacity: 1; transform: none; }
+.sh-f { margin: 0 -16px; padding: 12px 16px 16px; box-shadow: 0 -.5px 0 var(--line); }
+.sh-f .cta { margin: 0; font-size: 14px; }
+.pdf { background: #f6f6f7; border-radius: 12px; padding: 16px; margin: 8px 0 4px; }
+.pdf .pp { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,.08); padding: 18px 18px 22px; display: grid; gap: 8px; font-size: 12px; line-height: 17px; color: #444; }
+.pdf h4 { margin: 0; font-size: 14px; color: var(--text); }
+.pdf h5 { margin: 6px 0 0; font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--medium); }
+.pdf ul { margin: 0; padding-left: 16px; display: grid; gap: 2px; }
+.toast { position: absolute; left: 16px; right: 16px; bottom: 160px; z-index: 9; background: #1c1c1c; color: #fff; font-size: 13px; font-weight: 500; padding: 12px 16px; border-radius: 12px; opacity: 0; transform: translateY(6px); transition: .2s; pointer-events: none; text-align: center; }
+.toast.show { opacity: 1; transform: none; }
+@keyframes fade { from { opacity: 0; } }
+@keyframes up { from { transform: translateY(100%); } }
+@media (prefers-reduced-motion: reduce) { .scrim, .sheet { animation: none; } .toast { transition: none; } }
+
+/* ================= v2: Amine's Nov 25 designs ================= */
+.rail .new, .rail button.s em { font-style: normal; font-size: 10px; font-weight: 600; color: var(--accent); background: var(--accent-weak); padding: 1px 6px; border-radius: 999px; margin-left: 6px; }
+.cta:disabled { background: #e4e4e4; color: #fff; }
+/* flow header + edge-to-edge stepper (16030:61975) */
+.fh { height: 48px; flex: none; background: #fff; display: flex; align-items: center; justify-content: space-between; padding: 0 16px 0 12px; }
+.fh .bk { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 8px; }
+.fh .vb { border: 1px solid var(--line); border-radius: 24px; padding: 8px 12px; font-size: 14px; line-height: 17px; font-weight: 600; background: #fff; }
+.fh .vb:hover { background: #f7f7f8; }
+.stp { height: 16px; flex: none; background: #fff; display: flex; align-items: flex-end; gap: 6px; }
+.stp i { flex: 1; height: 2px; background: #ddd; border-radius: 999px; }
+.stp i:first-child { border-radius: 0 999px 999px 0; } .stp i:last-child { border-radius: 999px 0 0 999px; }
+.stp i.on { background: #222; }
+.fbody { padding: 24px 16px; gap: 0; }
+.fbody h2 { font-size: 16px; line-height: 19px; font-weight: 700; letter-spacing: 0; }
+.fbody .lead { font-size: 14px; line-height: 17px; color: var(--medium); margin: 4px 0 16px; }
+.fbody .lead.lg { font-size: 16px; line-height: 22px; margin-top: 8px; }
+/* choice cards, no radio (16030:62096) */
+.opt2 { display: grid; gap: 6px; width: 100%; text-align: left; background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 16px; cursor: pointer; transition: border-color .12s, background-color .12s; }
+.opt2 + .opt2 { margin-top: 12px; }
+.opt2.on { border-color: var(--text); background: #fcfcfc; }
+.opt2 b { font-size: 14px; line-height: 17px; font-weight: 600; color: #000; }
+.opt2 span { font-size: 14px; line-height: 20px; color: #8a8a8a; }
+.olink { display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; justify-self: start; font-size: 14px; line-height: 20px; font-weight: 500; color: var(--accent); text-decoration: none; }
+.olink:hover { text-decoration: underline; }
+/* dashed upload zone (16058:62831) */
+.zone2 { width: 100%; height: 179px; background: #fcfcfc; border: 1px dashed var(--medium); border-radius: 12px; display: grid; place-content: center; justify-items: center; gap: 8px; text-align: center; }
+.zone2:hover { border-color: var(--text); }
+.zone2 b { font-size: 16px; line-height: 19px; font-weight: 500; }
+.zone2 span { font-size: 14px; line-height: 17px; color: var(--medium); }
+.see { margin-top: 24px; } .see h3 { margin: 0 0 8px; font-size: 16px; line-height: 19px; font-weight: 600; }
+.see ul { margin: 0; padding-left: 21px; font-size: 14px; line-height: 26px; color: var(--medium); }
+.thumbs + .hint { margin: 12px 0 0; }
+.rb { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; line-height: 17px; font-weight: 500; margin: -6px 0 16px; justify-self: start; }
+.rb:hover { text-decoration: underline; }
+.uc-h { margin-bottom: 0; } .uc .lead { margin: 8px 0 12px; }
+.uc-item { height: 96px; } .uc-note { font-size: 12px; line-height: 15px; color: var(--medium); }
+.uc-zone2 { height: 120px; }
+/* footer (16055:62754) */
+.ffoot { padding: 12px 16px 0; box-shadow: 0 -.5px 0 var(--line); }
+.due { margin-bottom: 16px; }
+.due small { font-size: 10px; line-height: 12px; font-weight: 500; color: #868686; margin-bottom: 4px; }
+.due b { font-size: 14px; line-height: 17px; font-weight: 700; color: #000; }
+.due .pill { background: #f2edff; }
+.ffoot .cta { font-size: 14px; letter-spacing: 0; margin-bottom: 16px; }
+/* time to post (16058:63250) */
+.lk { background: #fff; border: .5px solid var(--line); border-radius: 12px; padding: 16px; box-shadow: 0 4px 16px rgba(0,0,0,.04); display: grid; gap: 12px; }
+.lk + .lk, .lk + .addl { margin-top: 16px; }
+.lk-t { display: grid; gap: 4px; } .lk-t b, .lk-h b { font-size: 14px; line-height: 17px; font-weight: 600; } .lk-t span { font-size: 12px; line-height: 15px; color: var(--medium); }
+.lk-h { display: flex; align-items: center; justify-content: space-between; height: 20px; }
+.dr { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; color: #a2a2a2; }
+.dr:hover { color: var(--medium); }
+.lk input { height: 48px; width: 100%; background: #f5f5f5; border: 1px solid #f1f1f1; border-radius: 8px; padding: 0 16px; font: 400 14px Inter, sans-serif; color: var(--text); }
+.lk input::placeholder { color: #a5a5a5; } .lk input:focus { outline: 0; border-color: var(--text); background: #fff; }
+.aff { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; background: #fcfcfc; border: .5px solid var(--line); border-radius: 8px; padding: 4px 16px 4px 4px; }
+.aff > span { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; color: var(--text-2); min-width: 0; }
+.aff img.t { width: 40px; height: 40px; border-radius: 4px; object-fit: cover; background: #797979; }
+.capc { display: flex; flex-wrap: wrap; gap: 8px; }
+.capc button { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 999px; background: #fcfcfc; border: .5px solid var(--line); font-size: 14px; font-weight: 500; }
+.addl { width: 100%; height: 48px; background: #fff; border: 1px dashed var(--medium); border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 13px; font-weight: 500; }
+/* sheets (16022:61267, 16058:62896) */
+.ag { background: #fcfcfc; border-radius: 16px; }
+.ag-h span { color: var(--accent); }
+.sh-c { text-align: center; font-size: 16px; line-height: 19px; font-weight: 600; margin: -8px 0 22px; }
+.ag-h.v b { font-size: 16px; line-height: 22px; font-weight: 500; color: #414141; max-width: 221px; }
+.ag-t span strong { font-weight: 500; color: var(--text); }
+.say { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 14px; line-height: 19px; color: var(--medium); } .say strong { font-weight: 600; color: var(--text); }
+/* new transition states */
+.done p + .lk, .done .pc { width: 100%; text-align: left; margin-top: 20px; }
+.buy .pc { margin: 0 0 16px; }
+.buy ol { margin: 0; padding-left: 20px; display: grid; gap: 10px; font-size: 14px; line-height: 20px; color: var(--medium); } .buy ol strong { color: var(--text); font-weight: 600; }
+.buy .olink { margin-top: 16px; }
+</style>
+</head>
+<body>
+<div class="bench">
+  <aside class="rail">
+    <h1>Buy, Try, Share</h1>
+    <p class="sub">Creator flow v2 · Amine's Nov 25 designs.<br>Screens marked <em class="new">new</em> are not in Figma yet.</p>
+    <div id="rail"></div>
+    <div class="links"><a href="design-review.html">Design review list →</a><a href="creator.html">Previous version (v1) →</a><a href="brand.html">Brand Portal page →</a><a href="handoff.html">Build handoff →</a><a href="index.html">Study →</a></div>
+  </aside>
+  <main class="stage"><div class="device" id="device"></div></main>
+</div>
+
+<script>
+const SB = `<div class="statusbar"><span>9:41</span><span class="ic">
+<svg width="18" height="12" viewBox="0 0 17 11" fill="currentColor" aria-hidden="true"><rect x="0" y="7.5" width="3" height="3.5" rx="1"/><rect x="4.5" y="5.5" width="3" height="5.5" rx="1"/><rect x="9" y="3" width="3" height="8" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+<svg width="17" height="12" viewBox="0 0 16 11" fill="currentColor" aria-hidden="true"><path d="M8 10.5 5.6 8.1a3.4 3.4 0 0 1 4.8 0L8 10.5Zm0-4.2a5.9 5.9 0 0 0-4.2 1.7L2.4 6.6a7.9 7.9 0 0 1 11.2 0l-1.4 1.4A5.9 5.9 0 0 0 8 6.3Z"/><path d="M8 2a10.1 10.1 0 0 0-7.2 3L-.6 3.6a12.1 12.1 0 0 1 17.2 0L15.2 5A10.1 10.1 0 0 0 8 2Z"/></svg>
+<svg width="27" height="13" viewBox="0 0 25 12" fill="none" aria-hidden="true"><rect x=".5" y=".5" width="21" height="11" rx="3.2" stroke="currentColor" opacity=".35"/><rect x="2" y="2" width="18" height="8" rx="2" fill="currentColor"/><path d="M23 4v4a2.1 2.1 0 0 0 0-4Z" fill="currentColor" opacity=".4"/></svg></span></div>`;
+const CHECK = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.5 6.3 5 8.7l4.6-5.2" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const UP = '<svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.53 1.53 8 1l-.53.53-4.02 4 1.06 1.07 2.74-2.73v6.2h1.5v-6.2l2.74 2.73 1.06-1.07-4.02-4ZM1.72 13.25V9.7h1.5v3.55c0 .14.11.25.25.25h9.06c.14 0 .25-.11.25-.25V9.7h1.5v3.55c0 .96-.79 1.75-1.75 1.75H3.47c-.96 0-1.75-.79-1.75-1.75Z"/></svg>';
+const OKI = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="#18906c"/><path d="M5 8.2 7.1 10.2 11 5.9" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+const MIC = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#717171" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3.5" width="6" height="10.5" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v2.5"/></svg>';
+const SUN = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#717171" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3.8"/><path d="M12 3.5v2M12 18.5v2M3.5 12h2M18.5 12h2M6 6l1.4 1.4M16.6 16.6 18 18M6 18l1.4-1.4M16.6 7.4 18 6"/></svg>';
+const img24 = (f) => `<img src="${f}" width="24" height="24" alt="">`;
+const JOIN = [
+  [img24('m/ag-shop.svg'), "I'll buy it myself at Target", 'In store or on target.com.'],
+  [img24('m/ag-receipt.svg'), "I'll upload the receipt", 'Receipts are necessary to get reimbursed.'],
+  [img24('m/ag-video.svg'), "I'll be paid back after my post is live", 'Once I upload my video and post.'],
+  [img24('m/ag-shield.svg'), "I'll keep the product", 'If I return it, I lose access to brand collabs on Benable.'],
+];
+const ic24 = (f) => `<img src="${f}" width="24" height="24" alt="">`;
+const VIDEO = [
+  [ic24('m/ck-say.svg'), 'Say it the right way', 'I said <strong>Phyla</strong> (FYE-luh) and <strong>phage</strong> (FAYJ, rhymes with “page”).'],
+  [ic24('m/ck-medical.svg'), 'No medical claims', "I didn't say it cures or treats acne."],
+  [ic24('m/ck-target.svg'), 'Mention Target', 'I said you can get it at Target.'],
+  [ic24('m/ck-bright.svg'), 'Clear, bright shot', 'Good lighting, and the bottle is easy to see.'],
+  [ic24('m/ck-tag.svg'), 'Tag the brand', "I'll tag <strong>@phylaskin</strong> in my post and my story."],
+];
+/* [name, not in Figma yet] */
+const NAMES = [['Campaigns'], ['Opportunity'], ['Before you join'], ['Store or online'], ['Go buy it', 1], ['Receipt'], ['Upload content'], ['Good to post', 1], ['Time to post'], ['Done', 1]];
+const fresh = () => ({ s: 0, sheet: null, join: [0,0,0,0], how: '', rc: 0, vid: [0,0,0,0,0], items: [], add: null, links: ['', '', ''], extra: 0 });
+let S = fresh();
+
+const fhdr = (n) => `<div class="fh"><button class="bk" data-back aria-label="Back"><img src="m/ic-chev-left.svg" width="16" height="16" alt=""></button><button class="vb" data-sheet="brief">View Brief</button></div><div class="stp" role="img" aria-label="Step ${n} of 4">${[1,2,3,4].map(i => `<i class="${i <= n ? 'on' : ''}"></i>`).join('')}</div>`;
+const ffoot = (label, ok, attrs) => `<div class="ffoot"><div class="due"><div><small>Upload post by</small><b>Monday, Dec 14</b></div><span class="pill">10 days left</span></div><button class="cta full" ${attrs} ${ok ? '' : 'disabled'}>${label}</button><div class="home"></div></div>`;
+const cks = (list, vals, key) => `<div class="ag" role="group">${list.map(([ic, t, d], i) => `<button class="ag-row" role="checkbox" aria-checked="${!!vals[i]}" data-ck="${key}:${i}">${ic}<span class="ag-t"><b>${t}</b><span>${d}</span></span><span class="ag-ck"><img src="m/ag-check.svg" width="24" height="24" alt=""></span></button>`).join('')}</div>`;
+const agHead = (title, vals, cls) => `<div class="ag-h ${cls || ''}"><b>${title}</b><span>${vals.filter(Boolean).length}/${vals.length}</span></div>`;
+const pcard = `<div class="pc"><img src="m/sheet-thumb.jpg" alt=""><div><b>Acne Phage Serum</b><span>Phyla</span><em><strong>$55</strong> value · Fully reimbursed</em></div></div>`;
+const TARGET_URL = 'https://www.target.com/s?searchTerm=phyla+acne+phage+serum';
+const tlink = `<a class="olink" href="${TARGET_URL}" target="_blank" rel="noopener">See it on Target.com<img src="m/ic-open-link.svg" width="16" height="16" alt=""></a>`;
+
+const TYPES = ['Instagram Reel', 'Instagram Story', 'TikTok'];
+const SHORT = { 'Instagram Reel': 'IG Reel', 'Instagram Story': 'IG Story', 'TikTok': 'TikTok' };
+const NEED = 2;
+const ring = (f) => `<svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="7" stroke="#e3e3e3" stroke-width="2"/>${f > 0 ? `<circle cx="9" cy="9" r="7" stroke="#2caf87" stroke-width="2" stroke-linecap="round" stroke-dasharray="${(f * 43.98).toFixed(1)} 44" transform="rotate(-90 9 9)"/>` : ''}</svg>`;
+const thumbOf = (t) => t === 'Instagram Reel' ? 'm/video.jpg' : 'm/video2.jpg';
+const addOk = () => S.add && S.add.file && S.add.type;
+const addScreen = () => `${SB}<div class="hdr"><button class="ib" data-act="add-x" aria-label="Close"><img src="m/ic-close.svg" width="16" height="16" alt=""></button><div class="t">Add Content</div><span></span></div>
+    <div class="scroll pg"><div class="ac">
+      <div class="ac-card"><b>Upload Content</b><div class="ac-tiles">${S.add.file ? `<div class="ac-tile"><img src="${thumbOf(S.add.type)}" alt=""><button class="ac-act" data-act="add-file-x" aria-label="Remove video"><img src="m/ic-close-12.svg" width="12" height="12" alt=""></button></div>` : `<button class="ac-tile ac-tile--add" data-act="add-file" aria-label="Choose a video"><span class="ac-act c"><img src="m/ic-plus-12.svg" width="12" height="12" alt=""></span></button>`}</div></div>
+      <button class="ac-card ac-type" data-sheet="ctype"><b>Content Type</b><span>${S.add.type || 'Select type'}</span><img src="m/ic-chev-down.svg" width="16" height="16" alt=""></button>
+      <div class="ac-card"><b>What to say and do</b><ul class="say">
+        <li>Tag <strong>@phylaskin</strong> in your post.</li>
+        <li>Add <strong>#target</strong> to your caption.</li>
+        <li>Say <strong>Phyla</strong> (FYE-luh) and <strong>phage</strong> (FAYJ).</li>
+        <li>Mention you got it at Target.</li>
+        <li>No medical claims: don't say it cures or treats acne.</li></ul></div>
+    </div></div>
+    <div class="foot" style="padding:12px 16px 0;box-shadow:none;background:var(--page)"><button class="cta full" data-act="add-save" style="margin-bottom:16px;font-size:14px" ${addOk() ? '' : 'disabled'}>Save</button><div class="home"></div></div>`;
+const postOk = () => S.items.every((_, i) => S.links[i].length > 5) && (!S.extra || S.links[2].length > 5);
+const linkCard = (label, i, draft) => `<div class="lk"><div class="lk-h"><b>${label}</b>${draft ? `<button class="dr" data-toast="Opens the video you uploaded"><img src="m/ic-eye.svg" width="16" height="16" alt="">My Draft</button>` : ''}</div><input data-link="${i}" inputmode="url" aria-label="${label} link" placeholder="Paste your live link..." value="${S.links[i]}"></div>`;
+
+const SCREENS = [
+  /* 0 campaigns */ () => `${SB}<div class="hdr"><span class="ib"><img src="m/ic-chev-left.svg" width="16" height="16" alt=""></span><div class="t">Campaigns</div><span class="ib r"><img src="m/ic-menu.svg" width="16" height="16" alt=""></span></div>
+    <div class="scroll pg"><div class="tabs"><b class="on">New</b><b>Active</b><b>Finished</b></div>
+      <div class="tile tile--bts"><div class="tile-h"><span class="tile-logo"><img src="m/logo-phyla.png" alt=""></span><span class="nm">Phyla</span><span class="chip-bts">Buy, Try, Share</span></div>
+        <div class="tile-c"><div><div class="txt"><b>Phyla Acne Phage Serum</b><p class="tpr"><s>$55</s> <b>$0</b> after we reimburse you</p><span>Buy it at Target, post a reel and a story, and we pay you back.</span></div></div>
+          <button class="pillbtn" data-go="1">View Details</button></div></div>
+      <div class="tile tile--pair"><div class="tile-h"><span class="tile-logo"><img src="m/logo-pair.png" alt="" style="width:95%"></span><span class="nm">Paireyewear</span></div>
+        <div class="tile-c"><div><div class="chip-cash">🎉 Get a $75 cash fee</div><div class="txt" style="margin-top:8px"><b>One frame + up to 3 tops</b><span>Create engaging content showcasing our new Summer Glow Collection. We want authentic, creative content that highlight...</span></div></div>
+          <div class="founder"><img src="m/founder-ana.jpg" alt=""><div><b>Ana Lander</b><span>Founder, Pikora</span></div></div>
+          <span class="pillbtn o">View Details</span></div></div>
+    </div><div class="home" style="background:var(--page)"></div>`,
+
+  /* 1 opportunity */ () => `${SB}<div class="hdr"><button class="ib" data-go="0" aria-label="Close"><img src="m/ic-close.svg" width="16" height="16" alt=""></button><div class="t">Opportunity</div><span></span></div>
+    <div class="scroll"><div class="opp">
+      <div class="shot"><img src="m/product.jpg" alt="Phyla Acne Phage Serum bottle"></div>
+      <div class="opp-t"><h2>Phyla Acne Phage Serum</h2><p class="pr"><s>$55</s> <b>$0</b> after we reimburse you</p></div>
+      <div class="brand"><span class="blogo"><img src="m/logo-phyla.png" alt=""></span>Phyla</div>
+      <div class="feats">
+        <div class="feat"><img src="m/ic-reimburse.svg" width="24" height="24" alt=""><div><b>You buy, we <em>reimburse</em></b><span>You receive $55 + tax directly to your PayPal or Venmo after you post.</span></div></div>
+        <div class="feat"><img src="m/ic-shop.svg" width="24" height="24" alt=""><div><b>Shop online or in store</b><span>Pick it up in store or order on target.com.</span></div></div>
+      </div>
+      <div class="hiw"><h3>How it works</h3>
+        <div class="hstep"><i>1</i><div><b>Buy it at Target</b><span>In store or on target.com.</span></div></div>
+        <div class="hstep"><i>2</i><div><b>Make your video</b><span>Upload it here with your receipt.</span></div></div>
+        <div class="hstep"><i>3</i><div><b>Post it</b><span>One feed post and one story. We reimburse you as soon as the posts are live.</span></div></div>
+        <div class="hstep"><i>4</i><div><b>Keep it</b><span>If you return the product, you lose access to brand collabs on Benable.</span></div></div>
+      </div>
+      <button class="briefrow" data-sheet="brief"><span class="ib"><img src="m/ic-pdf.svg" width="20" height="20" alt=""></span><span class="g"><b>Creator brief</b><span>What to say and show · PDF</span></span><img src="m/ic-chev-right.svg" width="20" height="20" alt=""></button>
+    </div></div>
+    <div class="foot"><div class="foot-row"><div class="price"><b>$55<span> value</span></b><small>Fully reimbursed, tax included</small></div><button class="cta w" data-sheet="join">I’m in</button></div><div class="home"></div></div>`,
+
+  /* 2 join = opportunity + sheet */ null,
+
+  /* 3 how (16030:61975) */ () => `${SB}${fhdr(1)}<div class="scroll"><div class="fbody"><h2>How will you buy it?</h2><p class="lead">Tell us where you’ll buy the product! Next, buy it and save the receipt.</p>
+      <div role="radiogroup" aria-label="Where you will buy it">${[['online', 'On target.com', 'Pickup or delivery. Your order confirmation is your receipt.', tlink], ['store', 'At a Target store', 'Find it in the Beauty Studio aisle. Keep your paper receipt.', '']].map(([k, t, d, extra]) => `<div class="opt2${S.how === k ? ' on' : ''}" role="radio" tabindex="0" aria-checked="${S.how === k}" data-how="${k}"><b>${t}</b><span>${d}</span>${extra}</div>`).join('')}</div>
+    </div></div>${ffoot('Next', S.how, 'data-go="4"')}`,
+
+  /* 4 go buy it: NOT in Figma, asked for on the Nov 25 call */ () => `${SB}${fhdr(1)}<div class="scroll"><div class="fbody buy"><h2>Now go buy it</h2><p class="lead">${S.how === 'online' ? 'Order the serum on target.com, then come back here with your order confirmation.' : 'Pick up the serum at a Target store, then come back here with your paper receipt.'}</p>
+      ${pcard}
+      <ol><li><strong>Buy the Phyla Acne Phage Serum</strong> ${S.how === 'online' ? 'on target.com, for pickup or delivery.' : 'in the Beauty Studio aisle.'}</li><li><strong>Keep your receipt.</strong> We need it to pay you back.</li><li><strong>Come back to this screen</strong> and add it. We save your spot.</li></ol>
+      ${S.how === 'online' ? tlink : ''}
+    </div></div>${ffoot('I bought it', true, 'data-go="5"')}`,
+
+  /* 5 receipt (16053:62287) + thumbnails and Add another kept from v1 */ () => `${SB}${fhdr(2)}<div class="scroll"><div class="fbody"><h2>Bought it? Add your receipt</h2><p class="lead lg">${S.how === 'online' ? 'A screenshot of your target.com order confirmation.' : 'A photo of your paper receipt.'}</p>
+      ${S.rc ? `<div class="thumbs">${Array.from({ length: S.rc }, (_, i) => `<div class="th"><img src="${S.how === 'online' ? ['m/order-1.svg', 'm/order-2.svg'][i] : ['m/receipt-1.svg', 'm/receipt-2.svg'][i]}" alt="Receipt photo ${i + 1}"><button class="th-x" data-act="rx" aria-label="Remove photo ${i + 1}"><img src="m/ic-close.svg" width="10" height="10" alt=""></button></div>`).join('')}${S.rc < 2 ? `<button class="th-add" data-act="receipt" aria-label="Add a second photo"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M8 3v10M3 8h10"/></svg><span>Add another</span></button>` : ''}</div>
+        <p class="hint">${S.rc < 2 ? 'Long receipt? Add a second photo so everything is readable.' : '2 photos added.'}</p>`
+      : `<button class="zone2" data-act="receipt"><img src="m/ic-share.svg" width="16" height="16" alt=""><b>Add receipt</b><span>Tap to upload a photo or a PDF</span></button>`}
+      <div class="see"><h3>Make sure we can see</h3><ul><li>Target as the store.</li><li>Phyla Acne Phage Serum on the list.</li><li>The date and total paid.</li></ul></div>
+    </div></div>${ffoot('Next', S.rc > 0, 'data-go="6"')}`,
+
+  /* 6 upload content (16058:63090) + item cards, counter and Add Content kept from v1 */ () => S.add ? addScreen() : `${SB}${fhdr(3)}<div class="scroll"><div class="fbody uc">
+      <div class="uc-h"><h2>Upload Content</h2><span class="uc-n">${S.items.length}/${NEED}${ring(S.items.length / NEED)}</span></div>
+      <p class="lead lg">Make sure to review the brief before making content!</p>
+      <button class="rb" data-sheet="brief"><img src="m/ic-pdf.svg" width="16" height="16" alt="">Review campaign brief →</button>
+      ${S.items.map((it, i) => `<div class="uc-item"><img class="uc-th" src="${thumbOf(it.type)}" alt=""><div class="uc-c"><div class="uc-top"><span class="uc-chip">${it.type}</span><button data-act="del:${i}" aria-label="Remove ${it.type}"><img src="m/ic-trash.svg" width="16" height="16" alt=""></button></div><p class="uc-note">Checked against the brief</p></div></div>`).join('')}
+      ${S.items.length < NEED ? `<button class="zone2${S.items.length ? ' uc-zone2' : ''}" data-act="add"><img src="m/ic-share.svg" width="16" height="16" alt=""><b>Tap to upload content</b>${S.items.length ? '' : '<span>Instagram or TikTok video</span>'}</button>` : ''}
+    </div></div>${ffoot('Submit', S.items.length === NEED, 'data-go="7"')}`,
+
+  /* 7 good to post: NOT in Figma, asked for on the Nov 25 call */ () => `${SB}<div class="hdr"><span></span><div class="t">Phyla</div><span></span></div><div class="scroll"><div class="done">
+      <div class="ring"><svg width="32" height="32" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.4 6.6 11.3 12.5 4.9" stroke="#18906c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <h2>You're good to post</h2><p>Your videos are in. No review needed: post them now, then come back with your links.</p>
+      <div class="card sum">${S.items.map(it => `<div class="row2"><b>${it.type}</b><span class="ok">${OKI}Ready</span></div>`).join('')}</div>
+    </div></div><div class="foot" style="padding-top:14px"><button class="cta full" data-go="8" style="margin-bottom:16px;font-size:14px">Time to post</button><div class="home"></div></div>`,
+
+  /* 8 time to post (16058:63177) + caption tags kept from v1 */ () => `${SB}${fhdr(4)}<div class="scroll"><div class="fbody"><h2>Time to Post!</h2><p class="lead lg">Post and make sure to give us the links here!</p>
+      <div class="lk"><div class="lk-t"><b>Your affiliate link</b><span>Tap to copy. Add it to your Linktree or bio and include it in your story.</span></div>
+        <button class="aff" data-toast="Link copied"><span><img class="t" src="m/aff-thumb.png" alt="">benable.com/a/phyla-maya</span><img src="m/ic-copy.svg" width="16" height="16" alt="Copy"></button></div>
+      <div class="lk"><div class="lk-t"><b>In your caption</b><span>Tap to copy. Both need to be in every post.</span></div>
+        <div class="capc"><button data-toast="Copied @phylaskin">@phylaskin<img src="m/ic-copy.svg" width="14" height="14" alt="Copy"></button><button data-toast="Copied #target">#target<img src="m/ic-copy.svg" width="14" height="14" alt="Copy"></button></div></div>
+      ${S.items.map((it, i) => linkCard(SHORT[it.type], i, true)).join('')}
+      ${S.extra ? linkCard('Another link', 2, false) : `<button class="addl" data-act="more"><img src="m/ic-plus-16.svg" width="16" height="16" alt="">Add Another Link</button>`}
+    </div></div>${ffoot('I’ve Published My Content', postOk(), 'data-go="9" id="submit"')}`,
+
+  /* 9 done: NOT in Figma, kept from v1 */ () => `${SB}<div class="hdr"><span></span><div class="t">Phyla</div><span></span></div><div class="scroll"><div class="done">
+      <div class="ring"><svg width="32" height="32" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.4 6.6 11.3 12.5 4.9" stroke="#18906c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <h2>You're all set</h2><p>We'll send what you paid for the serum, tax included, to your PayPal as soon as your posts are live.</p>
+      <div class="card sum"><div class="row2"><b>Receipt</b><span class="ok">${OKI}Added</span></div><div class="row2"><b>Videos</b><span class="ok">${OKI}Uploaded</span></div><div class="row2"><b>Post links</b><span class="ok">${OKI}Links in</span></div></div>
+    </div></div><div class="foot" style="padding-top:14px"><button class="cta full" data-reset style="margin-bottom:16px;font-size:14px">Back to campaigns</button><div class="home"></div></div>`,
+];
+
+const SHEETS = {
+  join: () => `<div class="sh-h"><h2>Before you join</h2><p>A few things to confirm. Tap each one to agree.</p></div>${pcard}${agHead('Your agreement', S.join)}${cks(JOIN, S.join, 'join')}<div class="sh-f"><button class="cta full" data-go="3" data-toast="You're in" ${S.join.every(Boolean) ? '' : 'disabled'}>Join</button></div>`,
+  video: () => `<div class="sh-c">Before you upload</div>${agHead('Check your video against the brief', S.vid, 'v')}${cks(VIDEO, S.vid, 'vid')}<div class="sh-f"><button class="cta full" data-act="checked" ${S.vid.every(Boolean) ? '' : 'disabled'}>Continue</button></div>`,
+  ctype: () => `<h2 style="margin-bottom:8px">Content Type</h2>${TYPES.map(t => { const used = S.items.some(i => i.type === t); return `<button class="ct-opt${S.add && S.add.type === t ? ' on' : ''}" data-act="type:${t}" ${used ? 'disabled' : ''}><i class="rd"></i><span>${t}</span>${used ? '<small>Added</small>' : ''}</button>`; }).join('')}<div style="height:8px"></div>`,
+  brief: () => `<div class="bh"><div><h2>Creator brief</h2><p class="lead" style="margin:0">PDF · the same brief for every creator</p></div><button class="bx2" data-sheet="" aria-label="Close"><img src="m/ic-close.svg" width="16" height="16" alt=""></button></div>
+    <div class="pdf"><div class="pp"><div class="pphead"><span class="blogo"><img src="m/logo-phyla.png" alt=""></span><b>Phyla × Benable · Buy, Try, Share</b></div>
+    <h4>Phyla Acne Phage Serum, found at Target</h4>
+    <h5>What to do</h5><ul><li>Buy the serum at Target or on target.com. Keep your receipt.</li><li>Film yourself using it, with the bottle easy to see and good light.</li><li>Post one feed post and one story. Tag @phylaskin and add #target to your caption.</li></ul>
+    <h5>What to say</h5><ul><li>Say Phyla and phage the right way: phage rhymes with page.</li><li>Mention you found it at Target.</li><li>Share how your skin feels, in your own words.</li></ul>
+    <h5>Please don't</h5><ul><li>Make medical claims, like saying it cures or treats acne.</li><li>Return the product: you lose access to brand collabs on Benable.</li></ul>
+    <h5>Good to know</h5><ul><li>You're paid back for the serum plus tax once both posts are live.</li><li>Post within 10 days of joining.</li><li>Phyla can reuse your video.</li></ul></div></div>
+    <div class="bf"><button class="cta full" data-toast="Downloads the brief as a PDF">Download PDF</button></div>`,
+};
+
+function render() {
+  const base = S.s === 2 ? 1 : S.s;
+  const sheet = S.s === 2 ? 'join' : S.sheet;
+  const el = document.getElementById('device');
+  const keep = el.querySelector('.scroll')?.scrollTop || 0, same = el.dataset.s === String(base);
+  el.dataset.s = base;
+  el.innerHTML = SCREENS[base]() + (sheet ? `<div class="scrim" data-sheet=""></div><div class="sheet${sheet === 'brief' ? ' sheet--full' : ''}" role="dialog" aria-modal="true"><div class="grab"><img src="m/pull.svg" width="43" height="3" alt=""></div>${SHEETS[sheet]()}<div class="home"></div></div>` : '') + '<div class="toast" id="toast" role="status"></div>';
+  if (same) { const sc = el.querySelector('.scroll'); if (sc) sc.scrollTop = keep; if (sheet) el.querySelectorAll('.scrim, .sheet').forEach(n => n.style.animation = 'none'); }
+  document.getElementById('rail').innerHTML = NAMES.map(([n, isNew], i) => `<button class="s" data-jump="${i}" aria-current="${S.s === i}"><span>${i + 1}</span>${n}${isNew ? '<em>new</em>' : ''}</button>`).join('');
+}
+function openAdd() { const left = TYPES.filter(t => !S.items.some(i => i.type === t)); S.add = { file: false, type: left[0] || '' }; }
+function toast(m) { const t = document.getElementById('toast'); if (!t) return; t.textContent = m; requestAnimationFrame(() => t.classList.add('show')); clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove('show'), 1800); }
+
+document.addEventListener('click', (e) => {
+  const q = (s) => e.target.closest(s); let el;
+  if ((el = q('[data-jump]'))) { const n = +el.dataset.jump; S = fresh(); S.s = n; if (n >= 3) S.join = [1,1,1,1]; if (n >= 4) S.how = 'online'; if (n >= 6) S.rc = 1; if (n >= 7) { S.vid = [1,1,1,1,1]; S.items = [{ type: 'Instagram Reel' }, { type: 'Instagram Story' }]; } if (n >= 9) S.links = ['instagram.com/reel/DfQ2x9', 'instagram.com/stories/maya.glows', '']; render(); return; }
+  if (q('[data-reset]')) { S = fresh(); render(); return; }
+  if ((el = q('[data-go]'))) { if (el.disabled) return; S.s = +el.dataset.go; S.sheet = null; S.add = null; const m = el.dataset.toast; render(); if (m) toast(m); return; }
+  if (q('[data-back]') && S.add) { S.add = null; render(); return; }
+  if (q('[data-back]')) { S.s = S.s === 3 ? 1 : S.s === 8 ? 6 : S.s - 1; S.sheet = null; render(); return; }
+  if ((el = q('[data-ck]'))) { const [k, i] = el.dataset.ck.split(':'); S[k][+i] = S[k][+i] ? 0 : 1; render(); return; }
+  if (q('.olink')) return;
+  if ((el = q('[data-how]'))) { S.how = el.dataset.how; render(); return; }
+  if ((el = q('[data-sheet]'))) { const v = el.dataset.sheet; if (v === 'join') S.s = 2; else if (S.s === 2 && !v) S.s = 1; else S.sheet = v || null; render(); return; }
+  if ((el = q('[data-act]'))) { const a = el.dataset.act;
+    if (a === 'receipt') { S.rc = Math.min(2, S.rc + 1); render(); }
+    else if (a === 'rx') { S.rc = Math.max(0, S.rc - 1); render(); }
+    else if (a === 'add') { if (S.vid.every(Boolean)) openAdd(); else S.sheet = 'video'; render(); }
+    else if (a === 'checked') { S.sheet = null; openAdd(); render(); }
+    else if (a === 'add-x') { S.add = null; render(); }
+    else if (a === 'add-file') { S.add.file = true; render(); }
+    else if (a === 'add-file-x') { S.add.file = false; render(); }
+    else if (a.startsWith('type:')) { S.add.type = a.slice(5); S.sheet = null; render(); }
+    else if (a === 'add-save') { if (!addOk()) return; S.items.push({ type: S.add.type }); S.add = null; render(); }
+    else if (a.startsWith('del:')) { S.items.splice(+a.slice(4), 1); render(); }
+    else if (a === 'more') { S.extra = 1; render(); }
+    return; }
+  if ((el = q('[data-toast]'))) toast(el.dataset.toast);
+});
+document.addEventListener('input', (e) => { const k = e.target.dataset.link; if (k !== undefined) { S.links[+k] = e.target.value; const b = document.getElementById('submit'); if (b) b.disabled = !postOk(); } });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && (S.sheet || S.s === 2)) { if (S.s === 2) S.s = 1; S.sheet = null; render(); } if ((e.key === 'Enter' || e.key === ' ') && e.target.dataset && e.target.dataset.how) { e.preventDefault(); S.how = e.target.dataset.how; render(); } });
+render();
+</script>
+</body>
+</html>
