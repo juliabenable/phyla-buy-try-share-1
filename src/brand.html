@@ -16,6 +16,24 @@ html, body { background: #fff; color: #1a1a1a; margin: 0; }
 .nf { font-family: Inter, -apple-system, "Segoe UI", Roboto, sans-serif; }
 .nf .bts-sub { margin: -4px 0 0; font-size: 14px; line-height: 20px; color: #717171; max-width: 640px; }
 .nf .bts-pane { background: #f9fafb; border-top: 1px solid #eeeeee; min-height: calc(100vh - 150px); }
+/* no creators yet */
+.nf .bts-zero { padding: 56px 24px 48px; display: grid; justify-items: center; text-align: center; gap: 8px; }
+.nf .bts-zero-ic { width: 48px; height: 48px; border-radius: 50%; background: #f5f3fc; color: #7a5cfa; display: grid; place-items: center; margin-bottom: 8px; }
+.nf .bts-zero h2 { margin: 0; font-size: 18px; line-height: 24px; font-weight: 600; color: #1a1a1a; }
+.nf .bts-zero > p { margin: 0; font-size: 14px; line-height: 20px; color: #717171; max-width: 420px; }
+.nf .bts-zero-steps { list-style: none; margin: 28px 0 24px; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; width: 100%; max-width: 760px; text-align: left; }
+.nf .bts-zero-steps li { display: flex; gap: 12px; align-items: flex-start; background: #fafafa; border: 1px solid #f0f0f0; border-radius: 12px; padding: 16px; }
+.nf .bts-zero-steps i { font-style: normal; width: 24px; height: 24px; border-radius: 50%; background: #fff; box-shadow: inset 0 0 0 1px #e3e3e3; display: grid; place-items: center; font-size: 12px; font-weight: 600; color: #1a1a1a; flex: none; }
+.nf .bts-zero-steps b { display: block; font-size: 14px; line-height: 20px; font-weight: 600; color: #1a1a1a; }
+.nf .bts-zero-steps span { display: block; margin-top: 2px; font-size: 13px; line-height: 18px; color: #717171; }
+@media (max-width: 900px) { .nf .bts-zero-steps { grid-template-columns: 1fr; max-width: 420px; } }
+.nf .bts-cols, .nf .bts-row { grid-template-columns: minmax(220px, 1.4fr) minmax(200px, 1.4fr) minmax(96px, .7fr) minmax(96px, .7fr) minmax(170px, 1.2fr) 100px; }
+.nf .bts-tile::after { background: linear-gradient(transparent 45%, rgba(0,0,0,.55)); }
+.nf .bts-tile em { position: absolute; left: 0; right: 0; bottom: 4px; z-index: 1; text-align: center; font-style: normal; font-size: 9px; line-height: 11px; font-weight: 600; color: #fff; letter-spacing: .02em; }
+.nf .bts-tile.is-story { box-shadow: 0 0 0 1.5px #fff, 0 0 0 3px #c05ff0; }
+.bts-seg { display: inline-flex; background: #f1f1f1; border-radius: 10px; padding: 3px; gap: 2px; justify-self: start; }
+.bts-seg button { border: 0; background: none; height: 30px; padding: 0 14px; border-radius: 8px; font: 500 13px Inter, sans-serif; color: #717171; cursor: pointer; }
+.bts-seg button[aria-selected="true"] { background: #fff; color: #1a1a1a; box-shadow: 0 1px 3px rgba(0,0,0,.1); }
 .nf main.workspace-content { padding-top: 0 !important; } /* production leaves 46px for a top bar this page does not have */
 .nf .bts-body { padding: 24px 20px 96px; display: grid; gap: 20px; }
 
@@ -197,7 +215,7 @@ body .bts-demo { left: auto; right: 24px; bottom: 24px; transform: none; }
 <body>
 <div class="nf" id="nf"></div>
 <div class="bts-toast" id="toast" role="status" aria-live="polite"></div>
-<div class="bts-demo"><span class="lbl">Prototype</span><span>Sample data</span><a href="index.html">Study</a><a href="creator.html">Creator app</a></div>
+<div class="bts-demo"><span class="lbl">Prototype</span><button type="button" data-empty="0" aria-pressed="true">With creators</button><button type="button" data-empty="1" aria-pressed="false">No creators yet</button><a href="index.html">Study</a><a href="creator.html">Creator app</a></div>
 
 <script>
 const A = 'assets/';
@@ -241,9 +259,9 @@ const ROWS = PEOPLE.map(([name, handle, fol], i) => {
     cap: CAPS[i % CAPS.length] };
 });
 const LABEL = { posted: 'Posted', bought: 'Bought', joined: 'Accepted' };
-const NOTE = { posted: 'Reel + story live', bought: 'Post coming', joined: "Hasn't bought yet" };
+const NOTE = { posted: 'Reel and story live', bought: 'Post coming', joined: "Hasn't bought yet" };
 const TOPS = ['a','b','c','d']; const qs = new URLSearchParams(location.search).get('top');
-const S = { f: 'all', modal: null, top: TOPS.includes(qs) ? qs : 'b' };
+const S = { f: 'all', modal: null, empty: new URLSearchParams(location.search).get('state') === 'empty', top: TOPS.includes(qs) ? qs : 'b' };
 const dec = (d) => d ? `Dec ${d}` : '';
 const money = (n) => '$' + n.toFixed(2);
 
@@ -257,7 +275,7 @@ const SIDEBAR = `<aside id="brand-workspace-sidebar" class="sidebar svelte-187rx
 const HEADER = `<header class="workflow-header"><div class="workflow-header-row"><div class="workflow-header-main"><h1>Buy, Try, Share</h1> <span class="phase-pill phase-pill--active"><span class="phase-pill-dot" aria-hidden="true"></span> <span>Active</span></span></div> <div class="header-right"><button type="button" class="workflow-header-edit-btn" data-act="brief"><div class="icon svelte-1aopmtt" aria-hidden="true" style="width: 16px; height: 16px; color: #1a1a1a;">${I.doc.replace('viewBox', 'width="16" height="16" viewBox')}</div> <span>See brief</span></button></div></div><p class="bts-sub">Rising creators buy Phyla Acne Phage Serum at Target, post a reel and a story, and get paid back. Benable runs everything.</p></header>`;
 
 function stats() {
-  const acc = ROWS.length, bought = ROWS.filter(r => r.has).length, posted = ROWS.filter(r => r.st === 'posted').length;
+  const R = S.empty ? [] : ROWS; const acc = R.length, bought = R.filter(r => r.has).length, posted = R.filter(r => r.st === 'posted').length;
   const card = (k, v) => `<div class="bts-d-card"><div class="bts-d-top"><span class="k">${k}</span><span class="pc">${Math.round(v / 25 * 100)}%</span></div><span class="v">${v}<small>of 25</small></span></div>`;
   return `<section class="bts-d" aria-label="Pilot progress">
     ${card('Accepted', acc)}${card('Bought at Target', bought)}${card('Posted', posted)}
@@ -265,7 +283,24 @@ function stats() {
   </section>`;
 }
 
+function zero() {
+  const step = (n, t, d) => `<li><i>${n}</i><div><b>${t}</b><span>${d}</span></div></li>`;
+  return `<div class="bts-list"><div class="cs-rt-card bts-zero">
+      <span class="bts-zero-ic" aria-hidden="true">${I.bag.replace('width="16" height="16"', 'width="22" height="22"')}</span>
+      <h2>No creators yet</h2>
+      <p>We're inviting rising creators now. Each one shows up here as soon as they accept.</p>
+      <ol class="bts-zero-steps">
+        ${step(1, 'They accept', 'Creators read the brief and join your pilot.')}
+        ${step(2, 'They buy at Target', 'In store or on target.com. You see the store, the date and the total.')}
+        ${step(3, 'They post', 'One reel and one story. The post appears here, one click from Instagram.')}
+      </ol>
+      <button type="button" class="workflow-header-edit-btn" data-act="brief"><div class="icon svelte-1aopmtt" aria-hidden="true" style="width: 16px; height: 16px; color: #1a1a1a;">${I.doc.replace('viewBox', 'width="16" height="16" viewBox')}</div> <span>See the brief they get</span></button>
+    </div></div>
+    <p class="bts-foot">Want a change to the brief or more creators? <a data-act="more">Email Katie</a>.</p>`;
+}
+
 function table() {
+  if (S.empty) return zero();
   const counts = { posted: 0, bought: 0, joined: 0 };
   ROWS.forEach(r => counts[r.st]++);
   const F = [['all', 'All', ROWS.length], ['posted', 'Posted', counts.posted], ['bought', 'Bought', counts.bought], ['joined', 'Accepted', counts.joined]];
@@ -278,12 +313,12 @@ function table() {
       ${r.has ? `<span class="bts-num">${money(r.total)}</span>` : '<span class="bts-muted">—</span>'}
       <span class="cs-rt-status is-${r.st}"><i></i><span class="cs-rt-st"><span>${LABEL[r.st]}</span><em>${NOTE[r.st]}</em></span></span>
       <span class="bts-post">${r.st === 'posted'
-        ? `<a class="bts-tile" href="https://www.instagram.com/" target="_blank" rel="noopener" data-live="${r.i}" aria-label="Open ${r.name}'s post on Instagram" title="Opens the post on Instagram"><img src="${r.poster}" alt="">${I.ig}</a>`
+        ? `<button type="button" class="bts-tile" data-open="${r.i}:reel" aria-label="Open ${r.name}'s reel"><img src="${r.poster}" alt=""><em>Reel</em></button><button type="button" class="bts-tile is-story" data-open="${r.i}:story" aria-label="Open ${r.name}'s story"><img src="${r.av}" alt=""><em>Story</em></button>`
         : `<span class="bts-muted">${r.st === 'bought' ? 'Due ' + dec(r.bought + 10) : ''}</span>`}</span>
     </div>`;
   return `<div class="bts-list"><div class="cs-toolbar" style="margin-bottom:0"><div class="cs-filters">${pills}</div></div>
     <div class="bts-tablewrap"><div class="cs-rt-card">
-      <div class="bts-cols"><span>Creator</span><span>Bought at</span><span>Bought on</span><span>Total paid</span><span>Status</span><span class="bts-r">Post</span></div>
+      <div class="bts-cols"><span>Creator</span><span>Bought at</span><span>Bought on</span><span>Total paid</span><span>Status</span><span class="bts-r">Reel and story</span></div>
       ${rows.length ? rows.map(row).join('') : '<div class="bts-empty">No creators here yet.</div>'}
     </div></div></div>
     <p class="bts-foot">Store, date and total come from each creator's receipt. Totals include sales tax, so they differ by state. Want a change to the brief or more creators? <a data-act="more">Email Katie</a>.</p>`;
@@ -294,21 +329,24 @@ function render() {
     <main class="workspace-content svelte-187rxgr"><div class="workspace-content-shell svelte-187rxgr"><section class="workflow-page"><div class="workspace-grid"><div class="main-column">${HEADER}
       <div class="bts-pane"><div class="bts-body">${stats()}${table()}</div></div>
     </div></div></section></div></main></div></div>`;
+  document.querySelectorAll('[data-empty]').forEach(b => b.setAttribute('aria-pressed', String((b.dataset.empty === '1') === S.empty)));
 }
 
-function postModal(r) {
+function postModal(r, kind) {
+  const story = kind === 'story', other = story ? 'reel' : 'story';
   return `<div class="bts-scrim" data-close><div class="bts-modal" role="dialog" aria-modal="true" aria-labelledby="m-t">
-    <div class="bts-video"><img src="${r.poster}" alt=""><span class="bts-plat">${I.ig}Reel</span><button class="bts-play" data-act="play" aria-label="Play the reel">${I.playDark}</button></div>
+    <div class="bts-video"><img src="${story ? r.av : r.poster}" alt=""><span class="bts-plat">${I.ig}${story ? 'Story' : 'Reel'}</span><button class="bts-play" data-act="play" aria-label="Play the ${kind}">${I.playDark}</button></div>
     <div class="bts-side">
-      <div class="bts-mhead"><span class="bts-av"><img src="${r.av}" alt=""></span><span class="bts-two"><b id="m-t">${r.name}</b><span>@${r.handle} · ${r.fol} followers</span></span><button class="bts-x" data-close aria-label="Close">×</button></div>
+      <div class="bts-mhead"><span class="bts-av"><img src="${r.av}" alt=""></span><span class="bts-two"><b id="m-t">${r.name}</b><span>@${r.handle}</span></span><button class="bts-x" data-close aria-label="Close">×</button></div>
+      <div class="bts-seg" role="tablist"><button role="tab" aria-selected="${!story}" data-open="${r.i}:reel">Reel</button><button role="tab" aria-selected="${story}" data-open="${r.i}:story">Story</button></div>
       <dl class="bts-dl">
-        <dt>Posted</dt><dd>Reel and story, ${dec(r.posted)}</dd>
+        <dt>Posted</dt><dd>${story ? 'Story' : 'Reel'}, ${dec(r.posted)}</dd>
         <dt>Bought at</dt><dd>${r.store}, ${r.city}</dd>
-        <dt>Date</dt><dd>${dec(r.bought)}</dd>
+        <dt>Bought on</dt><dd>${dec(r.bought)}</dd>
         <dt>Total paid</dt><dd>${money(r.total)}</dd>
       </dl>
-      <div class="bts-cap">${r.cap}</div>
-      <div class="bts-actions"><button class="bts-btn is-dark" data-live="${r.i}">${I.out}Open on Instagram</button><button class="bts-btn" data-act="dl">${I.dl}Download video</button></div>
+      ${story ? '<div class="bts-cap">Stories leave Instagram after 24 hours. This is the video the creator uploaded, so you can still watch and download it.</div>' : `<div class="bts-cap">${r.cap}</div>`}
+      <div class="bts-actions">${story ? '' : `<button class="bts-btn is-dark" data-live="${r.i}">${I.out}Open on Instagram</button>`}<button class="bts-btn${story ? ' is-dark' : ''}" data-act="dl">${I.dl}Download video</button></div>
     </div></div></div>`;
 }
 function briefModal() {
@@ -332,9 +370,10 @@ function toast(m) { const t = document.getElementById('toast'); t.textContent = 
 document.addEventListener('click', (e) => {
   const x = (s) => e.target.closest(s);
   let el;
+  if ((el = x('[data-empty]'))) { S.empty = el.dataset.empty === '1'; S.f = 'all'; history.replaceState(null, '', S.empty ? '?state=empty' : location.pathname); render(); return; }
   if ((el = x('[data-f]'))) { S.f = el.dataset.f; render(); return; }
   if ((el = x('[data-top]'))) { S.top = el.dataset.top; history.replaceState(null, '', '?top=' + S.top); render(); return; }
-  if ((el = x('[data-open]'))) { openModal(postModal(ROWS[+el.dataset.open])); return; }
+  if ((el = x('[data-open]'))) { const [i, k] = el.dataset.open.split(':'); openModal(postModal(ROWS[+i], k)); return; }
   if ((el = x('[data-live]'))) { e.preventDefault(); toast('Opens the post on Instagram in a new tab'); return; }
   if ((el = x('[data-act]'))) {
     const a = el.dataset.act;
