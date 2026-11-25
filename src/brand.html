@@ -34,6 +34,7 @@ html, body { background: #fff; color: #1a1a1a; margin: 0; }
 .nf .bts-ex .bts-row { pointer-events: none; opacity: .75; border-bottom: 0; }
 .nf .bts-ex-tag { display: block; padding: 10px 24px; font-size: 12px; font-weight: 600; color: #7a5cfa; background: #f5f3fc; border-bottom: 1px solid #ebe7fa; }
 .nf .bts-d-hint { display: block; margin-top: 8px; font-size: 12px; line-height: 16px; color: #8a8a8a; }
+.nf .bts-post .bts-muted { white-space: nowrap; }
 .nf main.workspace-content { padding-top: 0 !important; } /* production leaves 46px for a top bar this page does not have */
 .nf .bts-body { padding: 24px 20px 96px; display: grid; gap: 20px; }
 
@@ -216,7 +217,7 @@ body .bts-demo { left: auto; right: 24px; bottom: 24px; transform: none; }
 <body>
 <div class="nf" id="nf"></div>
 <div class="bts-toast" id="toast" role="status" aria-live="polite"></div>
-<div class="bts-demo"><span class="lbl">Prototype</span><button type="button" data-empty="0" aria-pressed="true">With creators</button><button type="button" data-empty="1" aria-pressed="false">No creators yet</button><a href="index.html">Study</a><a href="creator.html">Creator app</a></div>
+<div class="bts-demo"><span class="lbl">Prototype</span><button type="button" data-mode="full" aria-pressed="true">Full pilot</button><button type="button" data-mode="few" aria-pressed="false">A few creators</button><button type="button" data-mode="empty" aria-pressed="false">No creators yet</button><a href="index.html">Study</a><a href="creator.html">Creator app</a></div>
 
 <script>
 const A = 'assets/';
@@ -259,10 +260,13 @@ const ROWS = PEOPLE.map(([name, handle, fol], i) => {
     av: A + POSTERS[i % POSTERS.length] + '.jpg', poster: A + POSTERS[(i + 2) % POSTERS.length] + '.jpg',
     cap: CAPS[i % CAPS.length] };
 });
+/* a few creators in: 1 posted, 1 bought, 2 accepted */
+const FEW = [ROWS[0], ROWS[14], ROWS[19], ROWS[20]];
+const rowsNow = () => S.empty ? [] : S.few ? FEW : ROWS;
 const LABEL = { posted: 'Posted', bought: 'Bought', joined: 'Accepted' };
 const NOTE = { posted: 'Reel and story live', bought: 'Post coming', joined: "Hasn't bought yet" };
 const TOPS = ['a','b','c','d']; const qs = new URLSearchParams(location.search).get('top');
-const S = { f: 'all', modal: null, empty: new URLSearchParams(location.search).get('state') === 'empty', top: TOPS.includes(qs) ? qs : 'b' };
+const S = { f: 'all', modal: null, empty: new URLSearchParams(location.search).get('state') === 'empty', few: new URLSearchParams(location.search).get('state') === 'few', top: TOPS.includes(qs) ? qs : 'b' };
 const dec = (d) => d ? `Dec ${d}` : '';
 const money = (n) => '$' + n.toFixed(2);
 
@@ -276,7 +280,7 @@ const SIDEBAR = `<aside id="brand-workspace-sidebar" class="sidebar svelte-187rx
 const HEADER = `<header class="workflow-header"><div class="workflow-header-row"><div class="workflow-header-main"><h1>Buy, Try, Share</h1> <span class="phase-pill phase-pill--active"><span class="phase-pill-dot" aria-hidden="true"></span> <span>Active</span></span></div> <div class="header-right"><button type="button" class="workflow-header-edit-btn" data-act="brief"><div class="icon svelte-1aopmtt" aria-hidden="true" style="width: 16px; height: 16px; color: #1a1a1a;">${I.doc.replace('viewBox', 'width="16" height="16" viewBox')}</div> <span>See brief</span></button></div></div><p class="bts-sub">Rising creators buy Phyla Acne Phage Serum at Target, post a reel and a story, and get paid back. Benable runs everything.</p></header>`;
 
 function stats() {
-  const R = S.empty ? [] : ROWS; const acc = R.length, bought = R.filter(r => r.has).length, posted = R.filter(r => r.st === 'posted').length;
+  const R = rowsNow(); const acc = R.length, bought = R.filter(r => r.has).length, posted = R.filter(r => r.st === 'posted').length;
   const hint = false;
   const card = (k, v, h) => `<div class="bts-d-card"><div class="bts-d-top"><span class="k">${k}</span><span class="pc">${Math.round(v / 25 * 100)}%</span></div><span class="v">${v}<small>of 25</small></span>${hint ? `<span class="bts-d-hint">${h}</span>` : ''}</div>`;
   return `<section class="bts-d" aria-label="Pilot progress">
@@ -305,11 +309,12 @@ function zero() {
 
 function table() {
   if (S.empty) return zero();
+  const R = rowsNow();
   const counts = { posted: 0, bought: 0, joined: 0 };
-  ROWS.forEach(r => counts[r.st]++);
-  const F = [['all', 'All', ROWS.length], ['posted', 'Posted', counts.posted], ['bought', 'Bought', counts.bought], ['joined', 'Accepted', counts.joined]];
+  R.forEach(r => counts[r.st]++);
+  const F = [['all', 'All', R.length], ['posted', 'Posted', counts.posted], ['bought', 'Bought', counts.bought], ['joined', 'Accepted', counts.joined]];
   const pills = F.map(([k, l, c]) => `<button class="cs-filter${S.f === k ? ' is-on' : ''}" data-f="${k}" aria-pressed="${S.f === k}">${l}<span class="cs-count">${c}</span></button>`).join('');
-  const rows = ROWS.filter(r => S.f === 'all' || r.st === S.f);
+  const rows = R.filter(r => S.f === 'all' || r.st === S.f);
   return `<div class="bts-list"><div class="cs-toolbar" style="margin-bottom:0"><div class="cs-filters">${pills}</div></div>
     <div class="bts-tablewrap"><div class="cs-rt-card">
       <div class="bts-cols"><span>Creator</span><span>Bought at</span><span>Bought on</span><span>Total paid</span><span>Status</span><span class="bts-r">Reel and story</span></div>
@@ -323,7 +328,8 @@ function render() {
     <main class="workspace-content svelte-187rxgr"><div class="workspace-content-shell svelte-187rxgr"><section class="workflow-page"><div class="workspace-grid"><div class="main-column">${HEADER}
       <div class="bts-pane"><div class="bts-body">${stats()}${table()}</div></div>
     </div></div></section></div></main></div></div>`;
-  document.querySelectorAll('[data-empty]').forEach(b => b.setAttribute('aria-pressed', String((b.dataset.empty === '1') === S.empty)));
+  const mode = S.empty ? 'empty' : S.few ? 'few' : 'full';
+  document.querySelectorAll('[data-mode]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.mode === mode)));
 }
 
 function postModal(r, kind) {
@@ -364,7 +370,7 @@ function toast(m) { const t = document.getElementById('toast'); t.textContent = 
 document.addEventListener('click', (e) => {
   const x = (s) => e.target.closest(s);
   let el;
-  if ((el = x('[data-empty]'))) { S.empty = el.dataset.empty === '1'; S.f = 'all'; history.replaceState(null, '', S.empty ? '?state=empty' : location.pathname); render(); return; }
+  if ((el = x('[data-mode]'))) { const m = el.dataset.mode; S.empty = m === 'empty'; S.few = m === 'few'; S.f = 'all'; history.replaceState(null, '', m === 'full' ? location.pathname : '?state=' + m); render(); return; }
   if ((el = x('[data-f]'))) { S.f = el.dataset.f; render(); return; }
   if ((el = x('[data-top]'))) { S.top = el.dataset.top; history.replaceState(null, '', '?top=' + S.top); render(); return; }
   if ((el = x('[data-open]'))) { const [i, k] = el.dataset.open.split(':'); openModal(postModal(ROWS[+i], k)); return; }
