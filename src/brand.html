@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Buy, Try, Share · Phyla · Benable</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<!-- Production chrome (Aug 18 capture, scoped under .nf) + the Rights tab rebuild's cs- styles (content-handoff-study/surface.html). -->
+<link rel="stylesheet" href="assets/newflow-extra.css">
+<link rel="stylesheet" href="assets/newflow-production.css">
+<style>
+/*@@RIGHTS_CS@@*/
+
+/* ---------- Buy, Try, Share additions (same tokens as the Rights tab) ---------- */
+html, body { background: #fff; color: #1a1a1a; margin: 0; }
+.nf { font-family: Inter, -apple-system, "Segoe UI", Roboto, sans-serif; }
+.nf .bts-sub { margin: -4px 0 0; font-size: 14px; line-height: 20px; color: #717171; max-width: 640px; }
+.nf .bts-pane { background: #f9fafb; border-top: 1px solid #eeeeee; min-height: calc(100vh - 150px); }
+.nf .bts-body { padding: 24px 20px 96px; display: grid; gap: 20px; }
+
+.nf .bts-stats { display: grid; grid-template-columns: minmax(200px, 2fr) minmax(170px, 1.4fr) minmax(84px, .6fr) minmax(90px, .7fr) minmax(150px, 1.3fr) 88px; gap: 14px; padding: 0 20px; border: 1px solid #e3e3e3; border-radius: 16px; background: #fff; box-shadow: 0 4px 8px rgba(0,0,0,.03); overflow: hidden; }
+.nf .bts-stat { padding: 18px 0 18px; display: grid; gap: 4px; align-content: start; min-width: 0; }
+.nf .bts-stat .bts-meter { max-width: 220px; }
+.nf .bts-stat .k { font-size: 13px; font-weight: 500; color: #717171; }
+.nf .bts-stat .v { font-size: 24px; line-height: 30px; font-weight: 600; color: #1a1a1a; font-variant-numeric: tabular-nums; }
+.nf .bts-stat .v small { font-size: 14px; font-weight: 500; color: #9a9a9a; margin-left: 4px; }
+.nf .bts-stat .f { font-size: 12px; color: #9a9a9a; }
+.nf .bts-meter { height: 6px; border-radius: 999px; background: #f1f1f1; overflow: hidden; display: flex; margin-top: 6px; }
+.nf .bts-meter i { display: block; height: 100%; }
+.nf .bts-stat--plan { grid-column: 4 / -1; justify-items: end; text-align: right; }
+.nf .bts-stat--plan .v { font-size: 16px; line-height: 22px; }
+.nf .bts-stat--plan button { margin-top: 6px; }
+@media (max-width: 1100px) { .nf .bts-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); } .nf .bts-stat--plan { grid-column: 1 / -1; justify-items: start; text-align: left; border-top: 1px solid #eeeeee; } }
+
+.nf .bts-cols, .nf .bts-row { display: grid; grid-template-columns: minmax(200px, 2fr) minmax(170px, 1.4fr) minmax(84px, .6fr) minmax(90px, .7fr) minmax(150px, 1.3fr) 88px; gap: 14px; align-items: center; padding: 0 20px; }
+.nf .bts-cols { height: 40px; background: #f8f9fa; border-bottom: 1px solid #e3e3e3; font-size: 12px; font-weight: 600; color: #717171; }
+.nf .bts-row { min-height: 76px; border-bottom: 1px solid #eeeeee; }
+.nf .bts-row:last-child { border-bottom: 0; }
+.nf .bts-row:hover { background: #fcfcfc; }
+.nf .bts-av, .bts-modal .bts-av { width: 36px; height: 36px; border-radius: 999px; overflow: hidden; flex: none; background: #eee; }
+.nf .bts-av img, .bts-modal .bts-av img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; display: block; }
+.nf .bts-two, .bts-modal .bts-two { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.nf .bts-two b, .bts-modal .bts-two b { font-size: 14px; font-weight: 500; color: #1a1a1a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nf .bts-two span, .bts-modal .bts-two span { font-size: 12px; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nf .bts-num { font-size: 14px; color: #1a1a1a; font-variant-numeric: tabular-nums; }
+.nf .bts-muted { font-size: 13px; color: #b3b3b3; }
+.nf .bts-r { text-align: right; justify-self: end; }
+.nf .bts-row { transition: background-color .12s; }
+.nf .bts-cols span { white-space: nowrap; }
+.nf .bts-stat .k { letter-spacing: 0; }
+.nf .bts-foot { margin: 0; }
+.nf .cs-rt-status.is-posted i { background: #2baf87; }
+.nf .cs-rt-status.is-posted { color: #1f7a5c; }
+.nf .cs-rt-status.is-bought i { background: #7a5cfa; }
+.nf .cs-rt-status.is-bought { color: #5b3fd6; }
+.nf .cs-rt-status.is-joined i { background: transparent; border: 1.5px solid #b3b3b3; width: 7px; height: 7px; }
+.nf .cs-rt-status.is-joined { color: #767676; }
+.nf .bts-post { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
+.nf .bts-tile { width: 42px; height: 56px; border-radius: 6px; overflow: hidden; border: 0; padding: 0; cursor: pointer; position: relative; background: #eee; flex: none; }
+.nf .bts-tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.nf .bts-tile::after { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent 55%, rgba(0,0,0,.35)); }
+.nf .bts-tile svg { position: absolute; right: 4px; bottom: 4px; width: 12px; height: 12px; z-index: 1; filter: drop-shadow(0 1px 2px rgba(0,0,0,.5)); }
+.nf a.bts-tile { display: block; }
+.nf .bts-tile:hover { outline: 2px solid #7a5cfa; outline-offset: 1px; }
+.nf .bts-view { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 8px; border: 1px solid #e3e3e3; background: #fff; color: #1a1a1a; font: 500 13px/1 Inter, sans-serif; cursor: pointer; white-space: nowrap; }
+.nf .bts-view:hover { background: #f7f7f8; border-color: #c6c6c6; }
+.nf .bts-view svg { width: 12px; height: 12px; }
+.nf .bts-empty { padding: 40px 20px; text-align: center; color: #717171; font-size: 14px; }
+.nf .bts-foot { font-size: 13px; color: #717171; }
+.nf .bts-foot a { color: #5b3fd6; text-decoration: none; font-weight: 500; cursor: pointer; }
+.nf .bts-tablewrap { overflow-x: auto; }
+.nf .bts-tablewrap .cs-rt-card { min-width: 860px; }
+
+
+/* top bar options */
+.nf .bts-a { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(0, 1.15fr); border: 1px solid #e3e3e3; border-radius: 16px; background: #fff; box-shadow: 0 4px 8px rgba(0,0,0,.03); }
+.nf .bts-a-cell { padding: 18px 24px; display: grid; gap: 4px; align-content: start; min-width: 0; }
+.nf .bts-a-cell + .bts-a-cell { border-left: 1px solid #eeeeee; }
+.nf .bts-a .k, .nf .bts-d .k, .nf .bts-c .k { font-size: 13px; font-weight: 500; color: #717171; }
+.nf .bts-a .v, .nf .bts-d .v { font-size: 24px; line-height: 30px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.nf .bts-a .v small, .nf .bts-d .v small { font-size: 14px; font-weight: 500; color: #9a9a9a; margin-left: 4px; }
+.nf .bts-a .v2, .nf .bts-d .v2 { font-size: 16px; line-height: 22px; font-weight: 600; }
+.nf .bts-a-plan button, .nf .bts-d-plan button { justify-self: start; margin-top: 6px; }
+.nf .bts-b { border: 1px solid #e3e3e3; border-radius: 16px; background: #fff; box-shadow: 0 4px 8px rgba(0,0,0,.03); padding: 16px 24px; display: grid; gap: 12px; }
+.nf .bts-b-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.nf .bts-b-nums { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; font-size: 14px; color: #4b4b4b; }
+.nf .bts-b-nums b { font-size: 22px; font-weight: 600; color: #1a1a1a; margin-right: 4px; font-variant-numeric: tabular-nums; }
+.nf .bts-b-nums i { font-style: normal; color: #c6c6c6; font-size: 18px; }
+.nf .bts-b-plan { display: flex; align-items: center; gap: 12px; font-size: 13px; color: #717171; }
+.nf .bts-b-bar { display: flex; height: 8px; border-radius: 999px; overflow: hidden; background: #f1f1f1; gap: 2px; }
+.nf .bts-b-bar i { display: block; height: 100%; }
+.nf .bts-b-legend { display: flex; gap: 18px; flex-wrap: wrap; font-size: 12px; color: #717171; }
+.nf .bts-b-legend em { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 6px; vertical-align: 0; }
+.nf .bts-c { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 2px 0 4px; }
+.nf .bts-c-nums { display: flex; align-items: flex-end; gap: 36px; flex-wrap: wrap; }
+.nf .bts-c-nums > div { display: grid; gap: 2px; }
+.nf .bts-c .v { font-size: 28px; line-height: 32px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.nf .bts-c-of { padding-bottom: 2px; }
+.nf .bts-c-of .k { color: #9a9a9a; font-weight: 400; }
+.nf .bts-d { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.nf .bts-d-card { border: 1px solid #e3e3e3; border-radius: 12px; background: #fff; padding: 14px 18px; display: grid; gap: 6px; align-content: center; min-width: 0; }
+.nf .bts-d-line { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 32px; }
+.nf .bts-d-line .pc { font-size: 12px; font-weight: 500; color: #4b4b4b; background: #f1f1f1; border-radius: 999px; padding: 3px 8px; font-variant-numeric: tabular-nums; }
+.nf .bts-d-plan .cs-ghost { height: 32px; padding: 0 12px; font-size: 13px; flex: none; }
+.nf .bts-d-line .v2 { white-space: nowrap; font-size: 20px; line-height: 30px; }
+.nf .bts-more { border: 0; background: none; padding: 4px 0; color: #5b3fd6; font: 600 13px Inter, sans-serif; cursor: pointer; white-space: nowrap; }
+.nf .bts-more:hover { text-decoration: underline; }
+.nf .bts-d-line .v { white-space: nowrap; }
+.nf .bts-d-head { display: flex; justify-content: space-between; align-items: baseline; }
+.nf .bts-d-head .pc { font-size: 12px; color: #9a9a9a; font-variant-numeric: tabular-nums; }
+.nf .bts-d-plan { background: #fff; }
+@media (max-width: 1000px) { .nf .bts-a, .nf .bts-d { grid-template-columns: repeat(3, minmax(0, 1fr)); } .nf .bts-a-plan, .nf .bts-d-plan { grid-column: 1 / -1; } .nf .bts-a-plan { border-left: 0 !important; border-top: 1px solid #eeeeee; } }
+
+
+/* ---------- spacing system (8px grid): one centered column, 32px gutters, 24px between sections,
+   16px between related blocks, and 24px inner padding shared by cards and table so text lines up ---------- */
+.nf .main-column > .workflow-header, .nf .bts-body { max-width: none; margin-left: 0; margin-right: 0; box-sizing: border-box; width: 100%; }
+.nf .main-column > .workflow-header { padding: 32px 32px 24px; margin-top: 0; margin-bottom: 0; }
+.nf .main-column > .workflow-header .workflow-header-row { margin: 0; }
+.nf .bts-sub { margin: 8px 0 0; }
+.nf .bts-body { padding: 24px 32px 120px; gap: 24px; }
+.nf .bts-d { gap: 16px; }
+.nf .bts-d-card { padding: 20px 24px; gap: 8px; border-radius: 16px; box-shadow: 0 4px 8px rgba(0,0,0,.03); }
+.nf .bts-d-card .k { line-height: 16px; }
+.nf .bts-d-line { justify-content: flex-start; gap: 12px; min-height: 32px; }
+.nf .bts-d .v { line-height: 32px; }
+.nf .bts-d-plan .bts-d-line { justify-content: space-between; }
+.nf .bts-d-line .v2 { font-size: 24px; line-height: 32px; }
+.nf .bts-list { display: grid; gap: 16px; }
+.nf .bts-cols, .nf .bts-row { grid-template-columns: minmax(220px, 1.4fr) minmax(200px, 1.4fr) minmax(96px, .7fr) minmax(96px, .7fr) minmax(170px, 1.2fr) 56px; gap: 24px; padding: 0 24px; }
+.nf .bts-cols { height: 44px; }
+.nf .bts-row { min-height: 80px; }
+.nf .bts-row .cs-rt-video { gap: 12px; }
+.nf .bts-av { width: 40px; height: 40px; }
+.nf .cs-rt-status { align-items: flex-start; gap: 8px; }
+.nf .cs-rt-status i { margin-top: 5px; }
+.nf .bts-tile { width: 42px; height: 56px; border-radius: 8px; }
+.nf .bts-post { justify-content: flex-end; }
+.nf .bts-foot { line-height: 20px; }
+body .bts-demo { left: auto; right: 24px; bottom: 24px; transform: none; }
+.nf .bts-d-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.nf .bts-d-top .pc { font-size: 12px; line-height: 16px; font-weight: 400; color: #aaaaaa; font-variant-numeric: tabular-nums; }
+.nf .bts-d .v { display: block; }
+.nf .bts-d-card.bts-d-plan { background: #f5f3fc; border-color: transparent; box-shadow: none; }
+.nf .bts-d-plan .k { color: #5e518e; }
+.nf .bts-d-plan .v2 { color: #1c1c1c; }
+.nf .bts-more { height: 32px; padding: 0 14px; border-radius: 999px; background: #7a5cfa; color: #fff; font: 600 13px Inter, sans-serif; }
+.nf .bts-more:hover { background: #664bd7; text-decoration: none; }
+@media (max-width: 1000px) { .nf .bts-d { grid-template-columns: repeat(2, minmax(0, 1fr)); } .nf .bts-d-plan { grid-column: auto; } .nf .main-column > .workflow-header { padding: 24px 20px 20px; } .nf .bts-body { padding: 20px 20px 120px; } }
+
+/* modals */
+.bts-scrim { position: fixed; inset: 0; background: rgba(17,17,17,.42); display: grid; place-items: center; padding: 24px; z-index: 60; }
+.bts-modal { background: #fff; border-radius: 16px; box-shadow: 0 16px 40px rgba(0,0,0,.18); width: min(760px, 100%); max-height: calc(100vh - 48px); overflow: auto; display: grid; grid-template-columns: 300px minmax(0, 1fr); font-family: Inter, sans-serif; color: #1a1a1a; }
+.bts-modal--brief { grid-template-columns: minmax(0, 1fr); width: min(620px, 100%); }
+@media (max-width: 680px) { .bts-modal { grid-template-columns: 1fr; } }
+.bts-video { background: #111; position: relative; min-height: 460px; display: grid; place-items: center; overflow: hidden; border-radius: 16px 0 0 16px; }
+.bts-video img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.bts-play { position: relative; width: 56px; height: 56px; border-radius: 999px; background: rgba(255,255,255,.92); display: grid; place-items: center; border: 0; cursor: pointer; }
+.bts-play svg { width: 20px; height: 20px; margin-left: 3px; }
+.bts-plat { position: absolute; left: 12px; top: 12px; display: inline-flex; align-items: center; gap: 6px; background: rgba(0,0,0,.45); color: #fff; font-size: 12px; font-weight: 500; padding: 4px 9px; border-radius: 999px; }
+.bts-plat svg { width: 13px; height: 13px; }
+.bts-side { padding: 22px 24px; display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.bts-mhead { display: flex; align-items: center; gap: 12px; }
+.bts-mhead .bts-two b { font-size: 16px; font-weight: 600; }
+.bts-x { margin-left: auto; width: 32px; height: 32px; border-radius: 8px; border: 1px solid #e3e3e3; background: #fff; cursor: pointer; display: grid; place-items: center; color: #1a1a1a; font-size: 16px; }
+.bts-dl { margin: 0; display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 10px 12px; font-size: 14px; }
+.bts-dl dt { color: #717171; }
+.bts-dl dd { margin: 0; }
+.bts-cap { font-size: 13px; line-height: 19px; color: #4b4b4b; background: #f8f9fa; border-radius: 10px; padding: 12px 14px; }
+.bts-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto; }
+.bts-btn { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 14px; border-radius: 10px; border: 1px solid #e3e3e3; background: #fff; color: #1a1a1a; font: 500 14px/1 Inter, sans-serif; cursor: pointer; white-space: nowrap; text-decoration: none; }
+.bts-btn:hover { background: #f7f7f8; }
+.bts-btn svg { width: 15px; height: 15px; }
+.bts-btn.is-dark { background: #1a1a1a; border-color: #1a1a1a; color: #fff; }
+.bts-btn.is-dark:hover { background: #333; }
+.bts-pdf { margin: 0 24px; border: 1px solid #e3e3e3; border-radius: 10px; background: #f6f6f7; padding: 18px; display: grid; place-items: center; }
+.bts-page { background: #fff; width: 100%; max-width: 440px; aspect-ratio: 8.5 / 11; box-shadow: 0 2px 10px rgba(0,0,0,.08); padding: 26px 28px; display: grid; align-content: start; gap: 12px; font-size: 10.5px; line-height: 15px; color: #333; overflow: hidden; }
+.bts-page h4 { margin: 0; font-size: 15px; line-height: 20px; color: #1a1a1a; }
+.bts-page h5 { margin: 4px 0 0; font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: #717171; }
+.bts-page ul { margin: 0; padding-left: 16px; display: grid; gap: 3px; }
+.bts-page .ph { display: flex; align-items: center; gap: 8px; }
+.bts-page .ph i { width: 22px; height: 22px; border-radius: 999px; background: #1d2b26; color: #e9f2ec; font-style: normal; font-weight: 600; font-size: 9px; display: grid; place-items: center; }
+.bts-note { margin: 0 24px; font-size: 13px; line-height: 19px; color: #717171; }
+
+/* toast + demo bar (same as the Rights prototype) */
+.bts-toast { position: fixed; left: 50%; bottom: 84px; transform: translate(-50%, 8px); background: #1a1a1a; color: #fff; padding: 10px 16px; border-radius: 10px; font: 500 13px Inter, sans-serif; opacity: 0; transition: .2s; pointer-events: none; z-index: 80; }
+.bts-toast.show { opacity: 1; transform: translate(-50%, 0); }
+.bts-demo { position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); background: #111; color: #fff; border-radius: 14px; padding: 8px 10px 8px 16px; display: flex; align-items: center; gap: 10px; font: 500 12px Inter, sans-serif; z-index: 50; box-shadow: 0 8px 24px rgba(0,0,0,.25); max-width: calc(100vw - 24px); flex-wrap: wrap; }
+.bts-demo .lbl { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #9a9a9a; }
+.bts-demo button, .bts-demo a { background: #2a2a2a; color: #fff; border: 0; border-radius: 8px; padding: 6px 10px; font: 500 12px Inter, sans-serif; cursor: pointer; text-decoration: none; }
+.bts-demo button[aria-pressed="true"] { background: #fff; color: #111; }
+@media (prefers-reduced-motion: reduce) { .bts-toast { transition: none; } }
+.nf button:focus-visible, .bts-modal button:focus-visible, .bts-demo button:focus-visible, .bts-demo a:focus-visible { outline: 2px solid #7a5cfa; outline-offset: 2px; }
+</style>
+</head>
+<body>
+<div class="nf" id="nf"></div>
+<div class="bts-toast" id="toast" role="status" aria-live="polite"></div>
+<div class="bts-demo"><span class="lbl">Prototype</span><span>Sample data</span><a href="index.html">Study</a><a href="creator.html">Creator app</a></div>
+
+<script>
+const A = 'assets/';
+const I = {
+  eye: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 8s2.4-4.5 6.5-4.5S14.5 8 14.5 8s-2.4 4.5-6.5 4.5S1.5 8 1.5 8z"/><circle cx="8" cy="8" r="2"/></svg>',
+  doc: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 1.8H4.2a1 1 0 0 0-1 1v10.4a1 1 0 0 0 1 1h7.6a1 1 0 0 0 1-1V5.1z"/><path d="M9.5 1.8v3.3h3.3M5.6 8.4h4.8M5.6 11h3.2"/></svg>',
+  out: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h4v4M13 3 7.5 8.5M12 9.5V12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h2.5"/></svg>',
+  dl: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2.5v8M4.8 7.4 8 10.6l3.2-3.2M2.8 13.2h10.4"/></svg>',
+  play: '<svg viewBox="0 0 16 16" fill="#fff" aria-hidden="true"><path d="M5 3.2v9.6L12.6 8z"/></svg>',
+  playDark: '<svg viewBox="0 0 16 16" fill="#1a1a1a" aria-hidden="true"><path d="M5 3.2v9.6L12.6 8z"/></svg>',
+  ig: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#fff" stroke="none"/></svg>',
+  mail: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3.5" width="12" height="9" rx="1.5"/><path d="m2.5 4.5 5.5 4 5.5-4"/></svg>',
+  bag: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>',
+};
+const POSTERS = ['quinn-1', 'emery-1', 'jasper-1', 'quinn-2', 'emery-2'];
+
+/* sample data: 25 rising creators (200 to 999 followers), Phyla Acne Phage Serum, $55 at Target */
+const PEOPLE = [
+  ['Maya Brooks','maya.glows',612],['Sam Ortega','skinwithsam',418],['Jess Kim','jess.tries',873],['Brielle Hart','its.brielle',305],['Kendra Moss','kendra_k',744],
+  ['Lu Chen','acne.diaries.lu',529],['Nina Patel','nina.routine',961],['Tay Fresh','tay.fresh',287],['Ashley Reyes','ashleyy.skin',655],['Gabi Lopes','glowup.gabi',402],
+  ['Morgan Lee','morgan.mornings',818],['Dani Cruz','dani.dewy',233],['Rachel Wu','rach.realskin',590],['Sofi Alvarez','sofi.spf',476],['Lexi Grant','lexi.lately',902],
+  ['Carly Dunn','carly.clear',361],['Emmie Shaw','emmie.edits',708],['Jordyn James','jordyn.j',254],['Hannah Holt','hannah.h.skin',689],['Priya Das','priya.daily',547],
+  ['Kels Monroe','kels.kare',330],['Ava Reid','ava.unfiltered',795],['Bree Lane','bree.beauty',441],['Zoe Zhang','zoe.z',268],['Livvy Lux','livvy.lux',836],
+];
+const STORES = [['Target South Lamar','Austin, TX',8.25],['Target Uptown','Dallas, TX',8.25],['target.com','Online order',7.0],['Target Country Club Plaza','Kansas City, MO',9.1],['Target Glendale','Denver, CO',8.81],['target.com','Online order',10.25],['Target State St','Chicago, IL',10.25],['Target Arcadia','Phoenix, AZ',8.6],['Target Midtown','Atlanta, GA',8.9]];
+const CAPS = [
+  'Trying the Phyla phage serum my skin has been so angry lately. Found it at Target in the beauty studio aisle',
+  'Week one with @phylaskin. Phage, rhymes with page. Picked it up at Target',
+  'Night routine with the Phyla Acne Phage Serum, grabbed at my Target',
+  'New in my routine from Target: Phyla serum. Gentle, no stinging',
+];
+const ROWS = PEOPLE.map(([name, handle, fol], i) => {
+  const st = i < 14 ? 'posted' : i < 19 ? 'bought' : 'joined';
+  const [store, city, rate] = STORES[i % STORES.length];
+  const day = 2 + (i % 5);
+  const has = st !== 'joined';
+  return { i, name, handle, fol, st, store, city, has,
+    bought: has ? day : null, posted: st === 'posted' ? day + 1 + (i % 2) : null,
+    total: has ? Math.round(55 * (1 + rate / 100) * 100) / 100 : 0,
+    av: A + POSTERS[i % POSTERS.length] + '.jpg', poster: A + POSTERS[(i + 2) % POSTERS.length] + '.jpg',
+    cap: CAPS[i % CAPS.length] };
+});
+const LABEL = { posted: 'Posted', bought: 'Bought', joined: 'Accepted' };
+const NOTE = { posted: 'Reel + story live', bought: 'Post coming', joined: "Hasn't bought yet" };
+const TOPS = ['a','b','c','d']; const qs = new URLSearchParams(location.search).get('top');
+const S = { f: 'all', modal: null, top: TOPS.includes(qs) ? qs : 'b' };
+const dec = (d) => d ? `Dec ${d}` : '';
+const money = (n) => '$' + n.toFixed(2);
+
+const SIDEBAR = `<aside id="brand-workspace-sidebar" class="sidebar svelte-187rxgr"><div class="sidebar-shell svelte-187rxgr"><div class="sidebar-header svelte-187rxgr"><a class="brand-lockup svelte-187rxgr" href="#" aria-label="Benable brand collabs home"><img src="${A}logo.svg" alt="Benable" class="svelte-187rxgr"></a></div> <nav class="sidebar-primary-nav svelte-187rxgr" aria-label="Primary"><span class="sidebar-kicker svelte-187rxgr">Platform</span> <div class="nav-list svelte-187rxgr">
+<a class="nav-item svelte-187rxgr" href="#" data-nav="campaigns"><span class="nav-icon svelte-187rxgr" aria-hidden="true"><div class="icon svelte-1aopmtt" aria-hidden="true" style="width: 16px; height: 16px; color: currentColor;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none"><path d="M8.25 17C8.25 17 15.25 18 18.25 21H19.25C19.8023 21 20.25 20.5523 20.25 20V13.937C21.1126 13.715 21.75 12.9319 21.75 12C21.75 11.0681 21.1126 10.285 20.25 10.063V4C20.25 3.44772 19.8023 3 19.25 3H18.25C15.25 6 8.25 7 8.25 7H4.25C3.14543 7 2.25 7.89543 2.25 9V15C2.25 16.1046 3.14543 17 4.25 17H5.25L6.25 22H8.25V17ZM10.25 8.6612C10.9333 8.5146 11.7775 8.31193 12.6893 8.04373C14.3675 7.55014 16.5 6.77262 18.25 5.57458V18.4254C16.5 17.2274 14.3675 16.4499 12.6893 15.9563C11.7775 15.6881 10.9333 15.4854 10.25 15.3388V8.6612ZM4.25 9H8.25V15H4.25V9Z" fill="currentColor"></path></svg></div></span> <span class="nav-label svelte-187rxgr">Campaigns</span> </a>
+<a class="nav-item active svelte-187rxgr" href="#" aria-current="page"><span class="nav-icon svelte-187rxgr" aria-hidden="true"><div class="icon svelte-1aopmtt" aria-hidden="true" style="width: 16px; height: 16px; color: currentColor;">${I.bag}</div></span> <span class="nav-label svelte-187rxgr">Buy, Try, Share</span> </a>
+<a class="nav-item svelte-187rxgr" href="#" data-nav="ugc"><span class="nav-icon svelte-187rxgr" aria-hidden="true"><div class="icon svelte-1aopmtt" aria-hidden="true" style="width: 16px; height: 16px; color: currentColor;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M10 8.5v7l5.5-3.5z" fill="currentColor"/></svg></div></span> <span class="nav-label svelte-187rxgr">UGC Studio</span> </a>
+<a class="nav-item svelte-187rxgr" href="#" data-nav="soon"><span class="nav-icon svelte-187rxgr" aria-hidden="true"><div class="icon svelte-1aopmtt" aria-hidden="true" style="width: 16px; height: 16px; color: currentColor;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg></div></span> <span class="nav-label svelte-187rxgr">Push Alerts</span> <span class="coming-soon-pill svelte-187rxgr">Soon</span> </a>
+<a class="nav-item svelte-187rxgr" href="#" data-nav="soon"><span class="nav-icon svelte-187rxgr" aria-hidden="true"><div class="icon svelte-1aopmtt" aria-hidden="true" style="width: 16px; height: 16px; color: currentColor;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 17l.7 2.3L22 20l-2.3.7L19 23l-.7-2.3L16 20l2.3-.7z"/></svg></div></span> <span class="nav-label svelte-187rxgr">Brand Intelligence</span> <span class="coming-soon-pill svelte-187rxgr">Soon</span> </a></div></nav> <div class="sidebar-divider svelte-187rxgr"></div> <div class="sidebar-footer svelte-187rxgr"><nav class="nav-list nav-list--secondary svelte-187rxgr" aria-label="Secondary"><a class="nav-item svelte-187rxgr" href="#" data-nav="settings"><span class="nav-icon svelte-187rxgr" aria-hidden="true"><div class="icon svelte-1aopmtt" aria-hidden="true" style="width: 16px; height: 16px; color: currentColor;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none"><path d="M12 1L21.5 6.5V17.5L12 23L2.5 17.5V6.5L12 1ZM12 3.311L4.5 7.65311V16.3469L12 20.689L19.5 16.3469V7.65311L12 3.311ZM12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12C16 14.2091 14.2091 16 12 16ZM12 14C13.1046 14 14 13.1046 14 12C14 10.8954 13.1046 10 12 10C10.8954 10 10 10.8954 10 12C10 13.1046 10.8954 14 12 14Z" fill="currentColor"></path></svg></div></span> <span class="nav-label svelte-187rxgr">Settings</span> </a></nav> <div class="sidebar-account svelte-187rxgr"> <button type="button" class="sidebar-brand-card svelte-187rxgr" aria-label="Account menu for Phyla"><div class="brand-avatar svelte-1pb8em1" title="Phyla" style="display:grid;place-items:center;background:#1d2b26;color:#e9f2ec;font-weight:700;font-size:12px;">ph</div> <div class="sidebar-brand-copy svelte-187rxgr"><strong class="svelte-187rxgr">Phyla</strong></div></button></div></div></div></aside>`;
+
+const HEADER = `<header class="workflow-header"><div class="workflow-header-row"><div class="workflow-header-main"><h1>Buy, Try, Share</h1> <span class="phase-pill phase-pill--active"><span class="phase-pill-dot" aria-hidden="true"></span> <span>Active</span></span></div> <div class="header-right"><button type="button" class="workflow-header-edit-btn" data-act="brief"><div class="icon svelte-1aopmtt" aria-hidden="true" style="width: 16px; height: 16px; color: #1a1a1a;">${I.doc.replace('viewBox', 'width="16" height="16" viewBox')}</div> <span>See brief</span></button></div></div><p class="bts-sub">Rising creators buy Phyla Acne Phage Serum at Target, post a reel and a story, and get paid back. Benable runs everything.</p></header>`;
+
+function stats() {
+  const acc = ROWS.length, bought = ROWS.filter(r => r.has).length, posted = ROWS.filter(r => r.st === 'posted').length;
+  const card = (k, v) => `<div class="bts-d-card"><div class="bts-d-top"><span class="k">${k}</span><span class="pc">${Math.round(v / 25 * 100)}%</span></div><span class="v">${v}<small>of 25</small></span></div>`;
+  return `<section class="bts-d" aria-label="Pilot progress">
+    ${card('Accepted', acc)}${card('Bought at Target', bought)}${card('Posted', posted)}
+    <div class="bts-d-card bts-d-plan"><div class="bts-d-top"><span class="k">Your pilot</span></div><div class="bts-d-line"><span class="v2">25 creators</span><button type="button" class="bts-more" data-act="more">Add more</button></div></div>
+  </section>`;
+}
+
+function table() {
+  const counts = { posted: 0, bought: 0, joined: 0 };
+  ROWS.forEach(r => counts[r.st]++);
+  const F = [['all', 'All', ROWS.length], ['posted', 'Posted', counts.posted], ['bought', 'Bought', counts.bought], ['joined', 'Accepted', counts.joined]];
+  const pills = F.map(([k, l, c]) => `<button class="cs-filter${S.f === k ? ' is-on' : ''}" data-f="${k}" aria-pressed="${S.f === k}">${l}<span class="cs-count">${c}</span></button>`).join('');
+  const rows = ROWS.filter(r => S.f === 'all' || r.st === S.f);
+  const row = (r) => `<div class="bts-row">
+      <span class="cs-rt-video"><span class="bts-av"><img src="${r.av}" alt=""></span><span class="bts-two"><b>${r.name}</b><span>@${r.handle}</span></span></span>
+      ${r.has ? `<span class="bts-two"><b>${r.store}</b><span>${r.city}</span></span>` : '<span class="bts-muted">Not yet</span>'}
+      ${r.has ? `<span class="bts-num">${dec(r.bought)}</span>` : '<span class="bts-muted">—</span>'}
+      ${r.has ? `<span class="bts-num">${money(r.total)}</span>` : '<span class="bts-muted">—</span>'}
+      <span class="cs-rt-status is-${r.st}"><i></i><span class="cs-rt-st"><span>${LABEL[r.st]}</span><em>${NOTE[r.st]}</em></span></span>
+      <span class="bts-post">${r.st === 'posted'
+        ? `<a class="bts-tile" href="https://www.instagram.com/" target="_blank" rel="noopener" data-live="${r.i}" aria-label="Open ${r.name}'s post on Instagram" title="Opens the post on Instagram"><img src="${r.poster}" alt="">${I.ig}</a>`
+        : `<span class="bts-muted">${r.st === 'bought' ? 'Due ' + dec(r.bought + 10) : ''}</span>`}</span>
+    </div>`;
+  return `<div class="bts-list"><div class="cs-toolbar" style="margin-bottom:0"><div class="cs-filters">${pills}</div></div>
+    <div class="bts-tablewrap"><div class="cs-rt-card">
+      <div class="bts-cols"><span>Creator</span><span>Bought at</span><span>Bought on</span><span>Total paid</span><span>Status</span><span class="bts-r">Post</span></div>
+      ${rows.length ? rows.map(row).join('') : '<div class="bts-empty">No creators here yet.</div>'}
+    </div></div></div>
+    <p class="bts-foot">Store, date and total come from each creator's receipt. Totals include sales tax, so they differ by state. Want a change to the brief or more creators? <a data-act="more">Email Katie</a>.</p>`;
+}
+
+function render() {
+  document.getElementById('nf').innerHTML = `<div class="brand-dashboard svelte-187rxgr"><div class="dashboard-body svelte-187rxgr">${SIDEBAR}
+    <main class="workspace-content svelte-187rxgr"><div class="workspace-content-shell svelte-187rxgr"><section class="workflow-page"><div class="workspace-grid"><div class="main-column">${HEADER}
+      <div class="bts-pane"><div class="bts-body">${stats()}${table()}</div></div>
+    </div></div></section></div></main></div></div>`;
+}
+
+function postModal(r) {
+  return `<div class="bts-scrim" data-close><div class="bts-modal" role="dialog" aria-modal="true" aria-labelledby="m-t">
+    <div class="bts-video"><img src="${r.poster}" alt=""><span class="bts-plat">${I.ig}Reel</span><button class="bts-play" data-act="play" aria-label="Play the reel">${I.playDark}</button></div>
+    <div class="bts-side">
+      <div class="bts-mhead"><span class="bts-av"><img src="${r.av}" alt=""></span><span class="bts-two"><b id="m-t">${r.name}</b><span>@${r.handle} · ${r.fol} followers</span></span><button class="bts-x" data-close aria-label="Close">×</button></div>
+      <dl class="bts-dl">
+        <dt>Posted</dt><dd>Reel and story, ${dec(r.posted)}</dd>
+        <dt>Bought at</dt><dd>${r.store}, ${r.city}</dd>
+        <dt>Date</dt><dd>${dec(r.bought)}</dd>
+        <dt>Total paid</dt><dd>${money(r.total)}</dd>
+      </dl>
+      <div class="bts-cap">${r.cap}</div>
+      <div class="bts-actions"><button class="bts-btn is-dark" data-live="${r.i}">${I.out}Open on Instagram</button><button class="bts-btn" data-act="dl">${I.dl}Download video</button></div>
+    </div></div></div>`;
+}
+function briefModal() {
+  return `<div class="bts-scrim" data-close><div class="bts-modal bts-modal--brief" role="dialog" aria-modal="true" aria-labelledby="m-t" style="gap:16px;padding:0 0 22px">
+    <div class="bts-mhead" style="padding:20px 24px 0"><span class="bts-two"><b id="m-t" style="font-size:16px;font-weight:600">Buy, Try, Share brief</b><span>PDF · 1 page · the same brief every creator sees</span></span><button class="bts-x" data-close aria-label="Close">×</button></div>
+    <div class="bts-pdf"><div class="bts-page">
+      <div class="ph"><i>ph</i><b style="font-size:12px">Phyla × Benable · Buy, Try, Share</b></div>
+      <h4>Acne Phage Serum, found at Target</h4>
+      <h5>What to do</h5><ul><li>Buy the serum at any Target with a Beauty Studio, or on target.com.</li><li>Film yourself using it, with the bottle easy to see in good light.</li><li>Post one reel and one story. Tag @phylaskin.</li></ul>
+      <h5>What to say</h5><ul><li>Say Phyla and phage right: phage rhymes with page.</li><li>Mention you found it at Target.</li><li>Share how your skin feels in your own words.</li></ul>
+      <h5>Please don't</h5><ul><li>Make medical claims, like saying it cures or treats acne.</li></ul>
+    </div></div>
+    <p class="bts-note">This brief stays the same every month. Want a change? Email Katie and we'll update it.</p>
+    <div class="bts-actions" style="padding:0 24px"><button class="bts-btn is-dark" data-act="pdf">${I.dl}Download PDF</button><button class="bts-btn" data-act="more">${I.mail}Email Katie</button></div>
+  </div></div>`;
+}
+function openModal(html) { closeModal(); document.body.insertAdjacentHTML('beforeend', html); const b = document.querySelector('.bts-scrim .bts-x'); b && b.focus(); }
+function closeModal() { document.querySelectorAll('.bts-scrim').forEach(n => n.remove()); }
+function toast(m) { const t = document.getElementById('toast'); t.textContent = m; t.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove('show'), 2000); }
+
+document.addEventListener('click', (e) => {
+  const x = (s) => e.target.closest(s);
+  let el;
+  if ((el = x('[data-f]'))) { S.f = el.dataset.f; render(); return; }
+  if ((el = x('[data-top]'))) { S.top = el.dataset.top; history.replaceState(null, '', '?top=' + S.top); render(); return; }
+  if ((el = x('[data-open]'))) { openModal(postModal(ROWS[+el.dataset.open])); return; }
+  if ((el = x('[data-live]'))) { e.preventDefault(); toast('Opens the post on Instagram in a new tab'); return; }
+  if ((el = x('[data-act]'))) {
+    const a = el.dataset.act;
+    if (a === 'brief') openModal(briefModal());
+    else if (a === 'more') toast('Opens an email to Katie');
+    else if (a === 'pdf') toast('Downloads phyla-buy-try-share-brief.pdf');
+    else if (a === 'dl') toast('Downloads the video file');
+    else if (a === 'play') toast('Plays the reel');
+    return;
+  }
+  if (x('.bts-x') || (e.target.classList && e.target.classList.contains('bts-scrim'))) { closeModal(); return; }
+  if ((el = x('[data-nav]'))) { e.preventDefault(); toast(el.dataset.nav === 'soon' ? 'Coming soon' : 'Not part of this prototype'); return; }
+  if (x('a[href="#"]')) e.preventDefault();
+});
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+render();
+</script>
+</body>
+</html>
