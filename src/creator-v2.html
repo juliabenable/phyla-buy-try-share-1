@@ -348,7 +348,7 @@ p { margin: 0; }
 .rb { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; line-height: 17px; font-weight: 500; margin: -6px 0 16px; justify-self: start; }
 .rb:hover { text-decoration: underline; }
 .uc-h { margin-bottom: 0; } .uc .lead { margin: 8px 0 12px; }
-.uc-item { height: 96px; } .uc-note { font-size: 12px; line-height: 15px; color: var(--medium); }
+.uc-item { height: 108px; } .ac-chips { display: flex; flex-wrap: wrap; gap: 8px; } .uc-note { font-size: 12px; line-height: 15px; color: var(--medium); }
 .uc-zone2 { height: 120px; }
 /* footer (16055:62754) */
 .ffoot { padding: 12px 16px 0; box-shadow: 0 -.5px 0 var(--line); }
@@ -458,19 +458,21 @@ const done = () => tt() || (has('Instagram Post') && has('Instagram Story'));
 const blocked = (ty) => has(ty) ? 'Added' : (ty === 'TikTok' && ig()) ? 'Instagram chosen' : (ty !== 'TikTok' && tt()) ? 'TikTok chosen' : '';
 const ring = (f) => `<svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="7" stroke="#e3e3e3" stroke-width="2"/>${f > 0 ? `<circle cx="9" cy="9" r="7" stroke="#2caf87" stroke-width="2" stroke-linecap="round" stroke-dasharray="${(f * 43.98).toFixed(1)} 44" transform="rotate(-90 9 9)"/>` : ''}</svg>`;
 const thumbOf = (t) => t === 'Instagram Post' ? 'm/video.jpg' : 'm/video2.jpg';
-const addOk = () => S.add && S.add.file && S.add.type;
+const TAGS = ['@phylaskin', '#target'];
+const esc = (x) => x.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+const capHtml = (x) => esc(x).replace(/(@[\w.]+)/g, '<span class="at">$1</span>').replace(/(#\w+)/g, '<span class="hash">$1</span>');
+const hasTag = (g) => S.add.cap.toLowerCase().includes(g);
+const CAPS = { 'Instagram Post': '@phylaskin Trying the Acne Phage Serum (phage rhymes with page). Picked it up at Target, and my skin feels calm. #target', 'Instagram Story': '@phylaskin Day 3 with the Acne Phage Serum. Found it at Target! #target', 'TikTok': '@phylaskin One week with the Acne Phage Serum from Target. Honest thoughts. #target' };
+const addOk = () => S.add && S.add.file && S.add.type && TAGS.every(hasTag);
 const addScreen = () => `${SB}<div class="hdr"><button class="ib" data-act="add-x" aria-label="Close"><img src="m/ic-close.svg" width="16" height="16" alt=""></button><div class="t">Add Content</div><span></span></div>
     <div class="scroll pg"><div class="ac">
       <div class="ac-card"><b>Upload Content</b><div class="ac-tiles">${S.add.file ? `<div class="ac-tile"><img src="${thumbOf(S.add.type)}" alt=""><button class="ac-act" data-act="add-file-x" aria-label="Remove video"><img src="m/ic-close-12.svg" width="12" height="12" alt=""></button></div>` : `<button class="ac-tile ac-tile--add" data-act="add-file" aria-label="Choose a video"><span class="ac-act c"><img src="m/ic-plus-12.svg" width="12" height="12" alt=""></span></button>`}</div></div>
       <button class="ac-card ac-type" data-sheet="ctype"><b>Content Type</b><span>${S.add.type || 'Select type'}</span><img src="m/ic-chev-down.svg" width="16" height="16" alt=""></button>
-      <div class="ac-card"><b>What to say and do</b><ul class="say">
-        <li>Tag <strong>@phylaskin</strong> in your post.</li>
-        <li>Add <strong>#target</strong> to your caption.</li>
-        <li>Say <strong>Phyla</strong> (FYE-luh) and <strong>phage</strong> (FAYJ).</li>
-        <li>Mention you got it at Target.</li>
-        <li>No medical claims: don't say it cures or treats acne.</li></ul></div>
+      <div class="ac-card"><b>Add Your Caption</b><p class="ac-sub">Make sure to include the <strong>tag</strong> and the <strong>hashtag</strong></p>
+        <div class="ac-chips">${TAGS.map(g => `<span class="ac-chip${hasTag(g) ? ' ok' : ''}" data-tag="${g}"><img src="m/ic-check-12.svg" width="12" height="12" alt="">${g}</span>`).join('')}</div>
+        <textarea id="cap" rows="4" placeholder="Write your draft caption here…">${esc(S.add.cap)}</textarea></div>
     </div></div>
-    <div class="foot" style="padding:12px 16px 0;box-shadow:none;background:var(--page)"><button class="cta full" data-act="add-save" style="margin-bottom:16px;font-size:14px" ${addOk() ? '' : 'disabled'}>Save</button><div class="home"></div></div>`;
+    <div class="foot" style="padding:12px 16px 0;box-shadow:none;background:var(--page)"><button class="cta full" id="save" data-act="add-save" style="margin-bottom:16px;font-size:14px" ${addOk() ? '' : 'disabled'}>Save</button><div class="home"></div></div>`;
 const postOk = () => S.items.length > 0 && S.items.every((_, i) => S.links[i].length > 5) && (!S.extra || S.links[2].length > 5);
 const linkCard = (label, i, draft) => `<div class="lk"><div class="lk-h"><b>${label}</b>${draft ? `<button class="dr" data-toast="Opens the video you uploaded"><img src="m/ic-eye.svg" width="16" height="16" alt="">My Draft</button>` : ''}</div><input data-link="${i}" inputmode="url" aria-label="${label} link" placeholder="Paste your live link..." value="${S.links[i]}"></div>`;
 
@@ -528,7 +530,7 @@ const SCREENS = [
       <div class="uc-h"><h2>Upload Content</h2><span class="uc-n">${S.items.length}/${need()}${ring(S.items.length / need())}</span></div>
       <p class="lead lg">Make sure to review the brief before making content!</p>
       <button class="rb" data-sheet="brief"><img src="m/ic-pdf.svg" width="16" height="16" alt="">Review campaign brief →</button>
-      ${S.items.map((it, i) => `<div class="uc-item"><img class="uc-th" src="${thumbOf(it.type)}" alt=""><div class="uc-c"><div class="uc-top"><span class="uc-chip">${it.type}</span><button data-act="del:${i}" aria-label="Remove ${it.type}"><img src="m/ic-trash.svg" width="16" height="16" alt=""></button></div><p class="uc-note">Checked against the brief</p></div></div>`).join('')}
+      ${S.items.map((it, i) => `<div class="uc-item"><img class="uc-th" src="${thumbOf(it.type)}" alt=""><div class="uc-c"><div class="uc-top"><span class="uc-chip">${it.type}</span><button data-act="del:${i}" aria-label="Remove ${it.type}"><img src="m/ic-trash.svg" width="16" height="16" alt=""></button></div><p class="uc-cap">${capHtml(it.cap || '')}</p></div></div>`).join('')}
       ${!done() ? `<button class="zone2${S.items.length ? ' uc-zone2' : ''}" data-act="add"><img src="m/ic-share.svg" width="16" height="16" alt=""><b>Tap to upload content</b>${S.items.length ? '' : '<span>An Instagram post and story, or one TikTok</span>'}</button>` : ''}
     </div></div>${ffoot('Submit', done(), 'data-go="7"')}`,
 
@@ -584,12 +586,12 @@ function render() {
   if (same) { const sc = el.querySelector('.scroll'); if (sc) sc.scrollTop = keep; if (sheet) el.querySelectorAll('.scrim, .sheet').forEach(n => n.style.animation = 'none'); }
   document.getElementById('rail').innerHTML = NAMES.map(([n, isNew], i) => `<button class="s" data-jump="${i}" aria-current="${S.s === i}"><span>${i + 1}</span>${n}${isNew ? '<em>new</em>' : ''}</button>`).join('');
 }
-function openAdd() { const left = TYPES.filter(t => !blocked(t)); S.add = { file: false, type: left[0] || '' }; }
+function openAdd() { const left = TYPES.filter(t => !blocked(t)); S.add = { file: false, type: left[0] || '', cap: '' }; }
 function toast(m) { const t = document.getElementById('toast'); if (!t) return; t.textContent = m; requestAnimationFrame(() => t.classList.add('show')); clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove('show'), 1800); }
 
 document.addEventListener('click', (e) => {
   const q = (s) => e.target.closest(s); let el;
-  if ((el = q('[data-jump]'))) { const n = +el.dataset.jump; S = fresh(); S.s = n; if (n >= 3) S.join = [1,1,1,1]; if (n >= 4) S.how = 'online'; if (n >= 6) S.rc = 1; if (n >= 7) { S.vid = [1,1,1,1,1]; S.items = [{ type: 'Instagram Post' }, { type: 'Instagram Story' }]; } if (n >= 9) S.links = ['instagram.com/reel/DfQ2x9', 'instagram.com/stories/maya.glows', '']; render(); return; }
+  if ((el = q('[data-jump]'))) { const n = +el.dataset.jump; S = fresh(); S.s = n; if (n >= 3) S.join = [1,1,1,1]; if (n >= 4) S.how = 'online'; if (n >= 6) S.rc = 1; if (n >= 7) { S.vid = [1,1,1,1,1]; S.items = [{ type: 'Instagram Post', cap: CAPS['Instagram Post'] }, { type: 'Instagram Story', cap: CAPS['Instagram Story'] }]; } if (n >= 9) S.links = ['instagram.com/reel/DfQ2x9', 'instagram.com/stories/maya.glows', '']; render(); return; }
   if (q('[data-reset]')) { S = fresh(); render(); return; }
   if ((el = q('[data-go]'))) { if (el.disabled) return; S.s = +el.dataset.go; S.sheet = null; S.add = null; const m = el.dataset.toast; render(); if (m) toast(m); return; }
   if (q('[data-back]') && S.add) { S.add = null; render(); return; }
@@ -604,16 +606,16 @@ document.addEventListener('click', (e) => {
     else if (a === 'add') { if (S.vid.every(Boolean)) openAdd(); else S.sheet = 'video'; render(); }
     else if (a === 'checked') { S.sheet = null; openAdd(); render(); }
     else if (a === 'add-x') { S.add = null; render(); }
-    else if (a === 'add-file') { S.add.file = true; render(); }
+    else if (a === 'add-file') { S.add.file = true; if (!S.add.cap) S.add.cap = CAPS[S.add.type] || ''; render(); }
     else if (a === 'add-file-x') { S.add.file = false; render(); }
     else if (a.startsWith('type:')) { S.add.type = a.slice(5); S.sheet = null; render(); }
-    else if (a === 'add-save') { if (!addOk()) return; S.items.push({ type: S.add.type }); S.add = null; render(); }
+    else if (a === 'add-save') { if (!addOk()) return; S.items.push({ type: S.add.type, cap: S.add.cap }); S.add = null; render(); }
     else if (a.startsWith('del:')) { S.items.splice(+a.slice(4), 1); render(); }
     else if (a === 'more') { S.extra = 1; render(); }
     return; }
   if ((el = q('[data-toast]'))) toast(el.dataset.toast);
 });
-document.addEventListener('input', (e) => { const k = e.target.dataset.link; if (k !== undefined) { S.links[+k] = e.target.value; const b = document.getElementById('submit'); if (b) b.disabled = !postOk(); } });
+document.addEventListener('input', (e) => { if (e.target.id === 'cap' && S.add) { S.add.cap = e.target.value; document.getElementById('save').disabled = !addOk(); document.querySelectorAll('[data-tag]').forEach(c => c.classList.toggle('ok', hasTag(c.dataset.tag))); return; } const k = e.target.dataset.link; if (k !== undefined) { S.links[+k] = e.target.value; const b = document.getElementById('submit'); if (b) b.disabled = !postOk(); } });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && (S.sheet || S.s === 2 || S.s === 7)) { if (S.s === 2) S.s = 1; if (S.s === 7) S.s = 6; S.sheet = null; render(); } if ((e.key === 'Enter' || e.key === ' ') && e.target.dataset && e.target.dataset.how) { e.preventDefault(); S.how = e.target.dataset.how; render(); } });
 render();
 </script>
