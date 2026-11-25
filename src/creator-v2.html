@@ -543,8 +543,6 @@ const SCREENS = [
   /* 8 time to post (16058:63177) + caption tags kept from v1 */ () => `${SB}${fhdr(4)}<div class="scroll"><div class="fbody"><h2>Time to Post!</h2><p class="lead lg">Post and make sure to give us the links here!</p>
       <div class="lk"><div class="lk-t"><b>Your affiliate link</b><span>Tap to copy. Add it to your Linktree or bio and include it in your story.</span></div>
         <button class="aff" data-toast="Link copied"><span><img class="t" src="m/aff-thumb.png" alt="">benable.com/a/phyla-maya</span><img src="m/ic-copy.svg" width="16" height="16" alt="Copy"></button></div>
-      <div class="lk"><div class="lk-t"><b>In your caption</b><span>Tap to copy. Both need to be in every post.</span></div>
-        <div class="capc"><button data-toast="Copied @phylaskin">@phylaskin<img src="m/ic-copy.svg" width="14" height="14" alt="Copy"></button><button data-toast="Copied #target">#target<img src="m/ic-copy.svg" width="14" height="14" alt="Copy"></button></div></div>
       ${S.items.map((it, i) => linkCard(SHORT[it.type], i, true)).join('')}
       ${S.extra ? linkCard('Another link', 2, false) : `<button class="addl" data-act="more"><img src="m/ic-plus-16.svg" width="16" height="16" alt="">Add Another Link</button>`}
     </div></div>${ffoot('I’ve Published My Content', postOk(), 'data-go="9" id="submit"')}`,
