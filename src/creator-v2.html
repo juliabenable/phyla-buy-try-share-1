@@ -335,7 +335,7 @@ p { margin: 0; }
 .opt2.on { border-color: var(--text); background: #fcfcfc; }
 .opt2 b { font-size: 14px; line-height: 17px; font-weight: 600; color: #000; }
 .opt2 span { font-size: 14px; line-height: 20px; color: #8a8a8a; }
-.olink { display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; justify-self: start; font-size: 14px; line-height: 20px; font-weight: 500; color: var(--accent); text-decoration: none; }
+.olink { display: inline-flex; align-items: center; gap: 4px; margin-top: 10px; justify-self: start; font-size: 14px; line-height: 20px; font-weight: 500; color: var(--accent); text-decoration: none; }
 .olink:hover { text-decoration: underline; }
 /* dashed upload zone (16058:62831) */
 .zone2 { width: 100%; height: 179px; background: #fcfcfc; border: 1px dashed var(--medium); border-radius: 12px; display: grid; place-content: center; justify-items: center; gap: 8px; text-align: center; }
@@ -393,7 +393,9 @@ p { margin: 0; }
 .done p + .lk, .done .pc { width: 100%; text-align: left; margin-top: 20px; }
 .buy .pc { margin: 0 0 16px; }
 .buy ol { margin: 0; padding-left: 20px; display: grid; gap: 10px; font-size: 14px; line-height: 20px; color: var(--medium); } .buy ol strong { color: var(--text); font-weight: 600; }
-.buy .olink { margin-top: 16px; }
+.buycard { background: #fcfcfc; box-shadow: inset 0 0 0 .5px var(--line); border-radius: 16px; margin-bottom: 16px; }
+.buycard .pc { margin: 0; background: none; box-shadow: none; }
+.buycard-l { border-top: .5px solid var(--line); padding: 12px 16px; } .buycard-l .olink { margin: 0; }
 </style>
 </head>
 <body>
@@ -444,7 +446,7 @@ const cks = (list, vals, key) => `<div class="ag" role="group">${list.map(([ic, 
 const agHead = (title, vals, cls) => `<div class="ag-h ${cls || ''}"><b>${title}</b><span>${vals.filter(Boolean).length}/${vals.length}</span></div>`;
 const pcard = `<div class="pc"><img src="m/sheet-thumb.jpg" alt=""><div><b>Acne Phage Serum</b><span>Phyla</span><em><strong>$55</strong> value · Fully reimbursed</em></div></div>`;
 const TARGET_URL = 'https://www.target.com/s?searchTerm=phyla+acne+phage+serum';
-const tlink = `<a class="olink" href="${TARGET_URL}" target="_blank" rel="noopener">See it on Target.com<img src="m/ic-open-link.svg" width="16" height="16" alt=""></a>`;
+const tlink = `<a class="olink" href="${TARGET_URL}" target="_blank" rel="noopener">See it on Target.com<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h6v6M12 4l-7.5 7.5"/></svg></a>`;
 
 const TYPES = ['Instagram Post', 'Instagram Story', 'TikTok'];
 const SHORT = { 'Instagram Post': 'IG Post', 'Instagram Story': 'IG Story', 'TikTok': 'TikTok' };
@@ -511,9 +513,8 @@ const SCREENS = [
     </div></div>${ffoot('Next', S.how, 'data-go="4"')}`,
 
   /* 4 go buy it: NOT in Figma, asked for on the Nov 25 call */ () => `${SB}${fhdr(1)}<div class="scroll"><div class="fbody buy"><h2>You're in! Time to shop</h2><p class="lead">${S.how === 'online' ? 'Grab your serum on target.com whenever you like. We keep your spot until you are back.' : 'Grab your serum at Target whenever you like. We keep your spot until you are back.'}</p>
-      ${pcard}
-      <ol><li>${S.how === 'online' ? '<strong>Find it on target.com</strong>, for pickup or delivery.' : '<strong>Find it in the Beauty Studio aisle</strong> at any Target store.'}</li><li><strong>Hold on to your ${S.how === 'online' ? 'order confirmation' : 'receipt'}.</strong> It is how we pay you back.</li><li><strong>Come back here</strong> and add it when you have it.</li></ol>
-      ${S.how === 'online' ? tlink : ''}
+      <div class="buycard">${pcard}${S.how === 'online' ? `<div class="buycard-l">${tlink}</div>` : ''}</div>
+      <ol><li>${S.how === 'online' ? '<strong>Find it on target.com</strong>, for pickup or delivery.' : '<strong>Find it in the Beauty Studio aisle</strong> at any Target store.'}</li><li><strong>${S.how === 'online' ? 'Screenshot your order confirmation' : 'Hold on to your receipt'}.</strong> It is how we pay you back.</li><li><strong>Come back here</strong> and add it when you have it.</li></ol>
     </div></div>${ffoot('I have my receipt', true, 'data-go="5"')}`,
 
   /* 5 receipt (16053:62287) + thumbnails and Add another kept from v1 */ () => `${SB}${fhdr(2)}<div class="scroll"><div class="fbody"><h2>Bought it? Add your receipt</h2><p class="lead lg">${S.how === 'online' ? 'A screenshot of your target.com order confirmation.' : 'A photo of your paper receipt.'}</p>
