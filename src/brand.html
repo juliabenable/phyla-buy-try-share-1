@@ -37,6 +37,7 @@ html, body { background: #fff; color: #1a1a1a; margin: 0; }
 .nf .bts-post .bts-muted { white-space: nowrap; }
 .nf .bts-zero { min-height: 400px; padding: 48px 24px; align-content: center; }
 .nf .bts-zero > p { max-width: 520px; text-wrap: balance; }
+.nf .bts-tile.is-static { cursor: default; display: block; } .nf .bts-tile.is-static:hover { outline: 0; }
 .nf main.workspace-content { padding-top: 0 !important; } /* production leaves 46px for a top bar this page does not have */
 .nf .bts-body { padding: 24px 20px 96px; display: grid; gap: 20px; }
 
@@ -298,7 +299,7 @@ const row = (r) => `<div class="bts-row">
       ${r.has ? `<span class="bts-num">${money(r.total)}</span>` : '<span class="bts-muted">—</span>'}
       <span class="cs-rt-status is-${r.st}"><i></i><span class="cs-rt-st"><span>${LABEL[r.st]}</span><em>${NOTE[r.st]}</em></span></span>
       <span class="bts-post">${r.st === 'posted'
-        ? `<button type="button" class="bts-tile" data-open="${r.i}:reel" aria-label="Open ${r.name}'s reel"><img src="${r.poster}" alt=""><em>Reel</em></button><button type="button" class="bts-tile is-story" data-open="${r.i}:story" aria-label="Open ${r.name}'s story"><img src="${r.av}" alt=""><em>Story</em></button>`
+        ? `<a class="bts-tile" href="https://www.instagram.com/" target="_blank" rel="noopener" data-live="${r.i}" aria-label="Open ${r.name}'s reel on Instagram" title="Opens the reel on Instagram"><img src="${r.poster}" alt=""><em>Reel</em></a><span class="bts-tile is-story is-static" aria-label="${r.name}'s story"><img src="${r.av}" alt=""><em>Story</em></span>`
         : `<span class="bts-muted">${r.st === 'bought' ? 'Due ' + dec(r.bought + 10) : ''}</span>`}</span>
     </div>`;
 const COLS = '<div class="bts-cols"><span>Creator</span><span>Bought at</span><span>Bought on</span><span>Total paid</span><span>Status</span><span class="bts-r">Reel and story</span></div>';
