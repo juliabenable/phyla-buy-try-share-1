@@ -93,7 +93,10 @@ p { margin: 0; }
 .tdesc { font-size: 14px; line-height: 20px; color: var(--medium); }
 .tprod div { gap: 6px; } .tprod b { font-size: 17px; line-height: 22px; font-weight: 700; letter-spacing: -.1px; }
 .tpr { color: var(--medium); } .tprod .tpr { font-size: 16px; line-height: 20px; margin-top: 2px; } .tprod .tpr b { color: var(--text-2); letter-spacing: 0; font-size: 16px; line-height: 20px; }
-.tsub { font-size: 13px; line-height: 17px; color: var(--medium); margin-top: -4px; }
+.tsub { font-size: 13px; line-height: 17px; color: var(--medium); }
+.thead { display: grid; gap: 4px; } .thead-r { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.thead-r > b { font-size: 17px; line-height: 22px; font-weight: 700; letter-spacing: -.1px; color: var(--text-2); min-width: 0; }
+.thead-r .tpr { font-size: 16px; line-height: 22px; white-space: nowrap; flex: none; } .thead-r .tpr b { font-size: 16px; font-weight: 700; color: var(--text-2); }
 .tnote { background: #f7f5fd; border-radius: 12px; padding: 12px; display: grid; gap: 12px; }
 .tnote p { font-size: 14px; line-height: 20px; color: var(--text-2); }
 .tnote .founder img { width: 32px; height: 32px; } .tnote .founder { gap: 10px; }
@@ -375,7 +378,7 @@ const SCREENS = [
   /* 0 campaigns */ () => `${SB}<div class="hdr"><span class="ib"><img src="m/ic-chev-left.svg" width="16" height="16" alt=""></span><div class="t">Campaigns</div><span class="ib r"><img src="m/ic-menu.svg" width="16" height="16" alt=""></span></div>
     <div class="scroll pg"><div class="tabs"><b class="on">New</b><b>Active</b><b>Finished</b></div>
       <div class="tile tile--bts"><div class="tile-h"><span class="tile-logo"><img src="m/logo-phyla.png" alt=""></span><span class="nm">Phyla</span><span class="chip-bts">Buy, Try, Share</span></div>
-        <div class="tile-c"><div class="tprod"><div><b>Phyla Acne Phage Serum</b><p class="tpr"><s>$55</s> <b>$0</b></p><p class="tsub">You buy, we pay you back</p></div></div>
+        <div class="tile-c"><div class="thead"><div class="thead-r"><b>Phyla Acne Phage Serum</b><p class="tpr"><s>$55</s> <b>$0</b></p></div><p class="tsub">You buy, we pay you back</p></div>
           <div class="tnote"><p>“We made this serum for skin that needs a gentler fix. We'd love to see your honest first week with it.”</p><div class="founder"><img src="m/founder-naomi.jpg" alt=""><div><b>Naomi Coleman</b><span>Founder, Phyla</span></div></div></div>
           <button class="pillbtn" data-go="1">View Details</button></div></div>
       <div class="tile tile--pair"><div class="tile-h"><span class="tile-logo"><img src="m/logo-pair.png" alt="" style="width:95%"></span><span class="nm">Paireyewear</span></div>
