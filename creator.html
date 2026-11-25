@@ -145,9 +145,9 @@ p { margin: 0; }
 .th { position: relative; width: 96px; height: 126px; border-radius: 12px; overflow: hidden; box-shadow: inset 0 0 0 1px var(--line); background: #eee; flex: none; }
 .th > img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .th-x { position: absolute; top: 6px; right: 6px; width: 22px; height: 22px; border-radius: 50%; background: rgba(255,255,255,.92); display: grid; place-items: center; box-shadow: 0 1px 4px rgba(0,0,0,.2); }
-.th-add { width: 96px; height: 126px; border-radius: 12px; border: 1.5px dashed #c6c6c6; background: #fff; display: grid; place-content: center; justify-items: center; gap: 6px; color: var(--accent); flex: none; }
+.th-add { width: 96px; height: 126px; border-radius: 12px; border: 1.5px dashed #c6c6c6; background: #fff; display: grid; place-content: center; justify-items: center; gap: 6px; color: var(--text); flex: none; }
 .th-add span { font-size: 12px; font-weight: 600; color: var(--text); }
-.th-add:hover { border-color: var(--accent); }
+.th-add:hover { border-color: var(--text); }
 .hint { font-size: 13px; line-height: 18px; color: var(--medium); margin: -4px 0 4px; }
 .rtitle { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
 .rtitle b { font-size: 15px; font-weight: 600; } .rtitle span { font-size: 13px; color: var(--medium); }
@@ -461,7 +461,7 @@ document.addEventListener('click', (e) => {
   if ((el = q('[data-how]'))) { S.how = el.dataset.how; render(); return; }
   if ((el = q('[data-sheet]'))) { const v = el.dataset.sheet; if (v === 'join') S.s = 2; else if (S.s === 2 && !v) S.s = 1; else S.sheet = v || null; render(); return; }
   if ((el = q('[data-act]'))) { const a = el.dataset.act;
-    if (a === 'receipt') { S.rc = Math.min(2, S.rc + 1); render(); toast(S.rc === 1 ? 'Receipt read' : 'Second photo added'); }
+    if (a === 'receipt') { S.rc = Math.min(2, S.rc + 1); render(); if (S.rc === 1) toast('Receipt read'); }
     else if (a === 'rx') { S.rc = Math.max(0, S.rc - 1); render(); }
     else if (a === 'add') { if (S.vid.every(Boolean)) openAdd(); else S.sheet = 'video'; render(); }
     else if (a === 'checked') { S.sheet = null; openAdd(); render(); }
