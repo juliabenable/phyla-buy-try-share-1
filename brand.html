@@ -953,7 +953,7 @@ html, body { background: #fff; color: #1a1a1a; margin: 0; }
 
 /* ---------- spacing system (8px grid): one centered column, 32px gutters, 24px between sections,
    16px between related blocks, and 24px inner padding shared by cards and table so text lines up ---------- */
-.nf .main-column > .workflow-header, .nf .bts-body { max-width: 1264px; margin-left: auto; margin-right: auto; box-sizing: border-box; width: 100%; }
+.nf .main-column > .workflow-header, .nf .bts-body { max-width: none; margin-left: 0; margin-right: 0; box-sizing: border-box; width: 100%; }
 .nf .main-column > .workflow-header { padding: 32px 32px 24px; margin-top: 0; margin-bottom: 0; }
 .nf .main-column > .workflow-header .workflow-header-row { margin: 0; }
 .nf .bts-sub { margin: 8px 0 0; }
@@ -966,7 +966,7 @@ html, body { background: #fff; color: #1a1a1a; margin: 0; }
 .nf .bts-d-plan .bts-d-line { justify-content: space-between; }
 .nf .bts-d-line .v2 { font-size: 24px; line-height: 32px; }
 .nf .bts-list { display: grid; gap: 16px; }
-.nf .bts-cols, .nf .bts-row { grid-template-columns: minmax(220px, 2fr) minmax(200px, 1.6fr) 104px 104px minmax(170px, 1.3fr) 56px; gap: 24px; padding: 0 24px; }
+.nf .bts-cols, .nf .bts-row { grid-template-columns: minmax(220px, 1.4fr) minmax(200px, 1.4fr) minmax(96px, .7fr) minmax(96px, .7fr) minmax(170px, 1.2fr) 56px; gap: 24px; padding: 0 24px; }
 .nf .bts-cols { height: 44px; }
 .nf .bts-row { min-height: 80px; }
 .nf .bts-row .cs-rt-video { gap: 12px; }
