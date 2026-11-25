@@ -139,11 +139,8 @@ p { margin: 0; }
 .opt .rd { width: 22px; height: 22px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px #c6c6c6; margin-top: -1px; }
 .opt.on .rd { box-shadow: inset 0 0 0 7px var(--text); }
 .opt { cursor: pointer; }
-.plink { grid-column: 1 / -1; display: flex; align-items: center; gap: 10px; height: 44px; padding: 0 14px; border-radius: 12px; box-shadow: inset 0 0 0 1px var(--line); background: #fff; color: var(--text); text-decoration: none; font-size: 14px; margin-top: 4px; }
-.plink:hover { background: #f7f7f8; }
-.plink .pl-t { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.plink svg { color: var(--medium); flex: none; }
-.plink .pl-ic { display: grid; }
+.plink { grid-column: 1 / -1; justify-self: start; display: inline-flex; align-items: center; gap: 4px; color: var(--accent); text-decoration: none; font-size: 14px; font-weight: 600; line-height: 20px; margin-top: -4px; }
+.plink:hover { text-decoration: underline; }
 .thumbs { display: flex; gap: 12px; }
 .th { position: relative; width: 96px; height: 126px; border-radius: 12px; overflow: hidden; box-shadow: inset 0 0 0 1px var(--line); background: #eee; flex: none; }
 .th > img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -393,7 +390,7 @@ const SCREENS = [
   /* 2 join = opportunity + sheet */ null,
 
   /* 3 how */ () => `${SB}${fhdr(1)}<div class="scroll pg"><div class="fbody"><h2>How will you buy it?</h2><p class="lead">Pick one. Either way, you'll add your receipt next.</p>
-      ${[['store', 'At a Target store', 'Find it in the Beauty Studio aisle. Keep your paper receipt.', ''], ['online', 'On target.com', 'Pickup or delivery. Your order confirmation is your receipt.', '<a class="plink" href="https://www.target.com/s?searchTerm=phyla+acne+phage+serum" target="_blank" rel="noopener"><span class="pl-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.8 9.2a3 3 0 0 0 4.2 0l2-2a3 3 0 0 0-4.2-4.2l-.9.9"/><path d="M9.2 6.8a3 3 0 0 0-4.2 0l-2 2a3 3 0 0 0 4.2 4.2l.9-.9"/></svg></span><span class="pl-t">See the serum on target.com</span><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h4v4M13 3 7.5 8.5M12 9.5V12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h2.5"/></svg></a>']].map(([k, t, d, extra]) => `<div class="opt${S.how === k ? ' on' : ''}" role="radio" tabindex="0" aria-checked="${S.how === k}" data-how="${k}"><div><b>${t}</b><span>${d}</span></div><i class="rd"></i>${extra}</div>`).join('')}
+      ${[['store', 'At a Target store', 'Find it in the Beauty Studio aisle. Keep your paper receipt.', ''], ['online', 'On target.com', 'Pickup or delivery. Your order confirmation is your receipt.', '<a class="plink" href="https://www.target.com/s?searchTerm=phyla+acne+phage+serum" target="_blank" rel="noopener">See it on target.com<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h6v6M12 4l-7.5 7.5"/></svg></a>']].map(([k, t, d, extra]) => `<div class="opt${S.how === k ? ' on' : ''}" role="radio" tabindex="0" aria-checked="${S.how === k}" data-how="${k}"><div><b>${t}</b><span>${d}</span></div><i class="rd"></i>${extra}</div>`).join('')}
     </div></div>${ffoot('Next', S.how, 'data-go="4"')}`,
 
   /* 4 receipt */ () => `${SB}${fhdr(2)}<div class="scroll pg"><div class="fbody"><h2>Add your receipt</h2><p class="lead">${S.how === 'online' ? 'A screenshot of your target.com order confirmation.' : 'A photo of your paper receipt, or the e-receipt in the Target app.'}</p>
