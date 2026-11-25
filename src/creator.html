@@ -467,7 +467,7 @@ function render() {
   document.getElementById('rail').innerHTML = NAMES.map((n, i) => `<button class="s" data-jump="${i}" aria-current="${S.s === i}"><span>${i + 1}</span>${n}</button>`).join('');
 }
 function openAdd() { const left = TYPES.filter(t => !S.items.some(i => i.type === t)); S.add = { file: false, type: left[0] || '', cap: '' }; }
-function toast(m) { const t = document.getElementById('toast'); if (!t) return; t.textContent = m; requestAnimationFrame(() => t.classList.add('show')); clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove('show'), 1800); }
+function toast() {} /* toasts removed (Julia, Nov 25) */
 
 document.addEventListener('click', (e) => {
   const q = (s) => e.target.closest(s); let el;
