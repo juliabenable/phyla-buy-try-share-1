@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Price sticker options · Buy, Try, Share</title>
+<title>Price display options · Buy, Try, Share</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <style>
 :root { --text: #1c1c1c; --text-2: #222; --medium: #717171; --line: #e3e3e3; --accent: #7a5cfa; --accent-weak: #edeaf9; }
@@ -35,6 +35,12 @@ h1 { font-size: 28px; line-height: 1.2; font-weight: 600; margin: 8px 0 8px; }
 .stk { position: absolute; filter: drop-shadow(0 4px 8px rgba(0,0,0,.18)); }
 .stk svg { display: block; overflow: visible; }
 .stk text { font-family: Inter, sans-serif; text-anchor: middle; }
+.sec { font-size: 18px; font-weight: 600; margin-top: 40px; }
+.sec + .grid { margin-top: 16px; } .sec + .lede { margin-top: 8px; } .lede + .grid { margin-top: 16px; }
+.pr { font-size: 16px; line-height: 20px; color: var(--text-2); } .opp-t p.pr { color: var(--text-2); font-size: 16px; line-height: 20px; }
+.pr b { font-weight: 700; } .pr s { color: var(--medium); } .pr .g { color: #196249; font-weight: 600; }
+.pill { position: absolute; top: 10px; left: 10px; background: #fff; border-radius: 999px; padding: 6px 12px; font-size: 13px; font-weight: 600; color: var(--text-2); box-shadow: 0 2px 6px rgba(0,0,0,.16), 0 0 0 .5px rgba(0,0,0,.06); }
+.pill b { font-weight: 800; }
 footer { margin-top: 32px; font-size: 13px; color: var(--medium); line-height: 1.6; }
 footer a, .lede a { color: var(--accent); }
 </style>
@@ -42,10 +48,14 @@ footer a, .lede a { color: var(--accent); }
 <body>
 <div class="wrap">
   <div class="eyebrow">Buy, Try, Share · Creator app · Nov 25, 2026</div>
-  <h1>Price sticker on the product shot</h1>
-  <p class="lede">Five ways to show the $55 as a sticker on the Opportunity page photo. All five are proposals. Each one says the serum is worth $55, so it does not read as a fee the creator earns. Screen shown: top of the <a href="creator.html">Opportunity page</a>.</p>
+  <h1>Showing the $55 on the Opportunity page</h1>
+  <p class="lede">Eight ways to make the $55 more prominent: five stickers on the photo, then three in the way Airbnb shows a price (bold number in a plain text line, or a white pill on the photo). All eight are proposals. Each one says the serum is worth $55, so it does not read as a fee the creator earns. Screen shown: top of the <a href="creator.html">Opportunity page</a>.</p>
+  <h2 class="sec">Stickers on the photo</h2>
   <div class="grid" id="grid"></div>
-  <footer>The footer next to "I'm in" keeps "$55 value · Fully reimbursed, tax included" in every option. Sticker shapes are drawn in SVG, so they stay sharp on any screen.</footer>
+  <h2 class="sec">The Airbnb way</h2>
+  <p class="lede">Airbnb never uses a sticker for price. It sets the number in bold with the unit in regular weight next to it ("$120 night"), shows a discount as a struck-through price beside the new one, and keeps photo badges to a small white pill ("Guest favorite").</p>
+  <div class="grid" id="grid2"></div>
+  <footer>The footer next to "I'm in" keeps "$55 value · Fully reimbursed, tax included" in every option. Airbnb patterns are described from my knowledge of its listing pages, not from a fresh capture. Sticker shapes are drawn in SVG, so they stay sharp on any screen.</footer>
 </div>
 <script>
 const P = Math.PI;
@@ -81,17 +91,27 @@ const OPTS = [
     art: svg(84, `<path d="${scallop(16, 48)}" fill="#fff" stroke="#e3e3e3" stroke-width="1"/><text y="4" font-size="34" font-weight="800" fill="#1c1c1c" letter-spacing="-1">$55</text><text y="24" font-size="13" font-weight="600" fill="#7a5cfa">value</text>`),
     why: 'Quietest option: white paper sticker with a purple "value". Sits bottom left, like a price tag stuck on the shelf. Lower contrast against the white photo.' },
 ];
-document.getElementById('grid').innerHTML = OPTS.map((o, i) => `
+const AIR = [
+  { name: 'Price line under the title', rec: 1, sub: '<p class="pr"><b>$55</b> at Target · <span class="g">fully reimbursed</span></p>',
+    why: 'Airbnb\'s listing price pattern: bold number, plain words after it. Replaces the grey "Buy, Try, Share · at Target" line, so nothing is added to the page. Price and benefit read in one glance, with no decoration on the photo.' },
+  { name: 'Struck-through price', sub: '<p class="pr"><s>$55</s> <b>$0</b> after we reimburse you</p>',
+    why: 'Airbnb\'s discount pattern. The strongest "this costs you nothing" signal. Risk: "$0" can read as free at checkout, and the creator does pay first.' },
+  { name: 'White pill on the photo', pill: '<b>$55</b> value',
+    why: 'Airbnb\'s "Guest favorite" badge: small white pill, top left, soft shadow. A calmer cousin of the sticker. Keeps the grey line under the title as it is.' },
+];
+const card = (o, i) => `
   <div class="card${o.rec ? ' rec' : ''}">
-    <h2><i>${i + 1}</i>${o.name}${o.rec ? '<em>My pick</em>' : ''}</h2>
+    <h2><i>${i + 1}</i>${o.name}${o.rec ? `<em>${i < OPTS.length ? 'Best sticker' : 'My pick'}</em>` : ''}</h2>
     <div class="crop">
       <div class="hdr"><img src="m/ic-close.svg" width="16" height="16" alt=""><div class="t">Opportunity</div><span></span></div>
-      <div class="shotwrap"><div class="shot"><img src="m/product.jpg" alt="Phyla Acne Phage Serum bottle"></div><div class="stk" style="${o.pos}">${o.art}</div></div>
-      <div class="opp-t"><h3>Phyla Acne Phage Serum</h3><p>Buy, Try, Share · at Target</p></div>
+      <div class="shotwrap"><div class="shot"><img src="m/product.jpg" alt="Phyla Acne Phage Serum bottle"></div>${o.art ? `<div class="stk" style="${o.pos}">${o.art}</div>` : ''}${o.pill ? `<div class="pill">${o.pill}</div>` : ''}</div>
+      <div class="opp-t"><h3>Phyla Acne Phage Serum</h3>${o.sub || '<p>Buy, Try, Share · at Target</p>'}</div>
       <div class="brand"><img src="m/logo-phyla.png" alt="">Phyla</div>
     </div>
     <p>${o.why}</p>
-  </div>`).join('');
+  </div>`;
+document.getElementById('grid').innerHTML = OPTS.map(card).join('');
+document.getElementById('grid2').innerHTML = AIR.map((o, i) => card(o, i + OPTS.length)).join('');
 </script>
 </body>
 </html>
