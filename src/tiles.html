@@ -72,7 +72,7 @@ footer { margin-top: 32px; font-size: 13px; color: var(--medium); line-height: 1
 <div class="wrap">
   <div class="eyebrow">Buy, Try, Share · Creator app · Nov 25, 2026</div>
   <h1>Campaign tile options</h1>
-  <p class="lede">Five takes on the Phyla tile in the Campaigns list, all proposals. Each keeps the struck-through price, the product picture and the founder. Option 1 is what is in the <a href="creator-v2.html">v2 prototype</a> today.</p>
+  <p class="lede">Four takes on the Phyla tile in the Campaigns list, all proposals. Each keeps the struck-through price and the founder with her photo. No product picture, as Julia asked. Option 1 is what is in the <a href="creator-v2.html">v2 prototype</a> today.</p>
   <div class="grid" id="grid"></div>
   <h2 class="sec">Wording for the price line</h2>
   <p class="lede">Alternatives to "after we reimburse you", shown at tile size. All proposals.</p>
@@ -85,16 +85,14 @@ const PRICE = `<s>$55</s> <b>$0</b> after we reimburse you`;
 const FOUNDER = `<div class="founder"><img src="m/founder-naomi.jpg" alt=""><div><b>Naomi Coleman</b><span>Founder, Phyla</span></div></div>`;
 const BTN = `<span class="pillbtn">View Details</span>`;
 const QUOTE = 'Show us your honest first week with the serum.';
-const prod = (lg) => `<div class="tprod${lg ? ' lg' : ''}"><img src="m/sheet-thumb.jpg" alt="Phyla Acne Phage Serum bottle"><div><b>Phyla Acne Phage Serum</b><p class="tpr">${PRICE}</p>${lg ? '<p class="ask">1 Reel + 1 Story · 10 days · at Target</p>' : ''}</div></div>`;
+const prod = (lg) => `<div class="tprod"><div><b>Phyla Acne Phage Serum</b><p class="tpr">${PRICE}</p>${lg ? '<p class="ask">1 Reel + 1 Story · 10 days · at Target</p>' : ''}</div></div>`;
 const OPTS = [
   { name: 'Today', tag: 'In v2 now', body: `${prod()}<p class="tdesc">Buy it at Target, post a reel and a story, and we pay you back.</p>${FOUNDER}${BTN}`,
-    why: 'Baseline. The description repeats the price line ("we pay you back"), and the bottle is small at 56px.' },
+    why: 'Baseline. The description repeats the price line ("we pay you back").' },
   { name: 'Founder quote + the ask', rec: 1, tag: 'My pick', body: `${prod(1)}<div class="quote"><p>“${QUOTE}”</p>${FOUNDER}</div>${BTN}`,
-    why: '<b>Bigger picture (76px), one grey line for the ask, and the founder speaks</b> where the description was. Price, effort and story each get one spot, nothing repeats. Smallest change from today.' },
+    why: '<b>One grey line for the ask, and the founder speaks</b> where the description was. Price, effort and story each get one spot, nothing repeats. Smallest change from today.' },
   { name: 'Founder first', body: `<div class="fbig"><img src="m/founder-naomi.jpg" alt=""><div><p>“${QUOTE}”</p><small><b>Naomi Coleman</b> · Founder, Phyla</small></div></div><div class="split">${prod()}</div>${BTN}`,
     why: 'Leads with the person, product second. The closest to "the story of a brand, not shopping" from the 9:09 call. The price sits lower, which works against the "price visible on entry" rule from the same call.' },
-  { name: 'Product photo on top', body: `<div class="hero"><img src="m/product.jpg" alt="Phyla Acne Phage Serum bottle"><span class="pp">${PRICE}</span></div><div class="ttl"><b>Phyla Acne Phage Serum</b><p class="ask">1 Reel + 1 Story · 10 days · at Target</p></div>${FOUNDER}${BTN}`,
-    why: 'The bottle is easy to recognise on the shelf, and the price rides on the photo as a white pill. Tallest tile, and the most shop-like, which you wanted to avoid. Does not stretch to three products.' },
   { name: 'Facts as chips + spots', body: `${prod()}<div class="facts"><span>1 Reel + 1 Story</span><span>10 days to post</span><span>Buy at Target</span></div>${FOUNDER}<div class="btnrow">${BTN}<p class="spots"><b>25 spots</b> in this pilot</p></div>`,
     why: 'Scannable: three chips for the ask, and a spots line under the button for urgency. Reads more like a task than a story. Chips add a third pill style to a tile that already has two.' },
 ];
