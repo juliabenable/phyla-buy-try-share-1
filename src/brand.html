@@ -21,19 +21,13 @@ html, body { background: #fff; color: #1a1a1a; margin: 0; }
 .nf .bts-zero-ic { width: 48px; height: 48px; border-radius: 50%; background: #f5f3fc; color: #7a5cfa; display: grid; place-items: center; margin-bottom: 8px; }
 .nf .bts-zero h2 { margin: 0; font-size: 18px; line-height: 24px; font-weight: 600; color: #1a1a1a; }
 .nf .bts-zero > p { margin: 0; font-size: 14px; line-height: 20px; color: #717171; max-width: 420px; }
-.nf .bts-zero-steps { list-style: none; margin: 28px 0 24px; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; width: 100%; max-width: 760px; text-align: left; }
-.nf .bts-zero-steps li { display: flex; gap: 12px; align-items: flex-start; background: #fafafa; border: 1px solid #f0f0f0; border-radius: 12px; padding: 16px; }
-.nf .bts-zero-steps i { font-style: normal; width: 24px; height: 24px; border-radius: 50%; background: #fff; box-shadow: inset 0 0 0 1px #e3e3e3; display: grid; place-items: center; font-size: 12px; font-weight: 600; color: #1a1a1a; flex: none; }
+.nf .bts-zero-steps { list-style: none; margin: 36px 0 28px; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; max-width: 720px; }
+.nf .bts-zero-steps li { position: relative; display: grid; justify-items: center; gap: 12px; padding: 0 16px; text-align: center; }
+.nf .bts-zero-steps li + li::before { content: ""; position: absolute; top: 15px; right: calc(50% + 24px); width: calc(100% - 48px); height: 1px; background: #e3e3e3; }
+.nf .bts-zero-steps i { font-style: normal; width: 32px; height: 32px; border-radius: 50%; background: #f5f3fc; display: grid; place-items: center; font-size: 13px; font-weight: 600; color: #7a5cfa; position: relative; z-index: 1; }
 .nf .bts-zero-steps b { display: block; font-size: 14px; line-height: 20px; font-weight: 600; color: #1a1a1a; }
-.nf .bts-zero-steps span { display: block; margin-top: 2px; font-size: 13px; line-height: 18px; color: #717171; }
-@media (max-width: 900px) { .nf .bts-zero-steps { grid-template-columns: 1fr; max-width: 420px; } }
-.nf .bts-cols, .nf .bts-row { grid-template-columns: minmax(220px, 1.4fr) minmax(200px, 1.4fr) minmax(96px, .7fr) minmax(96px, .7fr) minmax(170px, 1.2fr) 100px; }
-.nf .bts-tile::after { background: linear-gradient(transparent 45%, rgba(0,0,0,.55)); }
-.nf .bts-tile em { position: absolute; left: 0; right: 0; bottom: 4px; z-index: 1; text-align: center; font-style: normal; font-size: 9px; line-height: 11px; font-weight: 600; color: #fff; letter-spacing: .02em; }
-.nf .bts-tile.is-story { box-shadow: 0 0 0 1.5px #fff, 0 0 0 3px #c05ff0; }
-.bts-seg { display: inline-flex; background: #f1f1f1; border-radius: 10px; padding: 3px; gap: 2px; justify-self: start; }
-.bts-seg button { border: 0; background: none; height: 30px; padding: 0 14px; border-radius: 8px; font: 500 13px Inter, sans-serif; color: #717171; cursor: pointer; }
-.bts-seg button[aria-selected="true"] { background: #fff; color: #1a1a1a; box-shadow: 0 1px 3px rgba(0,0,0,.1); }
+.nf .bts-zero-steps span { display: block; margin-top: 2px; font-size: 13px; line-height: 18px; color: #717171; max-width: 190px; }
+@media (max-width: 900px) { .nf .bts-zero-steps { grid-template-columns: 1fr; gap: 20px; max-width: 320px; } .nf .bts-zero-steps li + li::before { display: none; } }
 .nf main.workspace-content { padding-top: 0 !important; } /* production leaves 46px for a top bar this page does not have */
 .nf .bts-body { padding: 24px 20px 96px; display: grid; gap: 20px; }
 
@@ -291,8 +285,8 @@ function zero() {
       <p>We're inviting rising creators now. Each one shows up here as soon as they accept.</p>
       <ol class="bts-zero-steps">
         ${step(1, 'They accept', 'Creators read the brief and join your pilot.')}
-        ${step(2, 'They buy at Target', 'In store or on target.com. You see the store, the date and the total.')}
-        ${step(3, 'They post', 'One reel and one story. The post appears here, one click from Instagram.')}
+        ${step(2, 'They buy at Target', 'In store or on target.com. You see the store, date and total.')}
+        ${step(3, 'They post', 'One reel and one story. Both show up here to watch.')}
       </ol>
       <button type="button" class="workflow-header-edit-btn" data-act="brief"><div class="icon svelte-1aopmtt" aria-hidden="true" style="width: 16px; height: 16px; color: #1a1a1a;">${I.doc.replace('viewBox', 'width="16" height="16" viewBox')}</div> <span>See the brief they get</span></button>
     </div></div>
