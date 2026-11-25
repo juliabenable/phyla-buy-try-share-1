@@ -950,6 +950,43 @@ html, body { background: #fff; color: #1a1a1a; margin: 0; }
 .nf .bts-d-plan { background: #fff; }
 @media (max-width: 1000px) { .nf .bts-a, .nf .bts-d { grid-template-columns: repeat(3, minmax(0, 1fr)); } .nf .bts-a-plan, .nf .bts-d-plan { grid-column: 1 / -1; } .nf .bts-a-plan { border-left: 0 !important; border-top: 1px solid #eeeeee; } }
 
+
+/* ---------- spacing system (8px grid): one centered column, 32px gutters, 24px between sections,
+   16px between related blocks, and 24px inner padding shared by cards and table so text lines up ---------- */
+.nf .main-column > .workflow-header, .nf .bts-body { max-width: 1264px; margin-left: auto; margin-right: auto; box-sizing: border-box; width: 100%; }
+.nf .main-column > .workflow-header { padding: 32px 32px 24px; margin-top: 0; margin-bottom: 0; }
+.nf .main-column > .workflow-header .workflow-header-row { margin: 0; }
+.nf .bts-sub { margin: 8px 0 0; }
+.nf .bts-body { padding: 24px 32px 120px; gap: 24px; }
+.nf .bts-d { gap: 16px; }
+.nf .bts-d-card { padding: 20px 24px; gap: 8px; border-radius: 16px; box-shadow: 0 4px 8px rgba(0,0,0,.03); }
+.nf .bts-d-card .k { line-height: 16px; }
+.nf .bts-d-line { justify-content: flex-start; gap: 12px; min-height: 32px; }
+.nf .bts-d .v { line-height: 32px; }
+.nf .bts-d-plan .bts-d-line { justify-content: space-between; }
+.nf .bts-d-line .v2 { font-size: 24px; line-height: 32px; }
+.nf .bts-list { display: grid; gap: 16px; }
+.nf .bts-cols, .nf .bts-row { grid-template-columns: minmax(220px, 2fr) minmax(200px, 1.6fr) 104px 104px minmax(170px, 1.3fr) 56px; gap: 24px; padding: 0 24px; }
+.nf .bts-cols { height: 44px; }
+.nf .bts-row { min-height: 80px; }
+.nf .bts-row .cs-rt-video { gap: 12px; }
+.nf .bts-av { width: 40px; height: 40px; }
+.nf .cs-rt-status { align-items: flex-start; gap: 8px; }
+.nf .cs-rt-status i { margin-top: 5px; }
+.nf .bts-tile { width: 42px; height: 56px; border-radius: 8px; }
+.nf .bts-post { justify-content: flex-end; }
+.nf .bts-foot { line-height: 20px; }
+body .bts-demo { left: auto; right: 24px; bottom: 24px; transform: none; }
+.nf .bts-d-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.nf .bts-d-top .pc { font-size: 12px; line-height: 16px; font-weight: 400; color: #aaaaaa; font-variant-numeric: tabular-nums; }
+.nf .bts-d .v { display: block; }
+.nf .bts-d-card.bts-d-plan { background: #f5f3fc; border-color: transparent; box-shadow: none; }
+.nf .bts-d-plan .k { color: #5e518e; }
+.nf .bts-d-plan .v2 { color: #1c1c1c; }
+.nf .bts-more { height: 32px; padding: 0 14px; border-radius: 999px; background: #7a5cfa; color: #fff; font: 600 13px Inter, sans-serif; }
+.nf .bts-more:hover { background: #664bd7; text-decoration: none; }
+@media (max-width: 1000px) { .nf .bts-d { grid-template-columns: repeat(2, minmax(0, 1fr)); } .nf .bts-d-plan { grid-column: auto; } .nf .main-column > .workflow-header { padding: 24px 20px 20px; } .nf .bts-body { padding: 20px 20px 120px; } }
+
 /* modals */
 .bts-scrim { position: fixed; inset: 0; background: rgba(17,17,17,.42); display: grid; place-items: center; padding: 24px; z-index: 60; }
 .bts-modal { background: #fff; border-radius: 16px; box-shadow: 0 16px 40px rgba(0,0,0,.18); width: min(760px, 100%); max-height: calc(100vh - 48px); overflow: auto; display: grid; grid-template-columns: 300px minmax(0, 1fr); font-family: Inter, sans-serif; color: #1a1a1a; }
@@ -1060,10 +1097,10 @@ const HEADER = `<header class="workflow-header"><div class="workflow-header-row"
 
 function stats() {
   const acc = ROWS.length, bought = ROWS.filter(r => r.has).length, posted = ROWS.filter(r => r.st === 'posted').length;
-  const card = (k, v) => `<div class="bts-d-card"><span class="k">${k}</span><div class="bts-d-line"><span class="v">${v}<small>of 25</small></span><span class="pc">${Math.round(v / 25 * 100)}%</span></div></div>`;
+  const card = (k, v) => `<div class="bts-d-card"><div class="bts-d-top"><span class="k">${k}</span><span class="pc">${Math.round(v / 25 * 100)}%</span></div><span class="v">${v}<small>of 25</small></span></div>`;
   return `<section class="bts-d" aria-label="Pilot progress">
     ${card('Accepted', acc)}${card('Bought at Target', bought)}${card('Posted', posted)}
-    <div class="bts-d-card bts-d-plan"><span class="k">Your pilot</span><div class="bts-d-line"><span class="v2">25 creators</span><button type="button" class="bts-more" data-act="more">Add more</button></div></div>
+    <div class="bts-d-card bts-d-plan"><div class="bts-d-top"><span class="k">Your pilot</span></div><div class="bts-d-line"><span class="v2">25 creators</span><button type="button" class="bts-more" data-act="more">Add more</button></div></div>
   </section>`;
 }
 
@@ -1083,11 +1120,11 @@ function table() {
         ? `<a class="bts-tile" href="https://www.instagram.com/" target="_blank" rel="noopener" data-live="${r.i}" aria-label="Open ${r.name}'s post on Instagram" title="Opens the post on Instagram"><img src="${r.poster}" alt="">${I.ig}</a>`
         : `<span class="bts-muted">${r.st === 'bought' ? 'Due ' + dec(r.bought + 10) : ''}</span>`}</span>
     </div>`;
-  return `<div class="cs-toolbar" style="margin-bottom:0"><div class="cs-filters">${pills}</div></div>
+  return `<div class="bts-list"><div class="cs-toolbar" style="margin-bottom:0"><div class="cs-filters">${pills}</div></div>
     <div class="bts-tablewrap"><div class="cs-rt-card">
       <div class="bts-cols"><span>Creator</span><span>Bought at</span><span>Bought on</span><span>Total paid</span><span>Status</span><span class="bts-r">Post</span></div>
       ${rows.length ? rows.map(row).join('') : '<div class="bts-empty">No creators here yet.</div>'}
-    </div></div>
+    </div></div></div>
     <p class="bts-foot">Store, date and total come from each creator's receipt. Totals include sales tax, so they differ by state. Want a change to the brief or more creators? <a data-act="more">Email Katie</a>.</p>`;
 }
 
