@@ -385,6 +385,30 @@ p { margin: 0; }
 .rdy-s h2 { margin: 0; font-size: 22px; line-height: 28px; font-weight: 700; letter-spacing: -.3px; }
 .rdy-s p { font-size: 16px; line-height: 22px; color: var(--medium); max-width: 300px; }
 .rdy-next { padding: 20px 0 8px; margin: 0; border: 0; } .rdy-next .hstep:last-child { padding-bottom: 12px; }
+/* celebration */
+.yay { position: relative; padding: 132px 24px 24px; display: grid; justify-items: center; text-align: center; gap: 8px; overflow: hidden; }
+.confetti { position: absolute; left: 50%; top: 20px; width: 343px; height: 130px; margin-left: -171.5px; }
+.confetti i { position: absolute; width: 6px; height: 14px; border-radius: 2px; }
+.yay-ok { width: 80px; height: 80px; border-radius: 50%; background: #18906c; box-shadow: 0 0 0 10px #effbf7; display: grid; place-items: center; margin-bottom: 20px; }
+.yay h2 { margin: 0; font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -.4px; }
+.yay p { font-size: 16px; line-height: 22px; color: var(--medium); max-width: 290px; }
+.yay-pay { width: 100%; margin-top: 24px; background: #f7f5fd; border-radius: 16px; padding: 16px; display: grid; gap: 4px; text-align: left; }
+.yay-pay small { font-size: 12px; font-weight: 600; color: var(--accent); } .yay-pay b { font-size: 16px; line-height: 22px; font-weight: 600; } .yay-pay span { font-size: 14px; line-height: 20px; color: var(--medium); }
+/* share your link (16009:68858) */
+.shl { padding: 24px 0 24px; }
+.shl-h { padding: 0 16px; display: grid; gap: 4px; } .shl-h h2 { margin: 0; font-size: 16px; line-height: 19px; font-weight: 700; } .shl-h p { font-size: 14px; line-height: 17px; color: var(--medium); max-width: 320px; }
+.shl-car { display: flex; gap: 16px; overflow-x: auto; padding: 16px 16px 24px; scroll-snap-type: x mandatory; scrollbar-width: none; } .shl-car::-webkit-scrollbar { display: none; }
+.shl-car > * { flex: none; width: 331px; height: 454px; border-radius: 28px; scroll-snap-align: center; }
+.shl-car img { object-fit: cover; display: block; }
+.shl-c { display: grid; align-content: end; justify-items: center; text-align: center; gap: 8px; padding: 0 32px 40px; }
+.shl-c b { font-size: 26px; line-height: 28px; font-weight: 800; text-transform: uppercase; letter-spacing: -.5px; } .shl-c span { font-size: 16px; line-height: 19px; font-weight: 500; }
+.shl-c.c2 { background: linear-gradient(160deg, #ffc9a3, #ffe9b8 60%, #fff3e6); color: #7a3b00; } .shl-c.c3 { background: linear-gradient(160deg, #b9e6c9, #e3f7d6 60%, #f3fbef); color: #14553a; } .shl-c.c4 { background: linear-gradient(160deg, #b8d4ff, #dbe8ff 60%, #f1f5ff); color: #1c3f7a; }
+.shl h3 { margin: 0 16px 16px; font-size: 16px; line-height: 19px; font-weight: 600; }
+.shl-p { margin: 0 16px; background: #fff; border: .5px solid var(--line); border-radius: 24px; padding: 8px 8px 16px; display: grid; gap: 12px; box-shadow: 0 4px 16px rgba(0,0,0,.04); }
+.shl-img { height: 224px; border-radius: 16px; overflow: hidden; background: #ececec; } .shl-img img { width: 100%; height: 100%; object-fit: cover; object-position: center 60%; display: block; }
+.shl-p > b { padding: 0 8px; font-size: 16px; line-height: 19px; font-weight: 600; }
+.shl-l { margin: 4px 8px 0; height: 38px; border-radius: 999px; background: #f5f5f5; display: flex; align-items: center; gap: 8px; padding: 0 12px; font-size: 14px; }
+.shl-l span { flex: 1; text-align: left; color: var(--medium); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .shl-l em { font-style: normal; font-weight: 600; color: var(--accent); }
 /* new transition states */
 .rdy { width: 100%; margin-top: 24px; display: grid; gap: 8px; text-align: left; }
 .rdy-i { display: flex; align-items: center; gap: 12px; background: #fff; border: .5px solid var(--line); border-radius: 16px; padding: 8px 16px 8px 8px; box-shadow: 0 4px 16px rgba(0,0,0,.04); }
@@ -436,7 +460,7 @@ const VIDEO = [
   [ic24('m/ck-tag.svg'), 'Tag the brand', "I'll tag <strong>@phylaskin</strong> in my post and my story."],
 ];
 /* [name, not in Figma yet] */
-const NAMES = [['Campaigns'], ['Opportunity'], ['Before you join'], ['Store or online'], ['Time to shop', 1], ['Receipt'], ['Upload content'], ['Good to go'], ['Time to post'], ['Done', 1]];
+const NAMES = [['Campaigns'], ['Opportunity'], ['Before you join'], ['Store or online'], ['Time to shop', 1], ['Receipt'], ['Upload content'], ['Good to go'], ['Time to post'], ['Done', 1], ['Share your link']];
 const fresh = () => ({ s: 0, sheet: null, join: [0,0,0,0], how: '', rc: 0, vid: [0,0,0,0,0], items: [], add: null, links: ['', '', ''], extra: 0 });
 let S = fresh();
 
@@ -547,11 +571,25 @@ const SCREENS = [
       ${S.extra ? linkCard('Another link', 2, false) : `<button class="addl" data-act="more"><img src="m/ic-plus-16.svg" width="16" height="16" alt="">Add Another Link</button>`}
     </div></div>${ffoot('I’ve Published My Content', postOk(), 'data-go="9" id="submit"')}`,
 
-  /* 9 done: NOT in Figma, kept from v1 */ () => `${SB}<div class="hdr"><span></span><div class="t">Phyla</div><span></span></div><div class="scroll"><div class="done">
-      <div class="ring"><svg width="32" height="32" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.4 6.6 11.3 12.5 4.9" stroke="#18906c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <h2>You're all set</h2><p>We'll send what you paid for the serum, tax included, to your PayPal in 1 to 3 business days.</p>
-      <div class="card sum"><div class="row2"><b>Receipt</b><span class="ok">${OKI}Added</span></div><div class="row2"><b>Videos</b><span class="ok">${OKI}Uploaded</span></div><div class="row2"><b>Post links</b><span class="ok">${OKI}Links in</span></div></div>
-    </div></div><div class="foot" style="padding-top:14px"><button class="cta full" data-reset style="margin-bottom:16px;font-size:14px">Back to campaigns</button><div class="home"></div></div>`,
+  /* 9 done: NOT in Figma. Celebration, then on to Share your link */ () => `${SB}<div class="scroll"><div class="yay">
+      <div class="confetti" aria-hidden="true">${[[18,8,'#7a5cfa',20],[62,2,'#e4ffa9',-30],[108,14,'#c05ff0',45],[150,0,'#18906c',10],[196,10,'#f3d55b',-20],[240,4,'#7a5cfa',60],[286,12,'#ffb199',-45],[322,2,'#18906c',25],[40,46,'#f3d55b',70],[88,58,'#18906c',-15],[262,52,'#c05ff0',35],[306,60,'#e4ffa9',-60],[10,96,'#ffb199',15],[334,104,'#7a5cfa',-35]].map(([x, y, c, r], k) => `<i style="left:${x}px;top:${y}px;background:${c};transform:rotate(${r}deg);${k % 3 === 0 ? 'border-radius:50%;width:8px;height:8px' : ''}"></i>`).join('')}</div>
+      <div class="yay-ok"><svg width="40" height="40" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.4 6.6 11.3 12.5 4.9" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <h2>You did it! 🎉</h2>
+      <p>Your posts are in. Thank you for sharing Phyla with your followers.</p>
+      <div class="yay-pay"><small>Your money back</small><b>On its way to your PayPal</b><span>What you paid for the serum, tax included, in 1 to 3 business days.</span></div>
+    </div></div><div class="foot" style="padding-top:14px"><button class="cta full" data-go="10" style="margin-bottom:16px;font-size:14px">Continue</button><div class="home"></div></div>`,
+
+  /* 10 share your link (16009:68858) */ () => `${SB}<div class="hdr"><button class="ib" data-go="9" aria-label="Back"><img src="m/ic-chev-left.svg" width="16" height="16" alt=""></button><div class="t">Share your link</div><span></span></div>
+    <div class="scroll pg"><div class="shl">
+      <div class="shl-h"><h2>Get Your Affiliate Link Out There</h2><p>The more you share your affiliate link, the more you earn!</p></div>
+      <div class="shl-car"><img src="m/share-1.jpg" alt="Add it to your bio: paste your link into your bio on Instagram, TikTok or Linktree.">
+        <div class="shl-c c2"><b>Add it to your story</b><span>Post a story and add your link with the link sticker.</span></div>
+        <div class="shl-c c3"><b>Reply with it</b><span>When someone asks where you got it, paste your link in the reply.</span></div>
+        <div class="shl-c c4"><b>Point to your bio</b><span>When someone asks in the comments, point them to your bio link or DM them the link.</span></div></div>
+      <h3>Your Links</h3>
+      <div class="shl-p"><div class="shl-img"><img src="m/product.jpg" alt="Phyla Acne Phage Serum bottle"></div><b>Phyla Acne Phage Serum</b>
+        <button class="shl-l" data-toast="Link copied"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#717171" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M6.7 9.3a3 3 0 0 0 4.2 0l2-2a3 3 0 0 0-4.2-4.2l-.7.7M9.3 6.7a3 3 0 0 0-4.2 0l-2 2a3 3 0 0 0 4.2 4.2l.7-.7"/></svg><span>benable.com/a/phyla-maya</span><em>Copy</em></button></div>
+    </div></div><div class="foot" style="padding:12px 20px 0;box-shadow:none;background:var(--page)"><button class="cta full" data-reset style="margin-bottom:16px;font-size:14px">Done</button><div class="home" style="background:var(--page)"></div></div>`,
 ];
 
 const SHEETS = {
@@ -589,7 +627,7 @@ function toast(m) { const t = document.getElementById('toast'); if (!t) return; 
 
 document.addEventListener('click', (e) => {
   const q = (s) => e.target.closest(s); let el;
-  if ((el = q('[data-jump]'))) { const n = +el.dataset.jump; S = fresh(); S.s = n; if (n >= 3) S.join = [1,1,1,1]; if (n >= 4) S.how = 'online'; if (n >= 6) S.rc = 1; if (n >= 7) { S.vid = [1,1,1,1,1]; S.items = [{ type: 'Instagram Post', cap: CAPS['Instagram Post'] }, { type: 'Instagram Story', cap: CAPS['Instagram Story'] }]; } if (n >= 9) S.links = ['instagram.com/reel/DfQ2x9', 'instagram.com/stories/maya.glows', '']; render(); return; }
+  if ((el = q('[data-jump]'))) { const n = +el.dataset.jump; S = fresh(); S.s = n; if (n >= 3) S.join = [1,1,1,1]; if (n >= 4) S.how = 'online'; if (n >= 6) S.rc = 1; if (n >= 7) { S.vid = [1,1,1,1,1]; S.items = [{ type: 'Instagram Post', cap: CAPS['Instagram Post'] }, { type: 'Instagram Story', cap: CAPS['Instagram Story'] }]; } if (n >= 9 && n < 99) S.links = ['instagram.com/reel/DfQ2x9', 'instagram.com/stories/maya.glows', '']; render(); return; }
   if (q('[data-reset]')) { S = fresh(); render(); return; }
   if ((el = q('[data-go]'))) { if (el.disabled) return; S.s = +el.dataset.go; S.sheet = null; S.add = null; const m = el.dataset.toast; render(); if (m) toast(m); return; }
   if (q('[data-back]') && S.add) { S.add = null; render(); return; }
