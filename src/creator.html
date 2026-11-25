@@ -83,6 +83,7 @@ p { margin: 0; }
 .opp-t { text-align: center; margin: 24px 14px 0; display: grid; gap: 8px; }
 .opp-t h2 { margin: 0; font-size: 20px; line-height: 24px; font-weight: 700; }
 .opp-t p { font-size: 14px; line-height: 17px; color: var(--medium); }
+.chip-cash s { font-weight: 500; opacity: .6; } .chip-cash b { font-weight: 700; }
 .opp-t p.pr { font-size: 16px; line-height: 20px; color: var(--text-2); } .opp-t .pr b { font-weight: 700; } .opp-t .pr s { color: var(--medium); }
 .brand { margin-top: 23px; height: 62px; display: flex; align-items: center; gap: 12px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); font-size: 14px; font-weight: 600; color: var(--text-2); }
 .blogo { width: 28px; height: 28px; border-radius: 50%; background: #fff; box-shadow: inset 0 0 0 .5px #c6c6c6; display: grid; place-items: center; overflow: hidden; flex: none; }
@@ -361,7 +362,7 @@ const SCREENS = [
   /* 0 campaigns */ () => `${SB}<div class="hdr"><span class="ib"><img src="m/ic-chev-left.svg" width="16" height="16" alt=""></span><div class="t">Campaigns</div><span class="ib r"><img src="m/ic-menu.svg" width="16" height="16" alt=""></span></div>
     <div class="scroll pg"><div class="tabs"><b class="on">New</b><b>Active</b><b>Finished</b></div>
       <div class="tile tile--bts"><div class="tile-h"><span class="tile-logo"><img src="m/logo-phyla.png" alt=""></span><span class="nm">Phyla</span><span class="chip-bts">Buy, Try, Share</span></div>
-        <div class="tile-c"><div><div class="chip-cash">$55 serum, fully reimbursed</div><div class="txt" style="margin-top:8px"><b>Phyla Acne Phage Serum</b><span>Buy it at Target, post a reel and a story, and we pay you back.</span></div></div>
+        <div class="tile-c"><div><div class="chip-cash"><s>$55</s> <b>$0</b> after we reimburse you</div><div class="txt" style="margin-top:8px"><b>Phyla Acne Phage Serum</b><span>Buy it at Target, post a reel and a story, and we pay you back.</span></div></div>
           <button class="pillbtn" data-go="1">View Details</button></div></div>
       <div class="tile tile--pair"><div class="tile-h"><span class="tile-logo"><img src="m/logo-pair.png" alt="" style="width:95%"></span><span class="nm">Paireyewear</span></div>
         <div class="tile-c"><div><div class="chip-cash">🎉 Get a $75 cash fee</div><div class="txt" style="margin-top:8px"><b>One frame + up to 3 tops</b><span>Create engaging content showcasing our new Summer Glow Collection. We want authentic, creative content that highlight...</span></div></div>
