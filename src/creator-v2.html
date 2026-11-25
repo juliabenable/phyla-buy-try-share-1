@@ -84,7 +84,13 @@ p { margin: 0; }
 .opp-t h2 { margin: 0; font-size: 20px; line-height: 24px; font-weight: 700; }
 .opp-t p { font-size: 14px; line-height: 17px; color: var(--medium); }
 .chip-cash s { font-weight: 500; opacity: .6; } .chip-cash b { font-weight: 700; }
-.tile-c .txt .tpr { font-size: 16px; line-height: 20px; color: var(--text-2); margin: 0; } .tile-c .txt .tpr b { display: inline; font-weight: 700; } .tpr s { color: var(--medium); }
+.tile--bts .tile-c { gap: 16px; padding: 12px; }
+.tprod { display: flex; align-items: center; gap: 12px; }
+.tprod img { width: 56px; height: 56px; border-radius: 8px; object-fit: cover; box-shadow: 0 0 0 .5px var(--line); flex: none; }
+.tprod div { display: grid; gap: 4px; min-width: 0; }
+.tprod b { font-size: 16px; line-height: 20px; font-weight: 600; color: var(--text-2); }
+.tpr { font-size: 14px; line-height: 18px; color: var(--text-2); } .tpr b { font-size: 14px; line-height: 18px; font-weight: 700; } .tpr s { color: var(--medium); }
+.tdesc { font-size: 14px; line-height: 20px; color: var(--medium); }
 .opp-t p.pr { font-size: 16px; line-height: 20px; color: var(--text-2); } .opp-t .pr b { font-weight: 700; } .opp-t .pr s { color: var(--medium); }
 .brand { margin-top: 23px; height: 62px; display: flex; align-items: center; gap: 12px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); font-size: 14px; font-weight: 600; color: var(--text-2); }
 .blogo { width: 28px; height: 28px; border-radius: 50%; background: #fff; box-shadow: inset 0 0 0 .5px #c6c6c6; display: grid; place-items: center; overflow: hidden; flex: none; }
@@ -364,6 +370,10 @@ p { margin: 0; }
 .ag-t span strong { font-weight: 500; color: var(--text); }
 .say { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 14px; line-height: 19px; color: var(--medium); } .say strong { font-weight: 600; color: var(--text); }
 /* new transition states */
+.rdy { width: 100%; margin-top: 24px; display: grid; gap: 8px; text-align: left; }
+.rdy-i { display: flex; align-items: center; gap: 12px; background: #fff; border: .5px solid var(--line); border-radius: 16px; padding: 8px 16px 8px 8px; box-shadow: 0 4px 16px rgba(0,0,0,.04); }
+.rdy-i img { width: 48px; height: 64px; border-radius: 8px; object-fit: cover; flex: none; }
+.rdy-i div { flex: 1; display: grid; gap: 2px; } .rdy-i b { font-size: 15px; line-height: 19px; font-weight: 600; color: var(--text-2); } .rdy-i span { font-size: 13px; line-height: 17px; color: var(--medium); }
 .done p + .lk, .done .pc { width: 100%; text-align: left; margin-top: 20px; }
 .buy .pc { margin: 0 0 16px; }
 .buy ol { margin: 0; padding-left: 20px; display: grid; gap: 10px; font-size: 14px; line-height: 20px; color: var(--medium); } .buy ol strong { color: var(--text); font-weight: 600; }
@@ -408,7 +418,7 @@ const VIDEO = [
   [ic24('m/ck-tag.svg'), 'Tag the brand', "I'll tag <strong>@phylaskin</strong> in my post and my story."],
 ];
 /* [name, not in Figma yet] */
-const NAMES = [['Campaigns'], ['Opportunity'], ['Before you join'], ['Store or online'], ['Go buy it', 1], ['Receipt'], ['Upload content'], ['Good to post', 1], ['Time to post'], ['Done', 1]];
+const NAMES = [['Campaigns'], ['Opportunity'], ['Before you join'], ['Store or online'], ['Time to shop', 1], ['Receipt'], ['Upload content'], ['Good to post', 1], ['Time to post'], ['Done', 1]];
 const fresh = () => ({ s: 0, sheet: null, join: [0,0,0,0], how: '', rc: 0, vid: [0,0,0,0,0], items: [], add: null, links: ['', '', ''], extra: 0 });
 let S = fresh();
 
@@ -445,7 +455,9 @@ const SCREENS = [
   /* 0 campaigns */ () => `${SB}<div class="hdr"><span class="ib"><img src="m/ic-chev-left.svg" width="16" height="16" alt=""></span><div class="t">Campaigns</div><span class="ib r"><img src="m/ic-menu.svg" width="16" height="16" alt=""></span></div>
     <div class="scroll pg"><div class="tabs"><b class="on">New</b><b>Active</b><b>Finished</b></div>
       <div class="tile tile--bts"><div class="tile-h"><span class="tile-logo"><img src="m/logo-phyla.png" alt=""></span><span class="nm">Phyla</span><span class="chip-bts">Buy, Try, Share</span></div>
-        <div class="tile-c"><div><div class="txt"><b>Phyla Acne Phage Serum</b><p class="tpr"><s>$55</s> <b>$0</b> after we reimburse you</p><span>Buy it at Target, post a reel and a story, and we pay you back.</span></div></div>
+        <div class="tile-c"><div class="tprod"><img src="m/sheet-thumb.jpg" alt="Phyla Acne Phage Serum bottle"><div><b>Phyla Acne Phage Serum</b><p class="tpr"><s>$55</s> <b>$0</b> after we reimburse you</p></div></div>
+          <p class="tdesc">Buy it at Target, post a reel and a story, and we pay you back.</p>
+          <div class="founder"><img src="m/founder-naomi.jpg" alt=""><div><b>Naomi Coleman</b><span>Founder, Phyla</span></div></div>
           <button class="pillbtn" data-go="1">View Details</button></div></div>
       <div class="tile tile--pair"><div class="tile-h"><span class="tile-logo"><img src="m/logo-pair.png" alt="" style="width:95%"></span><span class="nm">Paireyewear</span></div>
         <div class="tile-c"><div><div class="chip-cash">🎉 Get a $75 cash fee</div><div class="txt" style="margin-top:8px"><b>One frame + up to 3 tops</b><span>Create engaging content showcasing our new Summer Glow Collection. We want authentic, creative content that highlight...</span></div></div>
@@ -478,11 +490,11 @@ const SCREENS = [
       <div role="radiogroup" aria-label="Where you will buy it">${[['online', 'On target.com', 'Pickup or delivery. Your order confirmation is your receipt.', tlink], ['store', 'At a Target store', 'Find it in the Beauty Studio aisle. Keep your paper receipt.', '']].map(([k, t, d, extra]) => `<div class="opt2${S.how === k ? ' on' : ''}" role="radio" tabindex="0" aria-checked="${S.how === k}" data-how="${k}"><b>${t}</b><span>${d}</span>${extra}</div>`).join('')}</div>
     </div></div>${ffoot('Next', S.how, 'data-go="4"')}`,
 
-  /* 4 go buy it: NOT in Figma, asked for on the Nov 25 call */ () => `${SB}${fhdr(1)}<div class="scroll"><div class="fbody buy"><h2>Now go buy it</h2><p class="lead">${S.how === 'online' ? 'Order the serum on target.com, then come back here with your order confirmation.' : 'Pick up the serum at a Target store, then come back here with your paper receipt.'}</p>
+  /* 4 go buy it: NOT in Figma, asked for on the Nov 25 call */ () => `${SB}${fhdr(1)}<div class="scroll"><div class="fbody buy"><h2>You're in! Time to shop</h2><p class="lead">${S.how === 'online' ? 'Grab your serum on target.com whenever you like. We keep your spot until you are back.' : 'Grab your serum at Target whenever you like. We keep your spot until you are back.'}</p>
       ${pcard}
-      <ol><li><strong>Buy the Phyla Acne Phage Serum</strong> ${S.how === 'online' ? 'on target.com, for pickup or delivery.' : 'in the Beauty Studio aisle.'}</li><li><strong>Keep your receipt.</strong> We need it to pay you back.</li><li><strong>Come back to this screen</strong> and add it. We save your spot.</li></ol>
+      <ol><li>${S.how === 'online' ? '<strong>Find it on target.com</strong>, for pickup or delivery.' : '<strong>Find it in the Beauty Studio aisle</strong> at any Target store.'}</li><li><strong>Hold on to your ${S.how === 'online' ? 'order confirmation' : 'receipt'}.</strong> It is how we pay you back.</li><li><strong>Come back here</strong> and add it when you have it.</li></ol>
       ${S.how === 'online' ? tlink : ''}
-    </div></div>${ffoot('I bought it', true, 'data-go="5"')}`,
+    </div></div>${ffoot('I have my receipt', true, 'data-go="5"')}`,
 
   /* 5 receipt (16053:62287) + thumbnails and Add another kept from v1 */ () => `${SB}${fhdr(2)}<div class="scroll"><div class="fbody"><h2>Bought it? Add your receipt</h2><p class="lead lg">${S.how === 'online' ? 'A screenshot of your target.com order confirmation.' : 'A photo of your paper receipt.'}</p>
       ${S.rc ? `<div class="thumbs">${Array.from({ length: S.rc }, (_, i) => `<div class="th"><img src="${S.how === 'online' ? ['m/order-1.svg', 'm/order-2.svg'][i] : ['m/receipt-1.svg', 'm/receipt-2.svg'][i]}" alt="Receipt photo ${i + 1}"><button class="th-x" data-act="rx" aria-label="Remove photo ${i + 1}"><img src="m/ic-close.svg" width="10" height="10" alt=""></button></div>`).join('')}${S.rc < 2 ? `<button class="th-add" data-act="receipt" aria-label="Add a second photo"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M8 3v10M3 8h10"/></svg><span>Add another</span></button>` : ''}</div>
@@ -501,8 +513,8 @@ const SCREENS = [
 
   /* 7 good to post: NOT in Figma, asked for on the Nov 25 call */ () => `${SB}<div class="hdr"><span></span><div class="t">Phyla</div><span></span></div><div class="scroll"><div class="done">
       <div class="ring"><svg width="32" height="32" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.4 6.6 11.3 12.5 4.9" stroke="#18906c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <h2>You're good to post</h2><p>Your videos are in. No review needed: post them now, then come back with your links.</p>
-      <div class="card sum">${S.items.map(it => `<div class="row2"><b>${it.type}</b><span class="ok">${OKI}Ready</span></div>`).join('')}</div>
+      <h2>You're good to post</h2><p>Your videos are in. Post them now, then come back with your links.</p>
+      <div class="rdy">${S.items.map(it => `<div class="rdy-i"><img src="${thumbOf(it.type)}" alt=""><div><b>${it.type}</b><span>Checked against the brief</span></div><svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-label="Ready"><circle cx="12" cy="12" r="12" fill="#18906c"/><path d="M7.5 12.4 10.6 15.3 16.5 9" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>`).join('')}</div>
     </div></div><div class="foot" style="padding-top:14px"><button class="cta full" data-go="8" style="margin-bottom:16px;font-size:14px">Time to post</button><div class="home"></div></div>`,
 
   /* 8 time to post (16058:63177) + caption tags kept from v1 */ () => `${SB}${fhdr(4)}<div class="scroll"><div class="fbody"><h2>Time to Post!</h2><p class="lead lg">Post and make sure to give us the links here!</p>
