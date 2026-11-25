@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Price sticker options · Buy, Try, Share</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+:root { --text: #1c1c1c; --text-2: #222; --medium: #717171; --line: #e3e3e3; --accent: #7a5cfa; --accent-weak: #edeaf9; }
+* { box-sizing: border-box; margin: 0; }
+body { font-family: Inter, -apple-system, "Segoe UI", sans-serif; color: var(--text); background: #f4f4f6; -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 1240px; margin: 0 auto; padding: 40px 24px 72px; }
+.eyebrow { font-size: 12px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--medium); }
+h1 { font-size: 28px; line-height: 1.2; font-weight: 600; margin: 8px 0 8px; }
+.lede { font-size: 15px; line-height: 1.6; color: #444; max-width: 68ch; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 24px; margin-top: 32px; }
+.card { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 20px; display: grid; gap: 16px; align-content: start; }
+.card.rec { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-weak); }
+.card h2 { font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.card h2 i { font-style: normal; width: 24px; height: 24px; border-radius: 50%; background: var(--text); color: #fff; font-size: 12px; display: grid; place-items: center; }
+.card h2 em { font-style: normal; font-size: 11px; font-weight: 600; color: var(--accent); background: var(--accent-weak); padding: 3px 8px; border-radius: 999px; margin-left: auto; }
+.card p { font-size: 13px; line-height: 1.55; color: #555; }
+/* phone crop: top of the Opportunity screen, same tokens as creator.html */
+.crop { width: 300px; margin: 0 auto; border-radius: 28px 28px 0 0; background: #fff; box-shadow: 0 0 0 6px #111; overflow: hidden; position: relative; padding-bottom: 20px; -webkit-mask-image: linear-gradient(#000 82%, transparent); mask-image: linear-gradient(#000 82%, transparent); }
+.hdr { height: 48px; display: grid; grid-template-columns: 56px 1fr 56px; align-items: center; }
+.hdr img { margin-left: 20px; } .hdr .t { text-align: center; font-size: 14px; font-weight: 600; }
+.shotwrap { width: 231px; height: 219px; margin: 16px auto 0; position: relative; }
+.shot { width: 100%; height: 100%; border-radius: 16px; box-shadow: inset 0 0 0 .5px var(--line), 0 18px 16px -4px rgba(0,0,0,.05); overflow: hidden; position: relative; }
+.shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.shot::after { content: ""; position: absolute; inset: 0; border-radius: 16px; box-shadow: inset 0 0 0 .5px var(--line); }
+.opp-t { text-align: center; margin: 24px 14px 0; display: grid; gap: 8px; }
+.opp-t h3 { font-size: 20px; line-height: 24px; font-weight: 700; } .opp-t p { font-size: 14px; line-height: 17px; color: var(--medium); }
+.brand { margin: 23px 16px 0; height: 62px; display: flex; align-items: center; gap: 12px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); font-size: 14px; font-weight: 600; color: var(--text-2); }
+.brand img { width: 32px; height: 32px; border-radius: 50%; }
+.stk { position: absolute; filter: drop-shadow(0 4px 8px rgba(0,0,0,.18)); }
+.stk svg { display: block; overflow: visible; }
+.stk text { font-family: Inter, sans-serif; text-anchor: middle; }
+footer { margin-top: 32px; font-size: 13px; color: var(--medium); line-height: 1.6; }
+footer a, .lede a { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">Buy, Try, Share · Creator app · Nov 25, 2026</div>
+  <h1>Price sticker on the product shot</h1>
+  <p class="lede">Five ways to show the $55 as a sticker on the Opportunity page photo. All five are proposals. Each one says the serum is worth $55, so it does not read as a fee the creator earns. Screen shown: top of the <a href="creator.html">Opportunity page</a>.</p>
+  <div class="grid" id="grid"></div>
+  <footer>The footer next to "I'm in" keeps "$55 value · Fully reimbursed, tax included" in every option. Sticker shapes are drawn in SVG, so they stay sharp on any screen.</footer>
+</div>
+<script>
+const P = Math.PI;
+// scalloped circle: n round lobes on a base radius r (viewBox -60..60)
+function scallop(n, r) {
+  const pt = i => [r * Math.cos(2 * P * i / n - P / 2), r * Math.sin(2 * P * i / n - P / 2)].map(v => v.toFixed(2)).join(' ');
+  const a = (r * Math.sin(P / n)).toFixed(2);
+  let d = 'M' + pt(0);
+  for (let i = 1; i <= n; i++) d += `A${a} ${a} 0 0 1 ${pt(i)}`;
+  return d + 'Z';
+}
+// starburst: n points alternating outer / inner radius
+function burst(n, ro, ri) {
+  let d = '';
+  for (let i = 0; i < n * 2; i++) { const r = i % 2 ? ri : ro, t = P * i / n - P / 2; d += (i ? 'L' : 'M') + (r * Math.cos(t)).toFixed(2) + ' ' + (r * Math.sin(t)).toFixed(2); }
+  return d + 'Z';
+}
+const svg = (size, inner) => `<svg width="${size}" height="${size}" viewBox="-60 -60 120 120">${inner}</svg>`;
+const OPTS = [
+  { name: 'Purple scalloped seal', rec: 1, pos: 'top:-18px;right:-22px;transform:rotate(12deg)',
+    art: svg(84, `<path d="${scallop(16, 48)}" fill="#7a5cfa"/><text y="4" font-size="34" font-weight="800" fill="#fff" letter-spacing="-1">$55</text><text y="24" font-size="13" font-weight="600" fill="#fff" opacity=".92">value</text>`),
+    why: 'Benable purple, so it reads as part of the app and matches the "I\'m in" button. Tilted and hanging off the top-right corner, clear of the bottle.' },
+  { name: 'Black seal, dashed ring', pos: 'top:-18px;right:-22px;transform:rotate(-10deg)',
+    art: svg(86, `<path d="${scallop(18, 49)}" fill="#1c1c1c"/><circle r="41" fill="none" stroke="#fff" stroke-width="1" stroke-dasharray="2.5 3" opacity=".7"/><text y="-17" font-size="9.5" font-weight="700" fill="#fff" letter-spacing="1.4">WORTH</text><text y="15" font-size="34" font-weight="800" fill="#fff" letter-spacing="-1">$55</text><text y="30" font-size="9" font-weight="600" fill="#fff" letter-spacing="1.2" opacity=".85">AT TARGET</text>`),
+    why: 'Picks up the black bottle. Looks like a real retail price seal and carries three facts: worth, $55, Target. The most text of the five.' },
+  { name: 'Green "paid back" seal', pos: 'top:-18px;right:-22px;transform:rotate(10deg)',
+    art: svg(86, `<path d="${scallop(14, 47)}" fill="#daf7ed" stroke="#196249" stroke-width="1.2"/><text y="2" font-size="32" font-weight="800" fill="#196249" letter-spacing="-1">$55</text><text y="20" font-size="11.5" font-weight="700" fill="#196249">paid back</text>`),
+    why: 'Same green as the "$55 serum, fully reimbursed" chip on the Campaigns tile, so the two screens match. Leads with the benefit. Leaves out tax, which is also paid back.' },
+  { name: 'Starburst', pos: 'top:-20px;right:-24px;transform:rotate(8deg)',
+    art: svg(92, `<path d="${burst(20, 56, 47)}" fill="#7a5cfa" stroke="#7a5cfa" stroke-width="3" stroke-linejoin="round"/><text y="4" font-size="32" font-weight="800" fill="#fff" letter-spacing="-1">$55</text><text y="23" font-size="13" font-weight="600" fill="#fff" opacity=".92">value</text>`),
+    why: 'Pointed edge instead of scallops. Louder and more "sale flyer". Good if the price should be the first thing seen; least premium next to the Phyla bottle.' },
+  { name: 'White seal, bottom left', pos: 'bottom:-16px;left:-20px;transform:rotate(-12deg)',
+    art: svg(84, `<path d="${scallop(16, 48)}" fill="#fff" stroke="#e3e3e3" stroke-width="1"/><text y="4" font-size="34" font-weight="800" fill="#1c1c1c" letter-spacing="-1">$55</text><text y="24" font-size="13" font-weight="600" fill="#7a5cfa">value</text>`),
+    why: 'Quietest option: white paper sticker with a purple "value". Sits bottom left, like a price tag stuck on the shelf. Lower contrast against the white photo.' },
+];
+document.getElementById('grid').innerHTML = OPTS.map((o, i) => `
+  <div class="card${o.rec ? ' rec' : ''}">
+    <h2><i>${i + 1}</i>${o.name}${o.rec ? '<em>My pick</em>' : ''}</h2>
+    <div class="crop">
+      <div class="hdr"><img src="m/ic-close.svg" width="16" height="16" alt=""><div class="t">Opportunity</div><span></span></div>
+      <div class="shotwrap"><div class="shot"><img src="m/product.jpg" alt="Phyla Acne Phage Serum bottle"></div><div class="stk" style="${o.pos}">${o.art}</div></div>
+      <div class="opp-t"><h3>Phyla Acne Phage Serum</h3><p>Buy, Try, Share · at Target</p></div>
+      <div class="brand"><img src="m/logo-phyla.png" alt="">Phyla</div>
+    </div>
+    <p>${o.why}</p>
+  </div>`).join('');
+</script>
+</body>
+</html>

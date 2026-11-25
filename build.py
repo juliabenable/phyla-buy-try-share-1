@@ -25,3 +25,8 @@ def inline(m):
 c = re.sub(r'm/([\w.-]+\.(?:png|jpg|svg))', inline, c)
 (here / 'creator.html').write_text(c)
 print('creator.html', round(len(c) / 1e6, 2), 'MB')
+
+# ---- stickers.html: price sticker options study ----
+k = re.sub(r'm/([\w.-]+\.(?:png|jpg|svg))', inline, (src / 'stickers.html').read_text())
+(here / 'stickers.html').write_text(k)
+print('stickers.html', round(len(k) / 1e6, 2), 'MB')
