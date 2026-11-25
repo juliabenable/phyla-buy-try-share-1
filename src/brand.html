@@ -216,7 +216,7 @@ body .bts-demo { left: auto; right: 24px; bottom: 24px; transform: none; }
 <body>
 <div class="nf" id="nf"></div>
 <div class="bts-toast" id="toast" role="status" aria-live="polite"></div>
-<div class="bts-demo"><span class="lbl">Prototype</span><button type="button" data-empty="0" aria-pressed="true">With creators</button><button type="button" data-empty="1" aria-pressed="false">No creators yet</button><span class="sep lbl" hidden>Empty design</span><button type="button" data-zero="ghost" hidden>1 Ghost table</button><button type="button" data-zero="example" hidden>2 Example row</button><button type="button" data-zero="minimal" hidden>3 Minimal</button><button type="button" data-zero="cards" hidden>4 Cards explain</button><a href="index.html">Study</a><a href="creator.html">Creator app</a></div>
+<div class="bts-demo"><span class="lbl">Prototype</span><button type="button" data-empty="0" aria-pressed="true">With creators</button><button type="button" data-empty="1" aria-pressed="false">No creators yet</button><a href="index.html">Study</a><a href="creator.html">Creator app</a></div>
 
 <script>
 const A = 'assets/';
@@ -262,7 +262,7 @@ const ROWS = PEOPLE.map(([name, handle, fol], i) => {
 const LABEL = { posted: 'Posted', bought: 'Bought', joined: 'Accepted' };
 const NOTE = { posted: 'Reel and story live', bought: 'Post coming', joined: "Hasn't bought yet" };
 const TOPS = ['a','b','c','d']; const qs = new URLSearchParams(location.search).get('top');
-const S = { f: 'all', modal: null, empty: new URLSearchParams(location.search).get('state') === 'empty', zero: ['ghost','example','minimal','cards'].includes(new URLSearchParams(location.search).get('empty')) ? new URLSearchParams(location.search).get('empty') : 'ghost', top: TOPS.includes(qs) ? qs : 'b' };
+const S = { f: 'all', modal: null, empty: new URLSearchParams(location.search).get('state') === 'empty', top: TOPS.includes(qs) ? qs : 'b' };
 const dec = (d) => d ? `Dec ${d}` : '';
 const money = (n) => '$' + n.toFixed(2);
 
@@ -277,7 +277,7 @@ const HEADER = `<header class="workflow-header"><div class="workflow-header-row"
 
 function stats() {
   const R = S.empty ? [] : ROWS; const acc = R.length, bought = R.filter(r => r.has).length, posted = R.filter(r => r.st === 'posted').length;
-  const hint = S.empty && S.zero === 'cards';
+  const hint = false;
   const card = (k, v, h) => `<div class="bts-d-card"><div class="bts-d-top"><span class="k">${k}</span><span class="pc">${Math.round(v / 25 * 100)}%</span></div><span class="v">${v}<small>of 25</small></span>${hint ? `<span class="bts-d-hint">${h}</span>` : ''}</div>`;
   return `<section class="bts-d" aria-label="Pilot progress">
     ${card('Accepted', acc, 'Creators who read the brief and joined.')}${card('Bought at Target', bought, 'In store or online, with a receipt.')}${card('Posted', posted, 'Reel and story are live.')}
@@ -296,21 +296,10 @@ const row = (r) => `<div class="bts-row">
         : `<span class="bts-muted">${r.st === 'bought' ? 'Due ' + dec(r.bought + 10) : ''}</span>`}</span>
     </div>`;
 const COLS = '<div class="bts-cols"><span>Creator</span><span>Bought at</span><span>Bought on</span><span>Total paid</span><span>Status</span><span class="bts-r">Reel and story</span></div>';
-const BRIEFBTN = `<button type="button" class="workflow-header-edit-btn" data-act="brief"><div class="icon svelte-1aopmtt" aria-hidden="true" style="width: 16px; height: 16px; color: #1a1a1a;">${I.doc.replace('viewBox', 'width="16" height="16" viewBox')}</div> <span>See the brief they get</span></button>`;
+const BRIEFBTN = `<button type="button" class="workflow-header-edit-btn" data-act="brief"><div class="icon svelte-1aopmtt" aria-hidden="true" style="width: 16px; height: 16px; color: #1a1a1a;">${I.doc.replace('viewBox', 'width="16" height="16" viewBox')}</div> <span>See brief</span></button>`;
 const ZMSG = `<span class="bts-zero-ic" aria-hidden="true">${I.bag.replace('width="16" height="16"', 'width="22" height="22"')}</span><h2>No creators yet</h2><p>We're inviting rising creators now. Each one shows up here as soon as they accept.</p>`;
 const ZFOOT = '<p class="bts-foot">Want a change to the brief or more creators? <a data-act="more">Email Katie</a>.</p>';
 function zero() {
-  const v = S.zero;
-  if (v === 'ghost') { /* the table itself, empty: headers stay, faded placeholder rows, message on top */
-    const sk = (w) => `<i class="sk" style="width:${w}px"></i>`;
-    const ghost = (o) => `<div class="bts-row bts-ghost" style="opacity:${o}"><span class="cs-rt-video"><i class="sk av"></i><span class="bts-two">${sk(96)}${sk(64)}</span></span><span class="bts-two">${sk(120)}${sk(70)}</span>${sk(44)}${sk(52)}<span class="bts-two">${sk(64)}${sk(96)}</span><span class="bts-post"><i class="sk tile"></i><i class="sk tile"></i></span></div>`;
-    return `<div class="bts-list"><div class="bts-tablewrap"><div class="cs-rt-card bts-ghostwrap">${COLS}${[1, .7, .45, .22].map(ghost).join('')}<div class="bts-ghostmsg"><h2>No creators yet</h2><p>We're inviting rising creators now. Each one shows up here as soon as they accept.</p>${BRIEFBTN}</div></div></div></div>${ZFOOT}`;
-  }
-  if (v === 'example') { /* one sample row so the brand sees what a creator will look like */
-    return `<div class="bts-list"><div class="bts-zero-head"><div><h2>No creators yet</h2><p>We're inviting rising creators now. Each one shows up here as soon as they accept.</p></div>${BRIEFBTN}</div>
-      <div class="bts-tablewrap"><div class="cs-rt-card bts-ex"><span class="bts-ex-tag">Example · what each creator will look like</span>${COLS}${row(ROWS[0])}</div></div></div>${ZFOOT}`;
-  }
-  /* minimal: also used by "cards", where the three cards above carry the explanation */
   return `<div class="bts-list"><div class="cs-rt-card bts-zero">${ZMSG}<div style="margin-top:16px">${BRIEFBTN}</div></div></div>${ZFOOT}`;
 }
 
@@ -335,8 +324,6 @@ function render() {
       <div class="bts-pane"><div class="bts-body">${stats()}${table()}</div></div>
     </div></div></section></div></main></div></div>`;
   document.querySelectorAll('[data-empty]').forEach(b => b.setAttribute('aria-pressed', String((b.dataset.empty === '1') === S.empty)));
-  document.querySelectorAll('[data-zero]').forEach(b => { b.hidden = !S.empty; b.setAttribute('aria-pressed', String(b.dataset.zero === S.zero)); });
-  document.querySelector('.bts-demo .sep').hidden = !S.empty;
 }
 
 function postModal(r, kind) {
@@ -377,8 +364,7 @@ function toast(m) { const t = document.getElementById('toast'); t.textContent = 
 document.addEventListener('click', (e) => {
   const x = (s) => e.target.closest(s);
   let el;
-  if ((el = x('[data-empty]'))) { S.empty = el.dataset.empty === '1'; S.f = 'all'; history.replaceState(null, '', S.empty ? '?state=empty&empty=' + S.zero : location.pathname); render(); return; }
-  if ((el = x('[data-zero]'))) { S.zero = el.dataset.zero; S.empty = true; history.replaceState(null, '', '?state=empty&empty=' + S.zero); render(); return; }
+  if ((el = x('[data-empty]'))) { S.empty = el.dataset.empty === '1'; S.f = 'all'; history.replaceState(null, '', S.empty ? '?state=empty' : location.pathname); render(); return; }
   if ((el = x('[data-f]'))) { S.f = el.dataset.f; render(); return; }
   if ((el = x('[data-top]'))) { S.top = el.dataset.top; history.replaceState(null, '', '?top=' + S.top); render(); return; }
   if ((el = x('[data-open]'))) { const [i, k] = el.dataset.open.split(':'); openModal(postModal(ROWS[+i], k)); return; }
