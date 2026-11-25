@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Campaign tile options · Buy, Try, Share</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root { --text: #1c1c1c; --text-2: #222; --medium: #717171; --line: #e3e3e3; --weak: #f1f1f1; --page: #f9fafb; --accent: #7a5cfa; --accent-weak: #edeaf9;
+  --sh-light: 0 4px 24px rgba(0,0,0,.08); --sh-medium: 0 16px 40px rgba(0,0,0,.08); }
+* { box-sizing: border-box; margin: 0; }
+body { font-family: Inter, -apple-system, "Segoe UI", sans-serif; color: var(--text); background: #f4f4f6; -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 1240px; margin: 0 auto; padding: 40px 24px 72px; }
+.eyebrow { font-size: 12px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--medium); }
+h1 { font-size: 28px; line-height: 1.2; font-weight: 600; margin: 8px 0; }
+.lede { font-size: 15px; line-height: 1.6; color: #444; max-width: 70ch; } .lede a, footer a { color: var(--accent); }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(383px, 1fr)); gap: 24px; margin-top: 28px; }
+.card { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 20px; display: grid; gap: 16px; align-content: start; }
+.card.rec { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-weak); }
+.card h2 { font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.card h2 i { font-style: normal; width: 24px; height: 24px; border-radius: 50%; background: var(--text); color: #fff; font-size: 12px; display: grid; place-items: center; flex: none; }
+.card h2 em { font-style: normal; font-size: 11px; font-weight: 600; color: var(--accent); background: var(--accent-weak); padding: 3px 8px; border-radius: 999px; margin-left: auto; white-space: nowrap; }
+.card > p { font-size: 13px; line-height: 1.55; color: #555; } .card > p b { color: var(--text); font-weight: 600; }
+.bed { background: var(--page); border-radius: 12px; padding: 16px 0; display: grid; justify-content: center; }
+/* tile: same tokens as creator.html */
+.tile { width: 343px; border-radius: 16px; box-shadow: inset 0 0 0 .5px var(--line); padding-bottom: 8px; overflow: hidden; background: #b79cf2 url(m/tile-bg.jpg) center / cover; }
+.tile-h { height: 72px; display: flex; align-items: center; gap: 12px; padding: 0 8px; }
+.tile-logo { width: 48px; height: 48px; border-radius: 50%; background: #fff; box-shadow: var(--sh-light); display: grid; place-items: center; flex: none; overflow: hidden; }
+.tile-logo img { width: 85%; display: block; }
+.nm { font-size: 16px; font-weight: 700; flex: 1; color: #fff; }
+.chip-bts { background: #e4ffa9; color: #1c8857; font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 999px; box-shadow: 0 4px 14px rgba(0,0,0,.08); white-space: nowrap; }
+.tile-c { margin: 0 8px; background: #fff; border-radius: 12px; padding: 12px; box-shadow: var(--sh-medium); display: grid; gap: 16px; }
+.tprod { display: flex; align-items: center; gap: 12px; }
+.tprod img { width: 56px; height: 56px; border-radius: 8px; object-fit: cover; box-shadow: 0 0 0 .5px var(--line); flex: none; }
+.tprod.lg img { width: 76px; height: 76px; border-radius: 10px; }
+.tprod div { display: grid; gap: 4px; min-width: 0; }
+.tprod b { font-size: 16px; line-height: 20px; font-weight: 600; color: var(--text-2); }
+.tpr { font-size: 14px; line-height: 18px; color: var(--text-2); } .tpr b { font-size: 14px; font-weight: 700; } .tpr s { color: var(--medium); }
+.tdesc { font-size: 14px; line-height: 20px; color: var(--medium); }
+.ask { font-size: 13px; line-height: 17px; color: var(--medium); }
+.founder { display: flex; align-items: center; gap: 12px; }
+.founder img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex: none; }
+.founder b { display: block; font-size: 13px; font-weight: 600; color: #1a1a1a; } .founder span { font-size: 11px; color: #8a8a8a; }
+.pillbtn { height: 41px; border-radius: 40px; display: grid; place-items: center; font-size: 14px; font-weight: 500; background: var(--accent); color: #fff; width: 100%; }
+/* variant pieces */
+.quote { background: #f7f5fd; border-radius: 12px; padding: 12px; display: grid; gap: 10px; }
+.quote p { font-size: 15px; line-height: 21px; color: var(--text-2); }
+.quote .founder img { width: 32px; height: 32px; }
+.facts { display: flex; flex-wrap: wrap; gap: 6px; }
+.facts span { font-size: 12px; font-weight: 500; line-height: 15px; color: var(--text-2); background: #f5f5f5; box-shadow: inset 0 0 0 1px var(--weak); border-radius: 52px; padding: 5px 10px; }
+.hero { position: relative; height: 150px; border-radius: 10px; overflow: hidden; background: #ececec; margin: -4px -4px 0; }
+.hero img { width: 100%; height: 100%; object-fit: cover; object-position: center 58%; display: block; }
+.hero .pp { position: absolute; left: 8px; bottom: 8px; background: #fff; border-radius: 999px; padding: 6px 12px; font-size: 13px; color: var(--text-2); box-shadow: 0 2px 6px rgba(0,0,0,.16); }
+.hero .pp b { font-weight: 700; } .hero .pp s { color: var(--medium); }
+.ttl > b { display: block; font-size: 16px; line-height: 20px; font-weight: 600; color: var(--text-2); } .ttl { display: grid; gap: 4px; }
+.fbig { display: flex; gap: 12px; align-items: flex-start; }
+.fbig > img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; flex: none; }
+.fbig p { font-size: 15px; line-height: 21px; color: var(--text-2); } .fbig small { display: block; margin-top: 6px; font-size: 12px; color: #8a8a8a; } .fbig small b { color: #1a1a1a; font-weight: 600; }
+.split { border-top: 1px solid var(--weak); padding-top: 12px; }
+.btnrow { display: grid; gap: 8px; } .spots { text-align: center; font-size: 12px; line-height: 15px; color: var(--medium); } .spots b { color: var(--text-2); font-weight: 600; }
+.sec { font-size: 18px; font-weight: 600; margin: 40px 0 8px; }
+.words { margin-top: 16px; background: #fff; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; max-width: 900px; }
+.w { display: grid; grid-template-columns: 28px minmax(250px, 300px) 1fr; gap: 16px; align-items: center; padding: 14px 20px; border-bottom: 1px solid var(--line); }
+.w:last-child { border-bottom: 0; } .w.rec { background: #f7f5fd; }
+.w i { font-style: normal; font-size: 12px; font-weight: 600; color: var(--medium); }
+.w .ttl { gap: 4px; } .w > p { font-size: 13px; line-height: 1.5; color: #555; } .w > p em { font-style: normal; font-size: 11px; font-weight: 600; color: var(--accent); background: var(--accent-weak); padding: 2px 8px; border-radius: 999px; margin-right: 6px; }
+@media (max-width: 700px) { .w { grid-template-columns: 1fr; gap: 6px; } }
+footer { margin-top: 32px; font-size: 13px; color: var(--medium); line-height: 1.6; max-width: 80ch; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">Buy, Try, Share · Creator app · Nov 25, 2026</div>
+  <h1>Campaign tile options</h1>
+  <p class="lede">Five takes on the Phyla tile in the Campaigns list, all proposals. Each keeps the struck-through price, the product picture and the founder. Option 1 is what is in the <a href="creator-v2.html">v2 prototype</a> today.</p>
+  <div class="grid" id="grid"></div>
+  <h2 class="sec">Wording for the price line</h2>
+  <p class="lede">Alternatives to "after we reimburse you", shown at tile size. All proposals.</p>
+  <div class="words" id="words"></div>
+  <footer>The founder quote is placeholder copy I wrote; Phyla would supply the real line. "Naomi Coleman" and her photo come from Amine's Campaigns frame and look like a Figma placeholder. "25 spots" is the pilot size; a live count of spots left would need a number from the backend.</footer>
+</div>
+<script>
+const HEAD = `<div class="tile-h"><span class="tile-logo"><img src="m/logo-phyla.png" alt=""></span><span class="nm">Phyla</span><span class="chip-bts">Buy, Try, Share</span></div>`;
+const PRICE = `<s>$55</s> <b>$0</b> after we reimburse you`;
+const FOUNDER = `<div class="founder"><img src="m/founder-naomi.jpg" alt=""><div><b>Naomi Coleman</b><span>Founder, Phyla</span></div></div>`;
+const BTN = `<span class="pillbtn">View Details</span>`;
+const QUOTE = 'Show us your honest first week with the serum.';
+const prod = (lg) => `<div class="tprod${lg ? ' lg' : ''}"><img src="m/sheet-thumb.jpg" alt="Phyla Acne Phage Serum bottle"><div><b>Phyla Acne Phage Serum</b><p class="tpr">${PRICE}</p>${lg ? '<p class="ask">1 Reel + 1 Story · 10 days · at Target</p>' : ''}</div></div>`;
+const OPTS = [
+  { name: 'Today', tag: 'In v2 now', body: `${prod()}<p class="tdesc">Buy it at Target, post a reel and a story, and we pay you back.</p>${FOUNDER}${BTN}`,
+    why: 'Baseline. The description repeats the price line ("we pay you back"), and the bottle is small at 56px.' },
+  { name: 'Founder quote + the ask', rec: 1, tag: 'My pick', body: `${prod(1)}<div class="quote"><p>“${QUOTE}”</p>${FOUNDER}</div>${BTN}`,
+    why: '<b>Bigger picture (76px), one grey line for the ask, and the founder speaks</b> where the description was. Price, effort and story each get one spot, nothing repeats. Smallest change from today.' },
+  { name: 'Founder first', body: `<div class="fbig"><img src="m/founder-naomi.jpg" alt=""><div><p>“${QUOTE}”</p><small><b>Naomi Coleman</b> · Founder, Phyla</small></div></div><div class="split">${prod()}</div>${BTN}`,
+    why: 'Leads with the person, product second. The closest to "the story of a brand, not shopping" from the 9:09 call. The price sits lower, which works against the "price visible on entry" rule from the same call.' },
+  { name: 'Product photo on top', body: `<div class="hero"><img src="m/product.jpg" alt="Phyla Acne Phage Serum bottle"><span class="pp">${PRICE}</span></div><div class="ttl"><b>Phyla Acne Phage Serum</b><p class="ask">1 Reel + 1 Story · 10 days · at Target</p></div>${FOUNDER}${BTN}`,
+    why: 'The bottle is easy to recognise on the shelf, and the price rides on the photo as a white pill. Tallest tile, and the most shop-like, which you wanted to avoid. Does not stretch to three products.' },
+  { name: 'Facts as chips + spots', body: `${prod()}<div class="facts"><span>1 Reel + 1 Story</span><span>10 days to post</span><span>Buy at Target</span></div>${FOUNDER}<div class="btnrow">${BTN}<p class="spots"><b>25 spots</b> in this pilot</p></div>`,
+    why: 'Scannable: three chips for the ask, and a spots line under the button for urgency. Reads more like a task than a story. Chips add a third pill style to a tile that already has two.' },
+];
+document.getElementById('grid').innerHTML = OPTS.map((o, i) => `
+  <div class="card${o.rec ? ' rec' : ''}"><h2><i>${i + 1}</i>${o.name}${o.tag ? `<em>${o.tag}</em>` : ''}</h2>
+    <div class="bed"><div class="tile">${HEAD}<div class="tile-c">${o.body}</div></div></div><p>${o.why}</p></div>`).join('');
+const WORDS = [
+  ['after we reimburse you', 'Today. Accurate, but "reimburse" is a finance word and "after we" puts Benable in the way.'],
+  ['once you post', '<em>My pick</em>Shortest, and it names the one thing the creator has to do to get the money back. True to the rule: payout when the posts are live.', 1],
+  ['we pay you back', 'Plain words, warm. Does not say when.'],
+  ['we pay it back after you post', 'Plain words and the condition, but the longest; wraps on a narrow tile.'],
+  ['fully reimbursed, tax included', 'Matches the footer next to "I\'m in". Keeps "reimbursed" and reads more formal.'],
+  ['on us', 'Friendliest and very short. Hides that they pay first, so the Opportunity page has to make that clear.'],
+];
+document.getElementById('words').innerHTML = WORDS.map(([w, why, rec], i) => `<div class="w${rec ? ' rec' : ''}"><i>${String.fromCharCode(65 + i)}</i><div class="ttl"><b>Phyla Acne Phage Serum</b><p class="tpr"><s>$55</s> <b>$0</b> ${w}</p></div><p>${why}</p></div>`).join('');
+</script>
+</body>
+</html>

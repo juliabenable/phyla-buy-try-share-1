@@ -35,3 +35,8 @@ print('stickers.html', round(len(k) / 1e6, 2), 'MB')
 v = re.sub(r'm/([\w.-]+\.(?:png|jpg|svg))', inline, (src / 'creator-v2.html').read_text())
 (here / 'creator-v2.html').write_text(v)
 print('creator-v2.html', round(len(v) / 1e6, 2), 'MB')
+
+# ---- tiles.html: campaign tile options study ----
+t = re.sub(r'm/([\w.-]+\.(?:png|jpg|svg))', inline, (src / 'tiles.html').read_text())
+(here / 'tiles.html').write_text(t)
+print('tiles.html', round(len(t) / 1e6, 2), 'MB')
