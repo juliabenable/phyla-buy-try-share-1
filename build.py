@@ -40,3 +40,8 @@ print('creator-v2.html', round(len(v) / 1e6, 2), 'MB')
 t = re.sub(r'm/([\w.-]+\.(?:png|jpg|svg))', inline, (src / 'tiles.html').read_text())
 (here / 'tiles.html').write_text(t)
 print('tiles.html', round(len(t) / 1e6, 2), 'MB')
+
+# ---- creator-paypal.html: v2 plus a payout method step (built by mkpaypal.py) ----
+pp = re.sub(r'm/([\w.-]+\.(?:png|jpg|svg))', inline, (src / 'creator-paypal.html').read_text())
+(here / 'creator-paypal.html').write_text(pp)
+print('creator-paypal.html', round(len(pp) / 1e6, 2), 'MB')
