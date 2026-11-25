@@ -559,7 +559,7 @@ const SCREENS = [
   /* 6 upload content (16058:63090) + item cards, counter and Add Content kept from v1 */ () => S.add ? addScreen() : `${SB}${fhdr(3)}<div class="scroll"><div class="fbody uc">
       <div class="uc-h"><h2>Upload Content</h2><span class="uc-n">${S.items.length}/${need()}${ring(S.items.length / need())}</span></div>
       <p class="lead lg">Make sure to review the brief before making content!</p>
-      <button class="rb" data-sheet="brief"><img src="m/ic-pdf.svg" width="16" height="16" alt="">Review campaign brief →</button>
+      <button class="rb" data-sheet="brief">Review campaign brief →</button>
       ${S.items.map((it, i) => `<div class="uc-item"><img class="uc-th" src="${thumbOf(it.type)}" alt=""><div class="uc-c"><div class="uc-top"><span class="uc-chip">${it.type}</span><button data-act="del:${i}" aria-label="Remove ${it.type}"><img src="m/ic-trash.svg" width="16" height="16" alt=""></button></div><p class="uc-cap">${isStory(it.type) ? '<span style="color:var(--medium)">Tag, hashtag and link go on the story itself.</span>' : capHtml(it.cap || '')}</p></div></div>`).join('')}
       ${!done() ? `<button class="zone2${S.items.length ? ' uc-zone2' : ''}" data-act="add"><img src="m/ic-share.svg" width="16" height="16" alt=""><b>Tap to upload content</b>${S.items.length ? '' : '<span>An Instagram post and story, or one TikTok</span>'}</button>` : ''}
     </div></div>${ffoot('Submit', done(), 'data-go="7"')}`,
