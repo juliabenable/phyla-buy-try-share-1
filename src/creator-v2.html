@@ -379,6 +379,12 @@ p { margin: 0; }
 .ag-h.v b { font-size: 16px; line-height: 22px; font-weight: 500; color: #414141; max-width: 221px; }
 .ag-t span strong { font-weight: 500; color: var(--text); }
 .say { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 14px; line-height: 19px; color: var(--medium); } .say strong { font-weight: 600; color: var(--text); }
+/* good to go sheet (16080:65225) */
+.rdy-s { display: grid; justify-items: center; text-align: center; gap: 8px; padding: 8px 0 24px; border-bottom: 1px solid var(--line); }
+.rdy-ok { width: 48px; height: 48px; border-radius: 50%; background: #18906c; display: grid; place-items: center; margin-bottom: 8px; }
+.rdy-s h2 { margin: 0; font-size: 22px; line-height: 28px; font-weight: 700; letter-spacing: -.3px; }
+.rdy-s p { font-size: 16px; line-height: 22px; color: var(--medium); max-width: 300px; }
+.rdy-next { padding: 20px 0 8px; margin: 0; border: 0; } .rdy-next .hstep:last-child { padding-bottom: 12px; }
 /* new transition states */
 .rdy { width: 100%; margin-top: 24px; display: grid; gap: 8px; text-align: left; }
 .rdy-i { display: flex; align-items: center; gap: 12px; background: #fff; border: .5px solid var(--line); border-radius: 16px; padding: 8px 16px 8px 8px; box-shadow: 0 4px 16px rgba(0,0,0,.04); }
@@ -428,7 +434,7 @@ const VIDEO = [
   [ic24('m/ck-tag.svg'), 'Tag the brand', "I'll tag <strong>@phylaskin</strong> in my post and my story."],
 ];
 /* [name, not in Figma yet] */
-const NAMES = [['Campaigns'], ['Opportunity'], ['Before you join'], ['Store or online'], ['Time to shop', 1], ['Receipt'], ['Upload content'], ['Good to post', 1], ['Time to post'], ['Done', 1]];
+const NAMES = [['Campaigns'], ['Opportunity'], ['Before you join'], ['Store or online'], ['Time to shop', 1], ['Receipt'], ['Upload content'], ['Good to go'], ['Time to post'], ['Done', 1]];
 const fresh = () => ({ s: 0, sheet: null, join: [0,0,0,0], how: '', rc: 0, vid: [0,0,0,0,0], items: [], add: null, links: ['', '', ''], extra: 0 });
 let S = fresh();
 
@@ -440,11 +446,16 @@ const pcard = `<div class="pc"><img src="m/sheet-thumb.jpg" alt=""><div><b>Acne 
 const TARGET_URL = 'https://www.target.com/s?searchTerm=phyla+acne+phage+serum';
 const tlink = `<a class="olink" href="${TARGET_URL}" target="_blank" rel="noopener">See it on Target.com<img src="m/ic-open-link.svg" width="16" height="16" alt=""></a>`;
 
-const TYPES = ['Instagram Reel', 'Instagram Story', 'TikTok'];
-const SHORT = { 'Instagram Reel': 'IG Reel', 'Instagram Story': 'IG Story', 'TikTok': 'TikTok' };
-const NEED = 2;
+const TYPES = ['Instagram Post', 'Instagram Story', 'TikTok'];
+const SHORT = { 'Instagram Post': 'IG Post', 'Instagram Story': 'IG Story', 'TikTok': 'TikTok' };
+/* rule (Julia, Nov 25): an Instagram post AND an Instagram story, OR one TikTok */
+const has = (ty) => S.items.some(i => i.type === ty);
+const tt = () => has('TikTok'), ig = () => has('Instagram Post') || has('Instagram Story');
+const need = () => tt() ? 1 : 2;
+const done = () => tt() || (has('Instagram Post') && has('Instagram Story'));
+const blocked = (ty) => has(ty) ? 'Added' : (ty === 'TikTok' && ig()) ? 'Instagram chosen' : (ty !== 'TikTok' && tt()) ? 'TikTok chosen' : '';
 const ring = (f) => `<svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="7" stroke="#e3e3e3" stroke-width="2"/>${f > 0 ? `<circle cx="9" cy="9" r="7" stroke="#2caf87" stroke-width="2" stroke-linecap="round" stroke-dasharray="${(f * 43.98).toFixed(1)} 44" transform="rotate(-90 9 9)"/>` : ''}</svg>`;
-const thumbOf = (t) => t === 'Instagram Reel' ? 'm/video.jpg' : 'm/video2.jpg';
+const thumbOf = (t) => t === 'Instagram Post' ? 'm/video.jpg' : 'm/video2.jpg';
 const addOk = () => S.add && S.add.file && S.add.type;
 const addScreen = () => `${SB}<div class="hdr"><button class="ib" data-act="add-x" aria-label="Close"><img src="m/ic-close.svg" width="16" height="16" alt=""></button><div class="t">Add Content</div><span></span></div>
     <div class="scroll pg"><div class="ac">
@@ -458,7 +469,7 @@ const addScreen = () => `${SB}<div class="hdr"><button class="ib" data-act="add-
         <li>No medical claims: don't say it cures or treats acne.</li></ul></div>
     </div></div>
     <div class="foot" style="padding:12px 16px 0;box-shadow:none;background:var(--page)"><button class="cta full" data-act="add-save" style="margin-bottom:16px;font-size:14px" ${addOk() ? '' : 'disabled'}>Save</button><div class="home"></div></div>`;
-const postOk = () => S.items.every((_, i) => S.links[i].length > 5) && (!S.extra || S.links[2].length > 5);
+const postOk = () => S.items.length > 0 && S.items.every((_, i) => S.links[i].length > 5) && (!S.extra || S.links[2].length > 5);
 const linkCard = (label, i, draft) => `<div class="lk"><div class="lk-h"><b>${label}</b>${draft ? `<button class="dr" data-toast="Opens the video you uploaded"><img src="m/ic-eye.svg" width="16" height="16" alt="">My Draft</button>` : ''}</div><input data-link="${i}" inputmode="url" aria-label="${label} link" placeholder="Paste your live link..." value="${S.links[i]}"></div>`;
 
 const SCREENS = [
@@ -486,7 +497,7 @@ const SCREENS = [
       <div class="hiw"><h3>How it works</h3>
         <div class="hstep"><i>1</i><div><b>Buy it at Target</b><span>In store or on target.com.</span></div></div>
         <div class="hstep"><i>2</i><div><b>Make your video</b><span>Upload it here with your receipt.</span></div></div>
-        <div class="hstep"><i>3</i><div><b>Post it</b><span>One feed post and one story. We reimburse you as soon as the posts are live.</span></div></div>
+        <div class="hstep"><i>3</i><div><b>Post it</b><span>An Instagram post and story, or one TikTok. We reimburse you as soon as they are live.</span></div></div>
         <div class="hstep"><i>4</i><div><b>Keep it</b><span>If you return the product, you lose access to brand collabs on Benable.</span></div></div>
       </div>
       <button class="briefrow" data-sheet="brief"><span class="ib"><img src="m/ic-pdf.svg" width="20" height="20" alt=""></span><span class="g"><b>Creator brief</b><span>What to say and show · PDF</span></span><img src="m/ic-chev-right.svg" width="20" height="20" alt=""></button>
@@ -513,12 +524,12 @@ const SCREENS = [
     </div></div>${ffoot('Next', S.rc > 0, 'data-go="6"')}`,
 
   /* 6 upload content (16058:63090) + item cards, counter and Add Content kept from v1 */ () => S.add ? addScreen() : `${SB}${fhdr(3)}<div class="scroll"><div class="fbody uc">
-      <div class="uc-h"><h2>Upload Content</h2><span class="uc-n">${S.items.length}/${NEED}${ring(S.items.length / NEED)}</span></div>
+      <div class="uc-h"><h2>Upload Content</h2><span class="uc-n">${S.items.length}/${need()}${ring(S.items.length / need())}</span></div>
       <p class="lead lg">Make sure to review the brief before making content!</p>
       <button class="rb" data-sheet="brief"><img src="m/ic-pdf.svg" width="16" height="16" alt="">Review campaign brief →</button>
       ${S.items.map((it, i) => `<div class="uc-item"><img class="uc-th" src="${thumbOf(it.type)}" alt=""><div class="uc-c"><div class="uc-top"><span class="uc-chip">${it.type}</span><button data-act="del:${i}" aria-label="Remove ${it.type}"><img src="m/ic-trash.svg" width="16" height="16" alt=""></button></div><p class="uc-note">Checked against the brief</p></div></div>`).join('')}
-      ${S.items.length < NEED ? `<button class="zone2${S.items.length ? ' uc-zone2' : ''}" data-act="add"><img src="m/ic-share.svg" width="16" height="16" alt=""><b>Tap to upload content</b>${S.items.length ? '' : '<span>Instagram or TikTok video</span>'}</button>` : ''}
-    </div></div>${ffoot('Submit', S.items.length === NEED, 'data-go="7"')}`,
+      ${!done() ? `<button class="zone2${S.items.length ? ' uc-zone2' : ''}" data-act="add"><img src="m/ic-share.svg" width="16" height="16" alt=""><b>Tap to upload content</b>${S.items.length ? '' : '<span>An Instagram post and story, or one TikTok</span>'}</button>` : ''}
+    </div></div>${ffoot('Submit', done(), 'data-go="7"')}`,
 
   /* 7 good to post: NOT in Figma, asked for on the Nov 25 call */ () => `${SB}<div class="hdr"><span></span><div class="t">Phyla</div><span></span></div><div class="scroll"><div class="done">
       <div class="ring"><svg width="32" height="32" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.4 6.6 11.3 12.5 4.9" stroke="#18906c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
@@ -544,12 +555,18 @@ const SCREENS = [
 
 const SHEETS = {
   join: () => `<div class="sh-h"><h2>Before you join</h2><p>A few things to confirm. Tap each one to agree.</p></div>${pcard}${agHead('Your agreement', S.join)}${cks(JOIN, S.join, 'join')}<div class="sh-f"><button class="cta full" data-go="3" data-toast="You're in" ${S.join.every(Boolean) ? '' : 'disabled'}>Join</button></div>`,
+  ready: () => `<div class="rdy-s"><span class="rdy-ok"><svg width="28" height="28" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.4 6.6 11.3 12.5 4.9" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <h2>You're good to go</h2><p>Nice work. Now it's time to share it with your followers.</p></div>
+    <div class="hiw rdy-next"><h3>Next</h3>
+      <div class="hstep"><i>1</i><div><b>Post on your socials</b><span>${tt() ? 'Share your video on TikTok.' : 'Share your post and your story on Instagram.'}</span></div></div>
+      <div class="hstep"><i>2</i><div><b>Copy links</b><span>You'll paste them for us on the next step.</span></div></div></div>
+    <div class="sh-f"><button class="cta full" data-go="8">I'll post it now</button></div>`,
   video: () => `<div class="sh-c">Before you upload</div>${agHead('Check your video against the brief', S.vid, 'v')}${cks(VIDEO, S.vid, 'vid')}<div class="sh-f"><button class="cta full" data-act="checked" ${S.vid.every(Boolean) ? '' : 'disabled'}>Continue</button></div>`,
-  ctype: () => `<h2 style="margin-bottom:8px">Content Type</h2>${TYPES.map(t => { const used = S.items.some(i => i.type === t); return `<button class="ct-opt${S.add && S.add.type === t ? ' on' : ''}" data-act="type:${t}" ${used ? 'disabled' : ''}><i class="rd"></i><span>${t}</span>${used ? '<small>Added</small>' : ''}</button>`; }).join('')}<div style="height:8px"></div>`,
+  ctype: () => `<h2 style="margin-bottom:8px">Content Type</h2>${TYPES.map(t => { const used = blocked(t); return `<button class="ct-opt${S.add && S.add.type === t ? ' on' : ''}" data-act="type:${t}" ${used ? 'disabled' : ''}><i class="rd"></i><span>${t}</span>${used ? `<small>${used}</small>` : ''}</button>`; }).join('')}<div style="height:8px"></div>`,
   brief: () => `<div class="bh"><div><h2>Creator brief</h2><p class="lead" style="margin:0">PDF · the same brief for every creator</p></div><button class="bx2" data-sheet="" aria-label="Close"><img src="m/ic-close.svg" width="16" height="16" alt=""></button></div>
     <div class="pdf"><div class="pp"><div class="pphead"><span class="blogo"><img src="m/logo-phyla.png" alt=""></span><b>Phyla × Benable · Buy, Try, Share</b></div>
     <h4>Phyla Acne Phage Serum, found at Target</h4>
-    <h5>What to do</h5><ul><li>Buy the serum at Target or on target.com. Keep your receipt.</li><li>Film yourself using it, with the bottle easy to see and good light.</li><li>Post one feed post and one story. Tag @phylaskin and add #target to your caption.</li></ul>
+    <h5>What to do</h5><ul><li>Buy the serum at Target or on target.com. Keep your receipt.</li><li>Film yourself using it, with the bottle easy to see and good light.</li><li>Post on Instagram (one post and one story) or on TikTok (one video). Tag @phylaskin and add #target to your caption.</li></ul>
     <h5>What to say</h5><ul><li>Say Phyla and phage the right way: phage rhymes with page.</li><li>Mention you found it at Target.</li><li>Share how your skin feels, in your own words.</li></ul>
     <h5>Please don't</h5><ul><li>Make medical claims, like saying it cures or treats acne.</li><li>Return the product: you lose access to brand collabs on Benable.</li></ul>
     <h5>Good to know</h5><ul><li>You're paid back for the serum plus tax once both posts are live.</li><li>Post within 10 days of joining.</li><li>Phyla can reuse your video.</li></ul></div></div>
@@ -557,8 +574,8 @@ const SHEETS = {
 };
 
 function render() {
-  const base = S.s === 2 ? 1 : S.s;
-  const sheet = S.s === 2 ? 'join' : S.sheet;
+  const base = S.s === 2 ? 1 : S.s === 7 ? 6 : S.s;
+  const sheet = S.s === 2 ? 'join' : S.s === 7 ? 'ready' : S.sheet;
   const el = document.getElementById('device');
   const keep = el.querySelector('.scroll')?.scrollTop || 0, same = el.dataset.s === String(base);
   el.dataset.s = base;
@@ -566,12 +583,12 @@ function render() {
   if (same) { const sc = el.querySelector('.scroll'); if (sc) sc.scrollTop = keep; if (sheet) el.querySelectorAll('.scrim, .sheet').forEach(n => n.style.animation = 'none'); }
   document.getElementById('rail').innerHTML = NAMES.map(([n, isNew], i) => `<button class="s" data-jump="${i}" aria-current="${S.s === i}"><span>${i + 1}</span>${n}${isNew ? '<em>new</em>' : ''}</button>`).join('');
 }
-function openAdd() { const left = TYPES.filter(t => !S.items.some(i => i.type === t)); S.add = { file: false, type: left[0] || '' }; }
+function openAdd() { const left = TYPES.filter(t => !blocked(t)); S.add = { file: false, type: left[0] || '' }; }
 function toast(m) { const t = document.getElementById('toast'); if (!t) return; t.textContent = m; requestAnimationFrame(() => t.classList.add('show')); clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove('show'), 1800); }
 
 document.addEventListener('click', (e) => {
   const q = (s) => e.target.closest(s); let el;
-  if ((el = q('[data-jump]'))) { const n = +el.dataset.jump; S = fresh(); S.s = n; if (n >= 3) S.join = [1,1,1,1]; if (n >= 4) S.how = 'online'; if (n >= 6) S.rc = 1; if (n >= 7) { S.vid = [1,1,1,1,1]; S.items = [{ type: 'Instagram Reel' }, { type: 'Instagram Story' }]; } if (n >= 9) S.links = ['instagram.com/reel/DfQ2x9', 'instagram.com/stories/maya.glows', '']; render(); return; }
+  if ((el = q('[data-jump]'))) { const n = +el.dataset.jump; S = fresh(); S.s = n; if (n >= 3) S.join = [1,1,1,1]; if (n >= 4) S.how = 'online'; if (n >= 6) S.rc = 1; if (n >= 7) { S.vid = [1,1,1,1,1]; S.items = [{ type: 'Instagram Post' }, { type: 'Instagram Story' }]; } if (n >= 9) S.links = ['instagram.com/reel/DfQ2x9', 'instagram.com/stories/maya.glows', '']; render(); return; }
   if (q('[data-reset]')) { S = fresh(); render(); return; }
   if ((el = q('[data-go]'))) { if (el.disabled) return; S.s = +el.dataset.go; S.sheet = null; S.add = null; const m = el.dataset.toast; render(); if (m) toast(m); return; }
   if (q('[data-back]') && S.add) { S.add = null; render(); return; }
@@ -579,7 +596,7 @@ document.addEventListener('click', (e) => {
   if ((el = q('[data-ck]'))) { const [k, i] = el.dataset.ck.split(':'); S[k][+i] = S[k][+i] ? 0 : 1; render(); return; }
   if (q('.olink')) return;
   if ((el = q('[data-how]'))) { S.how = el.dataset.how; render(); return; }
-  if ((el = q('[data-sheet]'))) { const v = el.dataset.sheet; if (v === 'join') S.s = 2; else if (S.s === 2 && !v) S.s = 1; else S.sheet = v || null; render(); return; }
+  if ((el = q('[data-sheet]'))) { const v = el.dataset.sheet; if (v === 'join') S.s = 2; else if (S.s === 2 && !v) S.s = 1; else if (S.s === 7 && !v) S.s = 6; else S.sheet = v || null; render(); return; }
   if ((el = q('[data-act]'))) { const a = el.dataset.act;
     if (a === 'receipt') { S.rc = Math.min(2, S.rc + 1); render(); }
     else if (a === 'rx') { S.rc = Math.max(0, S.rc - 1); render(); }
@@ -596,7 +613,7 @@ document.addEventListener('click', (e) => {
   if ((el = q('[data-toast]'))) toast(el.dataset.toast);
 });
 document.addEventListener('input', (e) => { const k = e.target.dataset.link; if (k !== undefined) { S.links[+k] = e.target.value; const b = document.getElementById('submit'); if (b) b.disabled = !postOk(); } });
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && (S.sheet || S.s === 2)) { if (S.s === 2) S.s = 1; S.sheet = null; render(); } if ((e.key === 'Enter' || e.key === ' ') && e.target.dataset && e.target.dataset.how) { e.preventDefault(); S.how = e.target.dataset.how; render(); } });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && (S.sheet || S.s === 2 || S.s === 7)) { if (S.s === 2) S.s = 1; if (S.s === 7) S.s = 6; S.sheet = null; render(); } if ((e.key === 'Enter' || e.key === ' ') && e.target.dataset && e.target.dataset.how) { e.preventDefault(); S.how = e.target.dataset.how; render(); } });
 render();
 </script>
 </body>
