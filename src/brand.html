@@ -368,7 +368,7 @@ function briefModal() {
 }
 function openModal(html) { closeModal(); document.body.insertAdjacentHTML('beforeend', html); const b = document.querySelector('.bts-scrim .bts-x'); b && b.focus(); }
 function closeModal() { document.querySelectorAll('.bts-scrim').forEach(n => n.remove()); }
-function toast() {} /* toasts removed (Julia, Nov 25) */
+function toast(m) { const t = document.getElementById('toast'); t.textContent = m; t.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove('show'), 2000); }
 
 document.addEventListener('click', (e) => {
   const x = (s) => e.target.closest(s);

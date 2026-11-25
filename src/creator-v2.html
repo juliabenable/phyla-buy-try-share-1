@@ -410,6 +410,11 @@ p { margin: 0; }
 .shl-l { margin: 4px 8px 0; height: 38px; border-radius: 999px; background: #f5f5f5; display: flex; align-items: center; gap: 8px; padding: 0 12px; font-size: 14px; }
 .shl-l span { flex: 1; text-align: left; color: var(--medium); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .shl-l em { font-style: normal; font-weight: 600; color: var(--accent); }
 /* new transition states */
+.ilink { color: var(--accent); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 3px; } .ilink:hover { text-decoration: underline; }
+.in-h { display: grid; justify-items: center; text-align: center; gap: 8px; padding: 8px 0 24px; margin-bottom: 24px; border-bottom: 1px solid var(--line); }
+.in-h .rdy-ok { margin-bottom: 4px; }
+.fbody .in-h h2 { font-size: 22px; line-height: 28px; font-weight: 700; letter-spacing: -.3px; }
+.in-h p { font-size: 16px; line-height: 22px; color: var(--medium); max-width: 300px; }
 .rdy { width: 100%; margin-top: 24px; display: grid; gap: 8px; text-align: left; }
 .rdy-i { display: flex; align-items: center; gap: 12px; background: #fff; border: .5px solid var(--line); border-radius: 16px; padding: 8px 16px 8px 8px; box-shadow: 0 4px 16px rgba(0,0,0,.04); }
 .rdy-i img { width: 48px; height: 64px; border-radius: 8px; object-fit: cover; flex: none; }
@@ -538,9 +543,9 @@ const SCREENS = [
       <div role="radiogroup" aria-label="Where you will buy it">${[['online', 'On target.com', 'Pickup or delivery. Your order confirmation is your receipt.', tlink], ['store', 'At a Target store', 'Find it in the Beauty Studio aisle. Keep your paper receipt.', '']].map(([k, t, d, extra]) => `<div class="opt2${S.how === k ? ' on' : ''}" role="radio" tabindex="0" aria-checked="${S.how === k}" data-how="${k}"><b>${t}</b><span>${d}</span>${extra}</div>`).join('')}</div>
     </div></div>${ffoot('Next', S.how, 'data-go="4"')}`,
 
-  /* 4 go buy it: NOT in Figma, asked for on the Nov 25 call */ () => `${SB}${fhdr(1)}<div class="scroll"><div class="fbody buy"><h2>You're in! Time to shop</h2><p class="lead">${S.how === 'online' ? 'Grab your serum on target.com whenever you like. We keep your spot until you are back.' : 'Grab your serum at Target whenever you like. We keep your spot until you are back.'}</p>
-      <div class="buycard">${pcard}${S.how === 'online' ? `<div class="buycard-l">${tlink}</div>` : ''}</div>
-      <ol><li>${S.how === 'online' ? '<strong>Find it on target.com</strong>, for pickup or delivery.' : '<strong>Find it in the Beauty Studio aisle</strong> at any Target store.'}</li><li><strong>${S.how === 'online' ? 'Screenshot your order confirmation' : 'Hold on to your receipt'}.</strong> It is how we pay you back.</li><li><strong>Come back here</strong> and add it when you have it.</li></ol>
+  /* 4 go buy it: NOT in Figma, asked for on the Nov 25 call */ () => `${SB}${fhdr(1)}<div class="scroll"><div class="fbody buy"><div class="in-h"><span class="rdy-ok"><svg width="28" height="28" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.4 6.6 11.3 12.5 4.9" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><h2>You're in!</h2><p>Your spot in the Phyla collab is saved.</p></div><h2>Time to shop</h2><p class="lead">${S.how === 'online' ? 'Grab your serum on target.com whenever you like.' : 'Grab your serum at Target whenever you like.'}</p>
+      ${pcard}
+      <ol><li>${S.how === 'online' ? `<a class="ilink" href="${TARGET_URL}" target="_blank" rel="noopener">Find it on target.com<svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h6v6M12 4l-7.5 7.5"/></svg></a>, for pickup or delivery.` : '<strong>Find it in the Beauty Studio aisle</strong> at any Target store.'}</li><li><strong>${S.how === 'online' ? 'Screenshot your order confirmation' : 'Hold on to your receipt'}.</strong> It is how we pay you back.</li><li><strong>Come back here</strong> and add it when you have it.</li></ol>
     </div></div>${ffoot('I have my receipt', true, 'data-go="5"')}`,
 
   /* 5 receipt (16053:62287) + thumbnails and Add another kept from v1 */ () => `${SB}${fhdr(2)}<div class="scroll"><div class="fbody"><h2>Bought it? Add your receipt</h2><p class="lead lg">${S.how === 'online' ? 'A screenshot of your target.com order confirmation.' : 'A photo of your paper receipt.'}</p>
@@ -633,7 +638,7 @@ document.addEventListener('click', (e) => {
   if (q('[data-back]') && S.add) { S.add = null; render(); return; }
   if (q('[data-back]')) { S.s = S.s === 3 ? 1 : S.s === 8 ? 6 : S.s - 1; S.sheet = null; render(); return; }
   if ((el = q('[data-ck]'))) { const [k, i] = el.dataset.ck.split(':'); S[k][+i] = S[k][+i] ? 0 : 1; render(); return; }
-  if (q('.olink')) return;
+  if (q('.olink') || q('.ilink')) return;
   if ((el = q('[data-how]'))) { S.how = el.dataset.how; render(); return; }
   if ((el = q('[data-sheet]'))) { const v = el.dataset.sheet; if (v === 'join') S.s = 2; else if (S.s === 2 && !v) S.s = 1; else if (S.s === 7 && !v) S.s = 6; else S.sheet = v || null; render(); return; }
   if ((el = q('[data-act]'))) { const a = el.dataset.act;
